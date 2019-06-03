@@ -1,0 +1,36 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add -D vue-cli-plugin-vue-router
+
+PATH: 
+  D:\OneDrive - Emerson\Playground\python\DjangoVueGql\myproject\node_modules\.bin;D:\OneDrive - Emerson\Playground\python\DjangoVueGql\node_modules\.bin;D:\OneDrive - Emerson\Playground\python\node_modules\.bin;D:\OneDrive - Emerson\Playground\node_modules\.bin;D:\OneDrive - Emerson\node_modules\.bin;D:\node_modules\.bin;C:\Program Files\nodejs;D;D:\OneDrive - Emerson\Playground\python\DjangoVueGql\myproject\venv\Scripts;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\marvin.villanueva\bin;C:\Program Files\Python37\Scripts;C:\Program Files\Python37;C:\Python27;C:\Python27\Scripts;C:\Program Files\Microsoft MPI\Bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\IBM\Client Access\Emulator;C:\Program Files (x86)\IBM\Client Access\Shared;C:\Program Files (x86)\IBM\Client Access;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\WebEx\Productivity Tools;C:\Program Files (x86)\Webex\Webex\Applications;C:\Program Files\dotnet;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\cmder;C:\Program Files\nodejs;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Sennheiser\SoftphoneSDK;C:\Program Files\MongoDB\Server\4.0\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin;C:\Users\marvin.villanueva\AppData\Roaming\Python\Python37\Scripts;C:\Users\marvin.villanueva\AppData\Local\Microsoft\WindowsApps;C:\Users\marvin.villanueva\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\marvin.villanueva\AppData\Local\Programs\Fiddler;C:\Users\marvin.villanueva\AppData\Roaming\npm;C:\Users\marvin.villanueva\AppData\Local\.meteor;C:\Users\marvin.villanueva\AppData\Local\Yarn\bin
+
+Yarn version: 
+  1.15.2
+
+Node version: 
+  11.10.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/vue-cli-plugin-vue-router: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:65167:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:129541:22)
+      at Request.emit (events.js:197:13)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:130513:10)
+      at Request.emit (events.js:197:13)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:130435:12)
+      at Object.onceWrapper (events.js:285:13)
+      at IncomingMessage.emit (events.js:202:15)
+      at endReadableNT (_stream_readable.js:1129:12)
+      at processTicksAndRejections (internal/process/next_tick.js:76:17)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
