@@ -97,7 +97,7 @@ DATABASES = {
         'HOST': 'localhost',
         'USER': 'manager',
         'PASSWORD': 'Japs@3261'
-    }
+    }   
 }
 
 
