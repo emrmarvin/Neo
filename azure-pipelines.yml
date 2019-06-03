@@ -20,6 +20,15 @@ steps:
     versionSpec: '$(PYTHON_VERSION)'
     architecture: 'x64'
 
+- task: ShellScript@2
+  displayName: 'Run shell script'
+  inputs:
+    scriptPath: run.sh prod    
+    #args: '' # Optional
+    #disableAutoCwd: false # Optional
+    #cwd: '' # Optional
+    #failOnStandardError: false
+
 - task: PythonScript@0
   displayName: 'Export project path'
   inputs:
@@ -35,14 +44,6 @@ steps:
       project_location = path.dirname(path.abspath(manage_py))
       print('Found Django project in', project_location)
       print('##vso[task.setvariable variable=projectRoot]{}'.format(project_location))
-
-- task: ShellScript@2
-  inputs:
-    scriptPath: run.sh
-    #args: '' # Optional
-    #disableAutoCwd: false # Optional
-    #cwd: '' # Optional
-    #failOnStandardError: false
   
 - script: |
     python -m pip install --upgrade pip setuptools wheel
