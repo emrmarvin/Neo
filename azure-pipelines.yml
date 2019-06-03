@@ -36,6 +36,10 @@ steps:
       print('Found Django project in', project_location)
       print('##vso[task.setvariable variable=projectRoot]{}'.format(project_location))
 
+- bash: |
+    sh run.sh prod
+  displayName: Run run.sh on production
+  
 - script: |
     python -m pip install --upgrade pip setuptools wheel
     pip install -r requirements.txt
@@ -43,7 +47,6 @@ steps:
   displayName: 'Install prerequisites'
 
 - script: |
-    sh run.sh prod
     pushd '$(projectRoot)'
     python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
   displayName: 'Run tests'
