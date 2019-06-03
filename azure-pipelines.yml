@@ -10,10 +10,6 @@ pool:
   vmImage: 'ubuntu-latest'
 strategy:
   matrix:
-    Python35:
-      PYTHON_VERSION: '3.5'
-    Python36:
-      PYTHON_VERSION: '3.6'
     Python37:
       PYTHON_VERSION: '3.7'
   maxParallel: 3
@@ -23,6 +19,15 @@ steps:
   inputs:
     versionSpec: '$(PYTHON_VERSION)'
     architecture: 'x64'
+
+- task: ShellScript@2
+  displayName: 'Run shell script'
+  inputs:
+    scriptPath: run.sh prod    
+    #args: '' # Optional
+    #disableAutoCwd: false # Optional
+    #cwd: '' # Optional
+    #failOnStandardError: false
 
 - task: PythonScript@0
   displayName: 'Export project path'
@@ -39,7 +44,7 @@ steps:
       project_location = path.dirname(path.abspath(manage_py))
       print('Found Django project in', project_location)
       print('##vso[task.setvariable variable=projectRoot]{}'.format(project_location))
-
+  
 - script: |
     python -m pip install --upgrade pip setuptools wheel
     pip install -r requirements.txt
