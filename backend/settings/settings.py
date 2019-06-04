@@ -93,11 +93,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pollsdb',
-        'HOST': 'finalcontroldcxdb.postgres.database.azure.com',
-        'USER': 'manager@finalcontroldcxdb',
+        'NAME': 'tasksdb',
+        'HOST': 'localhost',
+        'USER': 'manager',
         'PASSWORD': 'Japs@3261'
-    }   
+    }
 }
 
 
