@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'webpack_loader',
     'tasks',
     'graphene_django',
-    'corsheaders'
+    'corsheaders',
+    'country'
 ]
 
 GRAPHENE = {
@@ -93,10 +94,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tasksdb',
+        'NAME': 'Project_Neo_2',
         'HOST': 'localhost',
-        'USER': 'manager',
-        'PASSWORD': 'Japs@3261'
+        'USER': 'postgres',
+        'PASSWORD': 'Rfanimi14'
     }
 }
 

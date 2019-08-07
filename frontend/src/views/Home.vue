@@ -1,20 +1,21 @@
 <template>
   <div class="home">
     <div>
-      <span>Name:</span><input type="text" v-model="name">
-      <span>Description:</span><input type="text" v-model="description">
-      <button @click="create_task">Add</button>
+      <v-text-field label="Country Name :" placeholder="Country Name" v-model="countryName"></v-text-field>
+      <v-text-field label="Country Region :" placeholder="Country Region" v-model="countryRegion"></v-text-field>
+      <v-text-field label="Country Code :" placeholder="Country Code"  v-model="countryCode"></v-text-field>
+      <v-text-field label="Country Language :" placeholder="Country Language" v-model="countryLanguage"></v-text-field>
+      <v-text-field label="Country Flag" placeholder="Country Flag" v-model="countryFlag"></v-text-field>
+      <v-btn color="primary" @click="create_country">Add</v-btn>
     </div>
-    <div v-for="i in tasks" :key="i.id">
+    <!-- <div v-for="i in country" :key="i.countryId">
       <ul>
         <li>
-          <input type="checkbox" @input="update_task(i)" :checked="i.isDone">
-          <strong>{{ i.name }}</strong>
-          <strong>{{ i.description }}</strong>
+          <input type="checkbox" @input="update_task(i)">
+          <strong>{{ i.countryName }}</strong>
         </li>
       </ul>
-
-    </div>
+    </div> -->
     <v-card>
     <v-card-title>
       Data
@@ -27,18 +28,22 @@
         hide-details
       ></v-text-field>
     </v-card-title>
+
     <v-data-table 
       :headers="headers"
-      :items="tasks"
+      :items="country"
       :search="search"
     >
-      <template v-slot:items="task">
-          <td>{{ task.name }}</td>
-          <td>{{ task.description }}</td>
-          <td>
-            <v-checkbox primary @input="update_task(i)" :checked="props.item.isDone"
-            ></v-checkbox>
-          </td>            
+      <template v-slot:items="count">
+          <td>{{ count.item.countryId}}</td>
+          <td>{{ count.item.countryName }}</td>
+          <td>{{ count.item.countryCode }}</td>
+          <td>{{ count.item.countryFlag }}</td>
+          <td>{{ count.item.countryRegion }}</td> 
+          <td>{{ count.item.countryLanguage }}</td> 
+          <td>{{ count.item.countryStatus }}</td> 
+          <td>{{ count.item.countryCreation }}</td>
+          <td><v-btn color="warning" @click="update_country(count.item.countryId)">EDIT</v-btn></td>        
       </template>
       <template v-slot:no-data>
         <v-alert :value="true" color="warning" icon="warning">
@@ -55,109 +60,130 @@
 // @ is an alias to /src
 import gql from 'graphql-tag';
 
-const TaskQuery = gql`
+const CountryQuery = gql`
   query {
-    tasks {
-      id
-      isDone
-      name
-      description
+    country{
+      countryId
+      countryName
+      countryRegion
+      countryCode
+      countryFlag
+      countryLanguage
+      countryStatus
+		  countryCreation
     }
   }
 `;
 
-const TaskCreate = gql`
-  mutation createTask($name:String, $description: String) {
-      createTask(name: $name, description: $description) {
-        task {
-          id
-          isDone
-          name
-          description
+const CountryCreate = gql`
+  mutation createCountry($countryName:String, $countryRegion:String, $countryCode:String, $countryFlag:String,  $countryLanguage:String) {
+      createCountry(countryName: $countryName, countryRegion: $countryRegion, countryCode: $countryCode, countryFlag:$countryFlag, countryLanguage: $countryLanguage) {
+        country {
+          countryId
+          countryName
+          countryRegion
+          countryCode
+          countryFlag
+          countryLanguage
+          countryStatus
+		      countryCreation
         }
-        ok
     }
  }
-`;
-
-const TaskUpdate = gql`
-  mutation updateTask($id: String, $IsDone: Boolean) {
-    updateTask(id: $id, IsDone: $IsDone) {
-      task {
-        id
-        isDone
-        name
-        description
-      }
-      ok
-    }
-  }
 `;
 
 export default {
   data() {
     return {
-      name: ' ',
-      description: ' ',
-      tasks: [' '],
+      countryName: '',
+      countryRegion: ' ',
+      countryCode: ' ',
+      countryLanguage: ' ',
+      countryFlag: ' ',
+      country: [''],
+      search: '',
       headers: [
           {
-            text: 'Task Name',
+            text: 'Country ID',
             align: 'left',
             sortable: false,
-            value: 'name'
+            value: 'countryId'
           },
-          { text: 'Description', value: 'description' },
-          { text: 'Is Done', value: 'isDone' },
+          { text: 'Country Name', value: 'countryName' },
+          { text: 'Country Code', value: 'countryCode' },
+          { text: 'Country Region', value: 'countryRegion' },
+          { text: 'Country Language', value: 'countryLanguage' },
+          { text: 'Country Flag', value: 'countryFlag' },
+          { text: 'Country Status', value: 'countryStatus' },
+          { text: 'Country Creation', value: 'countryCreation' },
         ], 
     };
   },
   apollo: {
-    tasks: TaskQuery,
+    country: CountryQuery,
   },
   methods: {
-    async create_task() {
-      const { name, description } = {
-        name: this.name,
-        description: this.description,
+    async create_country() {
+      const { countryName
+      ,countryRegion
+      ,countryCode
+      ,countryFlag
+      ,countryLanguage} = {
+        countryName: this.countryName,
+        countryRegion:this.countryRegion,
+        countryCode:this.countryCode,
+        countryFlag:this.countryFlag,
+        countryLanguage:this.countryLanguage
       };
-
       // call the graphql mutation
       let data = await this.$apollo.mutate({
         // query
-        mutation: TaskCreate,
+        mutation: CountryCreate,
         // parameters
         variables: {
-          name: name,
-          description: description,
+          countryName: countryName,
+          countryRegion:countryRegion,
+          countryCode:countryCode,
+          countryFlag:countryFlag,
+          countryLanguage:countryLanguage
         },
-        update: (store, { data: { createTask } }) => {
+        update: (store, { data: { createCountry } }) => {
           // add to all tasks list
-          const data = store.readQuery({ query: TaskQuery });
-          data.tasks.push(createTask.task);
-          store.writeQuery({ query: TaskQuery, data });
+          const data = store.readQuery({ query: CountryQuery });
+          data.country.push(createCountry.country);
+          store.writeQuery({ query: CountryQuery, data });
         },
         optimisticResponse: {
           __typename: 'Mutation',
-          createTask: {
-            __typename: 'CreateTask',
-            task: {
-              __typename: 'TaskType',
-              id: -1,
-              isDone: false,
-              name: name,
-              description: description,          
+          createCountry: {
+            __typename: 'createCountry',
+            country: {
+              __typename: 'CountryType',
+              countryId:8,
+              countryName: 'Korea',
+              countryRegion:'Southeast Asia',
+              countryCode:'KOR',
+              countryFlag:'Korea Flag',
+              countryLanguage:'',
+              countryStatus:true,
+              countryCreation:'2019-08-01'         
             },
             ok: false,
           },
         },
       });
-      const t = data.data.createTask.task;
+      const t = data.data.createCountry.country;
       // console.log('Added:', t);
-      this.name = '';
-      this.description = '';
+      this.countryName = '';
+      this.countryRegion = '';
+      this.countryCode = '';
+      this.countryFlag = '';
+      this.countryLanguage = '';
+      this.countryStatus = false;
+      this.countryCreation = '';
     },
-    async update_task(task) {
+    async update_country(country) {
+
       await this.$apollo.mutate({
         mutation: TaskUpdate,
         variables: {
