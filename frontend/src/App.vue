@@ -43,9 +43,9 @@
           <v-list-tile
             v-for="(admin, i) in admins"
             :key="i"
-            @click=""
+            @click="alert('test')"
           >
-            <v-list-tile-title v-text="admin[0]"></v-list-tile-title>
+            <v-list-tile-title @click="test()" v-text="admin[0]"></v-list-tile-title>
             <v-list-tile-action>
               <v-icon v-text="admin[1]"></v-icon>
             </v-list-tile-action>
@@ -79,7 +79,7 @@
     <v-toolbar-side-icon        
         @click.stop="primaryDrawer.model = !primaryDrawer.model"
       ></v-toolbar-side-icon>
-      <v-toolbar-title>Final Control </v-toolbar-title>
+      <v-toolbar-title>Site Safety and Quality Information</v-toolbar-title>
 
   </v-toolbar>
   <v-content>
@@ -97,6 +97,9 @@
 </style>
 
 <script>
+function test(){
+  alert("test")
+}
 export default {
   name: 'app',
   data () {
@@ -107,8 +110,9 @@ export default {
         position: 'Web Developer'
       },
       admins: [
-        ['Management', 'people_outline'],
-        ['Settings', 'settings']
+        ['Management', 'people_outline','google.com'],
+        ['Country','settings','Country'],
+        ['Settings', 'settings','google.com']
       ],
       cruds: [
         ['Create', 'add'],
@@ -128,7 +132,8 @@ export default {
       footer: {
         inset: false
       },
-    }      
+    }
   }
 }
+
 </script>

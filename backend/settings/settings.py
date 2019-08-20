@@ -40,7 +40,12 @@ INSTALLED_APPS = [
     'tasks',
     'graphene_django',
     'corsheaders',
-    'country'
+    'Apps.Address.country',
+    'Apps.Address.state_province',
+    'Apps.Address.county',
+    'Apps.Address.city',
+    'Apps.Address.zip_code',
+    'Apps.Address'
 ]
 
 GRAPHENE = {
