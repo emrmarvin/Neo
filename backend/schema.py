@@ -27,7 +27,5 @@ class Mutation(Apps.Address.country.schema.Mutations,
                graphene.ObjectType):
   	pass
 
-# class Mutation(tasks.schema.Mutations, graphene.ObjectType):
-#   	pass
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
