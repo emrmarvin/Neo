@@ -1,11 +1,12 @@
 <template>
   <div class="dashboard">
-    <v-container class="my-5">
+    <v-container class="pa-12">
         <v-data-table
           :headers="headers"
           :items="desserts"
           sort-by="SiteFac_Name"
-          class="elevation-1"
+          class="elevation-1 pa-5"
+          style="overflow: auto"
         >
         
           <template v-slot:top>
@@ -13,34 +14,93 @@
               <v-toolbar-title>Site Safety and Quality Information</v-toolbar-title>
               
               <div class="flex-grow-1"></div>
-              <v-dialog v-model="dialog" max-width="500px">
+              <v-dialog v-model="dialog">
                 <template v-slot:activator="{ on }">
-                  <v-btn color="primary" dark class="mb-2" v-on="on">Add Location</v-btn>
+                  <v-btn color="primary" dark class="mb-2" v-on="on">Add Site Plant</v-btn>
                 </template>
                 <v-card>
+                  
                   <v-card-title>
                     <span class="headline">{{ formTitle }}</span>
                   </v-card-title>
 
                   <v-card-text>
                     <v-container>
-                      <v-row>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.SiteFac_Name" label="SiteFac_Name"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.SiteFacility_Address" label="SiteFacility_Address (g)"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.SiteFac_Leader" label="SiteFac_Leader (g)"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.SiteFac_QALeader" label="SiteFac_QALeader (g)"></v-text-field>
-                        </v-col>
-                      </v-row>
+                      <v-stepper v-model="e1">
+                        <v-stepper-header>
+                          <v-stepper-step :complete="e1 > 1" step="1" editable>Name of step 1</v-stepper-step>
+
+                          <v-divider></v-divider>
+
+                          <v-stepper-step :complete="e1 > 2" step="2" editable>Name of step 2</v-stepper-step>
+
+                          <v-divider></v-divider>
+
+                          <v-stepper-step step="3" editable>Name of step 3</v-stepper-step>
+                        </v-stepper-header>
+
+                        <v-stepper-items>
+                          <v-stepper-content step="1">
+                            <v-card
+                              class="mb-12"
+                              color="grey lighten-1"
+                              height="200px"
+                            >
+                              <v-text-field v-model="editedItem.name" label="Location"></v-text-field>
+                            </v-card>
+
+                            <v-btn
+                              color="primary"
+                              @click="e1 = 2"
+                            >
+                              Continue
+                            </v-btn>
+
+                            <v-btn text>Cancel</v-btn>
+                          </v-stepper-content>
+
+                          <v-stepper-content step="2">
+                            <v-card
+                              class="mb-12"
+                              color="grey lighten-1"
+                              height="200px"
+                            >
+                              <v-text-field v-model="editedItem.SiteFac_Name" label="Legal Entity Name (Plant)"></v-text-field>
+                            </v-card>
+
+                            <v-btn
+                              color="primary"
+                              @click="e1 = 3"
+                            >
+                              Continue
+                            </v-btn>
+
+                            <v-btn text>Cancel</v-btn>
+                          </v-stepper-content>
+
+                          <v-stepper-content step="3">
+                            <v-card
+                              class="mb-12"
+                              color="grey lighten-1"
+                              height="200px"
+                            >
+                              <v-text-field v-model="editedItem.SiteFacility_Address" label="Physical Address"></v-text-field>
+                              <v-text-field v-model="editedItem.SiteFac_Leader" label="Site Leader"></v-text-field>
+                              <v-text-field v-model="editedItem.SiteFac_QALeader" label="Site QA Leader"></v-text-field>
+                            </v-card>
+
+                            <v-btn
+                              color="primary"
+                              @click="save"
+                            >
+                              Save
+                            </v-btn>
+
+                            <v-btn text>Cancel</v-btn>
+                          </v-stepper-content>
+                        </v-stepper-items>
+                      </v-stepper>
+  
                     </v-container>
                   </v-card-text>
 
@@ -49,10 +109,12 @@
                     <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
                     <v-btn color="blue darken-1" text @click="save">Save</v-btn>
                   </v-card-actions>
+
                 </v-card>
               </v-dialog>
             </v-toolbar>
           </template>
+
           <template v-slot:item.action="{ item }">
             <v-icon
               small
@@ -68,9 +130,7 @@
               delete
             </v-icon>
           </template>
-          <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize">Reset</v-btn>
-          </template>
+          
         </v-data-table>
     </v-container>
    
@@ -112,10 +172,11 @@ export default {
         SiteFac_Leader: '',
         SiteFac_QALeader: '',
       },
+      e1: 0,
   }),
   computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        return this.editedIndex === -1 ? 'New Site Plant' : 'Edit Site Plant'
       },
   },
   watch: {
