@@ -32,11 +32,16 @@ class CreatePlant(graphene.Mutation):
    plantInfoSiteLeader = graphene.Int()
    plantInfoQa = graphene.Int()
   
-  def mutate(self, info,plantInfoName,plantInfoStatus,plantInfoPhoneNo,plantInfoAddInfo,plantInfoWebsite,plantInfoSquareFt,plantInfoHeadCount,
-             plantInfoNumShifts,plantInfoContactForm,plantInfoHrsOperation,plantInfoPhoneNoSales,plantInfoEmailAddress,plantInfoRequestQoute,plantInfoPhoneNoSupport,plantInfoCertifications,plantInfoOnlineSellerSite,plantInfoPhoneAfterOfficeHrs,plantInfoSiteLeader,plantInfoQa):
+  def mutate(self, info,plantInfoName,plantInfoPhoneNo,plantInfoAddInfo,plantInfoWebsite,plantInfoSquareFt,plantInfoHeadCount,
+             plantInfoNumShifts,plantInfoContactForm,plantInfoHrsOperation,plantInfoPhoneNoSales,plantInfoEmailAddress,plantInfoRequestQoute,plantInfoPhoneNoSupport,plantInfoCertifications,plantInfoOnlineSellerSite,plantInfoPhoneAfterOfficeHrs):
     plant = Plant_Information(plant_info_name=plantInfoName,plant_info_hrs_operation=plantInfoHrsOperation,plant_info_phone_no=plantInfoPhoneNo,
                               plant_info_phone_no_sales=plantInfoPhoneNoSales,plant_info_phone_no_support=plantInfoPhoneNoSupport,
-                              plant_info_phone_after_office_hrs=plantInfoPhoneAfterOfficeHrs,plant_info_email_address=plantInfoEmailAddress,plant_info_add_info=plantInfoAddInfo,plant_info_website=plantInfoWebsite,plant_info_online_seller_site=plantInfoOnlineSellerSite,plant_info_contact_form=plantInfoContactForm,plant_info_status=plantInfoStatus,plant_info_request_qoute=plantInfoRequestQoute,plant_info_head_count=plantInfoHeadCount,plant_square_ft=plantInfoSquareFt,plant_info_num_shifts=plantInfoNumShifts,plant_info_certifications=plantInfoCertifications,plant_info_QA_id=plantInfoQa,plant_info_site_leader_id=plantInfoSiteLeader)
+                              plant_info_phone_after_office_hrs=plantInfoPhoneAfterOfficeHrs,plant_info_email_address=plantInfoEmailAddress,plant_info_add_info=plantInfoAddInfo,
+                              plant_info_website=plantInfoWebsite,plant_info_online_seller_site=plantInfoOnlineSellerSite,plant_info_contact_form=plantInfoContactForm,
+                              plant_info_square_ft=plantInfoSquareFt,
+                              plant_info_status=True,
+                              plant_info_request_qoute=plantInfoRequestQoute,plant_info_head_count=plantInfoHeadCount,plant_info_num_shifts=plantInfoNumShifts,plant_info_certifications=plantInfoCertifications,
+                              plant_info_QA_id=2,plant_info_site_leader_id=3)
     plant.save()
     return CreatePlant(plant=plant)
 
@@ -57,4 +62,4 @@ class Query(graphene.ObjectType):
       return Plant_Information.objects.all()
 
 class Mutations(graphene.ObjectType):
-  create_plant = CreatePlant.Field()
+   create_plant = CreatePlant.Field()

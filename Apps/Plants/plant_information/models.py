@@ -21,6 +21,8 @@ class Plant_Information(models.Model):
   plant_info_site_leader = models.ForeignKey(Plant_Contacts,models.deletion.CASCADE,related_name='plant_info_site_leader',null=True)
   plant_info_QA = models.ForeignKey(Plant_Contacts,models.deletion.CASCADE,related_name='plant_info_QA',blank=True,null=True)
   plant_info_head_count = models.IntegerField(null=True)
+  plant_info_production = models.IntegerField(null=True)
+  plant_info_eng_tech = models.IntegerField(null=True)
   plant_info_square_ft = models.IntegerField(null=True)
   plant_info_num_shifts = models.IntegerField(null=True)
   plant_info_certifications = models.CharField(max_length=150,null=True)

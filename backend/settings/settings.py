@@ -45,7 +45,13 @@ INSTALLED_APPS = [
     'Apps.Address.county',
     'Apps.Address.city',
     'Apps.Address.zip_code',
-    'Apps.Address'
+    'Apps.Address',
+    'Apps.Plants.plant_contact_type',
+    'Apps.Plants.plant_contacts',
+    'Apps.Plants.plant_functions',
+    'Apps.Plants.plant_information',
+    'Apps.Plants.plant_location',
+    'Apps.Plants',
 ]
 
 GRAPHENE = {

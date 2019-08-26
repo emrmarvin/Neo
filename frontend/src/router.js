@@ -41,6 +41,14 @@ const router = new Router({
       //   requiresAuth: true
       // }
     },
+    {
+      path: '/dashboard/',
+      name: 'Dashboard',
+      component: () => import(/* webpackChunkName: "about" */ './views/Dashboard.vue'),
+      // meta: {
+      //   requiresAuth: true
+      // }
+    },
     // {
     //   path: '/implicit/callback', component: Auth.handleCallback()
     // }    
