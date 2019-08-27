@@ -4,7 +4,7 @@
         <v-data-table
           :headers="headers"
           :items="desserts"
-          sort-by="SiteFac_Name"
+          :search = "search"
           class="elevation-1 pa-5"
           style="overflow: auto"
         >
@@ -14,6 +14,14 @@
               <v-toolbar-title>Site Safety and Quality Information</v-toolbar-title>
               
               <div class="flex-grow-1"></div>
+              <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+                class="pr-5"
+              ></v-text-field>
               <v-dialog v-model="dialog">
                 <template v-slot:activator="{ on }">
                   <v-btn color="primary" dark class="mb-2" v-on="on">Add Site Plant</v-btn>
@@ -27,45 +35,178 @@
                   <v-card-text>
                     <v-container>
                       <v-stepper v-model="e1">
-                        <v-stepper-header>
-                          <v-stepper-step :complete="e1 > 1" step="1" editable>Name of step 1</v-stepper-step>
+                        <v-stepper-header class="form-stepper-header">
+                          <v-stepper-step :complete="e1 > 1" step="1" editable>Plant Information</v-stepper-step>
 
                           <v-divider></v-divider>
 
-                          <v-stepper-step :complete="e1 > 2" step="2" editable>Name of step 2</v-stepper-step>
+                          <v-stepper-step :complete="e1 > 2" step="2" editable>Address</v-stepper-step>
 
                           <v-divider></v-divider>
 
-                          <v-stepper-step step="3" editable>Name of step 3</v-stepper-step>
+                          <v-stepper-step step="3" editable>Plant Contact</v-stepper-step>
                         </v-stepper-header>
 
                         <v-stepper-items>
                           <v-stepper-content step="1">
-                            <v-card
-                              class="mb-12"
-                              color="grey lighten-1"
-                              height="200px"
-                            >
-                              <v-text-field v-model="editedItem.name" label="Location"></v-text-field>
+                            <v-card class="mb-12" height="auto" flat>
+                              <!-- <v-text-field v-model="editedItem.SiteFac_Name" label="Legal Entity Name (Plant)"></v-text-field> -->
+                              <v-text-field
+                                v-model="name"
+                                :error-messages="nameErrors"
+                                required
+                                @input="$v.name.$touch()"
+                                @blur="$v.name.$touch()"
+                                label="Legal Entity Name (Plant)"
+                              >
+                              </v-text-field>
+                              <v-text-field
+                                v-model="phone"
+                                :error-messages="phoneError"
+                                required
+                                @input="$v.phone.$touch()"
+                                @blur="$v.phone.$touch()"
+                                label="Phone Number"
+                              >
+                              </v-text-field>
+                              <v-text-field
+                                v-model="phone"
+                                :error-messages="phoneError"
+                                required
+                                @input="$v.phone.$touch()"
+                                @blur="$v.phone.$touch()"
+                                label="Support Phone Number"
+                              >
+                              </v-text-field>
+                              <v-text-field
+                                v-model="phone"
+                                :error-messages="phoneError"
+                                required
+                                @input="$v.phone.$touch()"
+                                @blur="$v.phone.$touch()"
+                                label="Phone Number After Office Hours"
+                              >
+                              </v-text-field>
+                              <v-text-field
+                                v-model="phone"
+                                :error-messages="phoneError"
+                                required
+                                @input="$v.phone.$touch()"
+                                @blur="$v.phone.$touch()"
+                                label="Sales Phone Number"
+                              >
+                              </v-text-field>
+                              <v-text-field
+                                v-model="email"
+                                :error-messages="emailErrors"
+                                required
+                                @input="$v.email.$touch()"
+                                @blur="$v.email.$touch()"
+                                label="Plant Email Address"
+                              >
+                              </v-text-field>
+                              <v-text-field
+                                v-model="url"
+                                :error-messages="urlErrors"
+                                @input="$v.url.$touch()"
+                                @blur="$v.url.$touch()"
+                                value="https://"
+                                label="Site Factory url"
+                              >
+                              </v-text-field>
+                              <v-text-field
+                                v-model="url"
+                                :error-messages="urlErrors"
+                                @input="$v.url.$touch()"
+                                @blur="$v.url.$touch()"
+                                value="https://"
+                                label="Online Seller Site"
+                              >
+                              </v-text-field>
+                              <v-text-field
+                                label="Request Quote"
+                              >
+                              </v-text-field>
+                              
+                              <v-row>
+                                <v-col
+                                cols="12"
+                                md="2"
+                                >
+                                <v-text-field
+                                  label="Site Capacity"
+                                  placeholder="Sq. ft."
+                                ></v-text-field>
+                                </v-col>
+                                
+                                <v-col
+                                  cols="12"
+                                  md="2"
+                                >
+                                <v-text-field
+                                  label="Site Headcount"
+                                ></v-text-field>
+                                </v-col>
+                                
+                                <v-col
+                                  cols="12"
+                                  md="2"
+                                >
+                                <v-text-field
+                                  label="Production"
+                                  placeholder="DK-H/S"
+                                ></v-text-field>
+                                </v-col>
+                                
+                                <v-col
+                                  cols="12"
+                                  md="2"
+                                >
+                                <v-text-field
+                                  label="Number of Shifts"
+                                ></v-text-field>
+                                </v-col>
+                                
+                                <v-col
+                                  cols="12"
+                                  md="2"
+                                >
+                                <v-text-field
+                                  label="Hours Operation"
+                                ></v-text-field>
+                                </v-col>
+                              </v-row>
+
+                              <v-text-field
+                                label="Engineer/Technical"
+                              >
+                              </v-text-field>
+                              <v-text-field
+                                label="Contact Form"
+                              ></v-text-field>
+                              <v-textarea
+                                name="input-7-1"
+                                label="Certifications"
+                                value="https://"
+                              ></v-textarea>
+                              <v-textarea
+                                name="input-7-1"
+                                label="Additional Information"
+                              ></v-textarea>
+                              
                             </v-card>
 
-                            <v-btn
-                              color="primary"
-                              @click="e1 = 2"
-                            >
-                              Continue
-                            </v-btn>
-
                             <v-btn text>Cancel</v-btn>
+                            <v-btn color="primary" @click="e1 = 2">Continue</v-btn>
                           </v-stepper-content>
 
                           <v-stepper-content step="2">
                             <v-card
                               class="mb-12"
                               color="grey lighten-1"
-                              height="200px"
+                              height="auto"
                             >
-                              <v-text-field v-model="editedItem.SiteFac_Name" label="Legal Entity Name (Plant)"></v-text-field>
+                            <v-text-field v-model="editedItem.SiteFac_Name" label="Legal Entity Name (Plant)"></v-text-field>
                             </v-card>
 
                             <v-btn
@@ -82,7 +223,7 @@
                             <v-card
                               class="mb-12"
                               color="grey lighten-1"
-                              height="200px"
+                              height="auto"
                             >
                               <v-text-field v-model="editedItem.SiteFacility_Address" label="Physical Address"></v-text-field>
                               <v-text-field v-model="editedItem.SiteFac_Leader" label="Site Leader"></v-text-field>
@@ -138,18 +279,32 @@
 </template>
 
 <script>
+
+import { validationMixin } from 'vuelidate'
+import { required, minLength, maxLength, email, numeric, url } from 'vuelidate/lib/validators'
+
 export default {
+  mixins: [validationMixin],
+
+  validations: {
+    name: { required },
+    phone: { required, numeric },
+    email: { required, email },
+    url: { url },
+  },
+
+
+
   components: { },
   data: () => ({
+      search: '',
+      name: '',
+      phone: '',
+      email: '',
+      url: 'https://',
       dialog: false,
       headers: [
-        {
-          text: 'Location',
-          align: 'left',
-          value: 'name',
-        },
-        
-        { text: 'Legal Entity Name (Plant)', value: 'SiteFac_Name' },
+        { text: 'Legal Entity Name (Plant)', value: 'SiteFac_Name',  },
         { text: 'Physical Address', value: 'SiteFacility_Address' },
         { text: 'Site Leader', value: 'SiteFac_Leader' },
         { text: 'Site QA Leader', value: 'SiteFac_QALeader' },
@@ -159,14 +314,12 @@ export default {
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        name: '',
         SiteFac_Name: '',
         SiteFacility_Address: '',
         SiteFac_Leader: '',
         SiteFac_QALeader: '',
       },
       defaultItem: {
-        name: '',
         SiteFac_Name: '',
         SiteFacility_Address: '',
         SiteFac_Leader: '',
@@ -175,9 +328,35 @@ export default {
       e1: 0,
   }),
   computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Site Plant' : 'Edit Site Plant'
-      },
+    formTitle () {
+      return this.editedIndex === -1 ? 'New Site Plant' : 'Edit Site Plant'
+    },
+    nameErrors () {
+        const errors = []
+        if (!this.$v.name.$dirty) return errors
+        !this.$v.name.required && errors.push('Site Factory Name is required.')
+        return errors
+    },
+    phoneError () {
+        const errors = []
+        if (!this.$v.phone.$dirty) return errors
+        !this.$v.phone.numeric && errors.push('Must be a phone number')
+        !this.$v.phone.required && errors.push('Site Factory Phone Number is required.')
+        return errors
+    },
+    emailErrors () {
+      const errors = []
+      if (!this.$v.email.$dirty) return errors
+      !this.$v.email.email && errors.push('Must be valid e-mail')
+      !this.$v.email.required && errors.push('E-mail is required')
+      return errors
+    },
+    urlErrors () {
+      const errors = []
+      if (!this.$v.url.$dirty) return errors
+      !this.$v.url.url && errors.push('Must be valid Website')
+      return errors
+    },
   },
   watch: {
       dialog (val) {
@@ -193,70 +372,60 @@ export default {
       initialize () {
         this.desserts = [
           {
-            name: 'Frozen Yogurt',
             SiteFac_Name: 159,
             SiteFacility_Address: 6.0,
             SiteFac_Leader: 24,
             SiteFac_QALeader: 4.0,
           },
           {
-            name: 'Ice cream sandwich',
             SiteFac_Name: 237,
             SiteFacility_Address: 9.0,
             SiteFac_Leader: 37,
             SiteFac_QALeader: 4.3,
           },
           {
-            name: 'Eclair',
             SiteFac_Name: 262,
             SiteFacility_Address: 16.0,
             SiteFac_Leader: 23,
             SiteFac_QALeader: 6.0,
           },
           {
-            name: 'Cupcake',
             SiteFac_Name: 305,
             SiteFacility_Address: 3.7,
             SiteFac_Leader: 67,
             SiteFac_QALeader: 4.3,
           },
           {
-            name: 'Gingerbread',
             SiteFac_Name: 356,
             SiteFacility_Address: 16.0,
             SiteFac_Leader: 49,
             SiteFac_QALeader: 3.9,
           },
           {
-            name: 'Jelly bean',
             SiteFac_Name: 375,
             SiteFacility_Address: 0.0,
             SiteFac_Leader: 94,
             SiteFac_QALeader: 0.0,
           },
           {
-            name: 'Lollipop',
             SiteFac_Name: 392,
             SiteFacility_Address: 0.2,
             SiteFac_Leader: 98,
             SiteFac_QALeader: 0,
           },
           {
-            name: 'Honeycomb',
             SiteFac_Name: 408,
             SiteFacility_Address: 3.2,
             SiteFac_Leader: 87,
             SiteFac_QALeader: 6.5,
           },
           {
-            name: 'Donut',
             SiteFac_Name: 452,
             SiteFacility_Address: 25.0,
             SiteFac_Leader: 51,
             SiteFac_QALeader: 4.9,
           },
           {
-            name: 'KitKat',
             SiteFac_Name: 518,
             SiteFacility_Address: 26.0,
             SiteFac_Leader: 65,
@@ -292,10 +461,24 @@ export default {
         }
         this.close()
       },
-    },
+
+      submit () {
+        this.$v.$touch()
+      },
+      clear () {
+        this.$v.$reset()
+        this.name = ''
+        this.phone = ''
+        this.email = ''
+        this.url = ''
+      },
+  },
 }
 </script>
 
 <style>
+  .v-stepper__header.form-stepper-header {
+    box-shadow: none;    
+  }
 
 </style>
