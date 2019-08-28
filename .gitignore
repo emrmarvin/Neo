@@ -1,5 +1,7 @@
 .DS_Store
 /venv
+/backend/__pycache__
+/backend/settings/__pycache__
 
 # local env files
 .env.local

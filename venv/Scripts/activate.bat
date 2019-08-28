@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set "VIRTUAL_ENV=D:\OneDrive - Emerson\Playground\python\DjangoVueGql\myproject\venv"
+set "VIRTUAL_ENV=D:\OneDrive - Emerson\Final Control\Project Neo\code\Neo\venv"
 
 if not defined PROMPT (
     set "PROMPT=$P$G"

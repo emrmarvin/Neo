@@ -1,4 +1,4 @@
-export DBHOST="localhost"
-export DBUSER="manager"
-export DBNAME="tasksdb"
-export DBPASS="Japs@3261"
+export DBHOST="neo-prod.postgres.database.azure.com"
+export DBUSER="neomanager@neo-prod"
+export DBNAME="contactdbstg"
+export DBPASS="@NeoManager"
