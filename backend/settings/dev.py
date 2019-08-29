@@ -1,7 +1,7 @@
 from .settings import *
 
-DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+DEBUG = False
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'finalcontrol-contacts-stg.azurewebsites.net']
 
 MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 INSTALLED_APPS.append('debug_toolbar')
