@@ -99,10 +99,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'contactdbstg',
-        'HOST': 'neo-prod.postgres.database.azure.com',
-        'USER': 'neomanager@neo-prod',
-        'PASSWORD': '@NeoManager'
+        'NAME': os.environ['DBNAME'],
+        'HOST': os.environ['DBHOST'],
+        'USER': os.environ['DBUSER'],
+        'PASSWORD': os.environ['DBPASS']
     }
 }
 

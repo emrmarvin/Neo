@@ -1,6 +1,6 @@
 #!/bin/bash
-source ./venv/Scripts/activate
-source ./env.sh
+source venv/Scripts/activate
+source env.sh
 
 python manage.py collectstatic --noinput
 python manage.py makemigrations    
