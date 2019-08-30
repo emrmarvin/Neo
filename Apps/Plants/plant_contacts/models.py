@@ -15,6 +15,7 @@ class Plant_Contacts(models.Model):
    plant_cont_supp_lang_2 = models.CharField(max_length=150, null=True)
    plant_cont_supp_lang_3 = models.CharField(max_length=150, null=True)
    plant_cont_supp_lang_4 = models.CharField(max_length=150, null=True)
+   plant_cont_type = models.CharField(max_length=150, null=True)
    plant_cont_status = models.BooleanField()
 
    class Meta:

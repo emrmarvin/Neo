@@ -58,13 +58,13 @@ class DeleteCounty(graphene.Mutation):
 
 class Query(graphene.ObjectType):
   counties = graphene.List(CountyType)
-  county = graphene.Field(CountyType, countyId=graphene.Int())
+  county = graphene.List(CountyType, countyState=graphene.Int())
 
   def resolve_county(self,info,**kwargs):
-    countyId = kwargs.get('countyId')
+    countyState = kwargs.get('countyState')
 
-    if countyId is not None:
-      return County.objects.get(pk=countyId)
+    if countyState is not None:
+      return County.objects.filter(county_state_id=countyState)
     else:
       return None
 

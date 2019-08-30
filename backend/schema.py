@@ -10,6 +10,7 @@ import Apps.Plants.plant_information.schema
 import Apps.Plants.plant_functions.schema
 import Apps.Plants.plant_contacts.schema
 import Apps.Plants.plant_contact_type.schema
+import Apps.Plants.plant_functions.schema
 
 class Query(Apps.Address.country.schema.Query,
             Apps.Address.state_province.schema.Query,
@@ -21,6 +22,7 @@ class Query(Apps.Address.country.schema.Query,
             Apps.Plants.plant_location.schema.Query,
             Apps.Plants.plant_information.schema.Query,
             Apps.Plants.plant_contacts.schema.Query,
+            Apps.Plants.plant_functions.schema.Query,
             graphene.ObjectType,
             ):
     # This class will inherit from multiple Queries
@@ -36,6 +38,7 @@ class Mutation(Apps.Address.country.schema.Mutations,
                Apps.Plants.plant_information.schema.Mutations,
                Apps.Plants.plant_location.schema.Mutations,
                Apps.Plants.plant_contacts.schema.Mutations,
+               Apps.Plants.plant_functions.schema.Mutations,
                graphene.ObjectType):
   	pass
 
