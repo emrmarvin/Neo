@@ -28,6 +28,36 @@ class CreatePlantLocations(graphene.Mutation):
       
       plant_loc.save()
       return CreatePlantLocations(plant_loc=plant_loc)
+   
+class UpdatePlantLocations(graphene.Mutation):
+   plant_loc = graphene.Field(lambda:PlantLocationType)
+   
+   class Arguments:
+      plantLocId = graphene.Int()
+      plantLocMap = graphene.String(default_value="")
+      plantLocAddress = graphene.String(default_value="")
+      plantLocCity = graphene.String(default_value="")
+      plantLocState = graphene.Int(default_value=0)
+      plantLocCounty = graphene.Int(default_value=0)
+      plantLocCountry = graphene.Int(default_value=0)
+      plantLocZipcode = graphene.Int(default_value=0)
+      plantLocLatitude = graphene.Float(default_value=0)
+      plantLocLongitude = graphene.Float(default_value=0)
+   
+   def mutate(self,info,plantLocId,plantLocMap,plantLocAddress,plantLocCity,plantLocState,plantLocCounty,plantLocCountry,plantLocZipcode,plantLocLatitude,plantLocLongitude):
+      plant_loc = Plant_Location.objects.get(pk=plantLocId)
+      plant_loc.plant_loc_map = plantLocMap
+      plant_loc.plant_loc_address = plantLocAddress
+      plant_loc.plant_loc_city = plantLocCity
+      plant_loc.plant_loc_state_id = plantLocState
+      plant_loc.plant_loc_county_id = plantLocCounty
+      plant_loc.plant_loc_country_id = plantLocCountry
+      plant_loc.plant_loc_zipcode = plantLocZipcode
+      plant_loc.plant_loc_latitude = plantLocLatitude
+      plant_loc.plant_loc_longitude = plantLocLongitude
+      
+      plant_loc.save()
+      return UpdatePlantLocations(plant_loc=plant_loc)
 
 
 class Query(graphene.ObjectType):
@@ -48,3 +78,4 @@ class Query(graphene.ObjectType):
 
 class Mutations(graphene.ObjectType):
    create_plant_loc = CreatePlantLocations.Field()
+   update_plant_loc = UpdatePlantLocations.Field()

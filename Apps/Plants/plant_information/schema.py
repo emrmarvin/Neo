@@ -47,6 +47,61 @@ class CreatePlant(graphene.Mutation):
     return CreatePlant(plant=plant)
  
  
+class UpdatePlant(graphene.Mutation):
+  plant = graphene.Field(lambda:PlantInformationType)
+
+  class Arguments:
+   plantInfoId = graphene.Int()  
+   plantInfoName = graphene.String(required=False)
+   plantInfoPhoneNo = graphene.Int(default_value=0)
+   plantInfoAddInfo = graphene.String(default_value="")
+   plantInfoWebsite = graphene.String(default_value="")
+   plantInfoSquareFt = graphene.Int(default_value=0)
+   plantInfoHeadCount = graphene.Int(default_value=0)
+   plantInfoProduction = graphene.Int(default_value=0)
+   plantInfoEngTech = graphene.Int(default_value=0)
+   plantInfoNumShifts = graphene.Int(default_value=0)
+   plantInfoContactForm = graphene.String(default_value=0)
+   plantInfoHrsOperation = graphene.Int(default_value=0)
+   plantInfoPhoneNoSales = graphene.Int(default_value=0) 
+   plantInfoEmailAddress = graphene.String(default_value="")
+   plantInfoRequestQoute = graphene.String(default_value="")
+   plantInfoPhoneNoSupport = graphene.Int(default_value=0)
+   plantInfoCertifications = graphene.String(default_value="")
+   plantInfoOnlineSellerSite = graphene.String(default_value="")
+   plantInfoPhoneAfterOfficeHrs = graphene.Int(default_value=0)
+   plantInfoSiteLeader = graphene.Int(default_value=0)
+   plantInfoQa = graphene.Int(default_value=0)
+  
+  def mutate(self, info,plantInfoId,plantInfoName,plantInfoPhoneNo,plantInfoAddInfo,plantInfoWebsite,plantInfoSquareFt,plantInfoHeadCount,plantInfoProduction,plantInfoEngTech,
+             plantInfoNumShifts,plantInfoContactForm,plantInfoHrsOperation,plantInfoPhoneNoSales,plantInfoEmailAddress,plantInfoRequestQoute,plantInfoPhoneNoSupport,plantInfoCertifications,plantInfoOnlineSellerSite,plantInfoPhoneAfterOfficeHrs,plantInfoSiteLeader,plantInfoQa):
+    plant = Plant_Information.objects.get(pk=plantInfoId)
+    plant.plant_info_name=plantInfoName
+    plant.plant_info_phone_no=plantInfoPhoneNo
+    plant.plant_info_add_info=plantInfoAddInfo
+    plant.plant_info_website=plantInfoWebsite
+    plant.plant_info_square_ft=plantInfoSquareFt
+    plant.plant_info_head_count=plantInfoHeadCount
+    plant.plant_info_production=plantInfoProduction
+    plant.plant_info_eng_tech=plantInfoEngTech
+    plant.plant_info_num_shifts=plantInfoNumShifts
+    plant.plant_info_contact_form=plantInfoContactForm
+    plant.plant_info_hrs_operation=plantInfoHrsOperation
+    plant.plant_info_phone_no_sales=plantInfoPhoneNoSales
+    plant.plant_info_email_address=plantInfoEmailAddress
+    plant.plant_info_request_qoute=plantInfoRequestQoute
+    plant.plant_info_phone_no_support=plantInfoPhoneNoSupport
+    plant.plant_info_certifications=plantInfoCertifications
+    plant.plant_info_online_seller_site=plantInfoOnlineSellerSite
+    plant.plant_info_phone_after_office_hrs=plantInfoPhoneAfterOfficeHrs
+    plant.plant_info_site_leader_id=plantInfoSiteLeader
+    plant.plant_info_QA_id=plantInfoQa
+    
+    
+    plant.save()
+    return UpdatePlant(plant=plant)
+
+ 
 class DeletePlant(graphene.Mutation):
    
    plant = graphene.Field(lambda: PlantInformationType)
@@ -79,4 +134,6 @@ class Query(graphene.ObjectType):
 
 class Mutations(graphene.ObjectType):
    create_plant = CreatePlant.Field()
+   update_plant = UpdatePlant.Field()
    delete_plant = DeletePlant.Field()
+   

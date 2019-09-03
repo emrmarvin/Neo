@@ -39,5 +39,23 @@ class CreatePlantContact(graphene.Mutation):
     plant_contact.save()
     return CreatePlantContact(plant_contact=plant_contact)
  
+class UpdatePlantContact(graphene.Mutation):
+  plant_contact = graphene.Field(lambda:PlantContactsType)
+
+  class Arguments:
+   plantContId = graphene.Int()
+   plantContFname = graphene.String(default_value="")
+   plantContLname = graphene.String(default_value="")
+   plantContMname = graphene.String(default_value="")
+  
+  def mutate(self, info,plantContId,plantContFname,plantContLname,plantContMname):
+    plant_contact = Plant_Contacts.objects.get(pk=plantContId)
+    plant_contact.plant_cont_fname = plantContFname
+    plant_contact.plant_cont_lname = plantContLname
+    plant_contact.plant_cont_mname = plantContMname
+    plant_contact.save()
+    return UpdatePlantContact(plant_contact=plant_contact)
+ 
 class Mutations(graphene.ObjectType):  
    create_plant_contact = CreatePlantContact.Field()
+   update_plant_contact = UpdatePlantContact.Field()

@@ -105,10 +105,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DB_Neo_Matrix',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'Rfanimi14'
+        'NAME': 'contactdbstg',
+        'HOST': 'neo-prod.postgres.database.azure.com',
+        'USER': 'neomanager@neo-prod',
+        'PASSWORD': '@NeoManager'
     }
 }
 
