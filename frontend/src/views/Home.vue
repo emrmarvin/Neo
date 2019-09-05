@@ -100,21 +100,21 @@
                           <v-text-field label="Plant Map :" placeholder="Plant Map"
                             v-model="plantLocMap"></v-text-field>
 
+                          <v-text-field label="Address :" placeholder="Address"
+                            v-model="plantLocAddress"></v-text-field>
+
+                          <v-text-field label="City :" placeholder="City" v-model="City">
+                          </v-text-field>
+
                           <v-autocomplete label="Country :" v-model="Country"
                             :key="countryId" :items="countries" item-text="countryName"
                             item-value="countryId"></v-autocomplete>
-
 
                           <v-text-field label="State Province :" placeholder="State Province"  v-model="State">
                                                     </v-text-field>
 
                           <v-text-field label="County :" placeholder="County"  v-model="County">
                           </v-text-field>
-
-                          <v-text-field label="City :" placeholder="City" v-model="City">
-                          </v-text-field>
-                          <v-text-field label="Address :" placeholder="Address"
-                            v-model="plantLocAddress"></v-text-field>
 
                           <v-text-field label="Zipcode :" placeholder="Zipcode" v-model="Zipcode">
                           </v-text-field>
@@ -219,20 +219,17 @@
         <v-spacer></v-spacer>
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details>
         </v-text-field>
-
       </v-card-title>
-      <v-data-table 
-        :headers="headers" 
-        :items="plantInformationList"
+      <v-data-table :headers="headers" v-if="plantInformationList" :items="plantInformationList"
         :search="search" :rows-per-page-items="[20, 10, 30, 40]">
         <template v-slot:items="plant" style="text-align:center">
           <td>{{plant.item.plantLocationSet[0].plantLocCity}}</td>
           <td style="text-alignment:center">{{plant.item.plantInfoName}}</td>
           <td>{{plant.item.plantLocationSet[0].plantLocAddress 
             +" "+ plant.item.plantLocationSet[0].plantLocCity
-            +", "+  plant.item.plantLocationSet[0].plantLocCounty
-            +", "+ plant.item.plantLocationSet[0].plantLocState  
-            +", "+ plant.item.plantLocationSet[0].plantLocCountry.countryCode
+            +", "+  plant.item.plantLocationSet[0].plantLocCounty 
+            +", "+ plant.item.plantLocationSet[0].plantLocState 
+            +", "+ plant.item.plantLocationSet[0].plantLocCountry.countryCode  
             + ", " + plant.item.plantLocationSet[0].plantLocZipcode}}</td>
           <td>
             {{plant.item.plantInfoSiteLeader.plantContLname + ", " + plant.item.plantInfoSiteLeader.plantContFname}}
@@ -299,8 +296,6 @@
   import {
     fail
   } from 'assert';
-import { loadavg } from 'os';
-import { lookup } from 'dns';
 
   const CountriesQuery = gql `
   query{
@@ -519,15 +514,11 @@ query plantcontacts{
         plantInfoPhoneAfterOfficeHrs
         plantLocationSet{
           plantLocId
-          plantInfoId{
-            plantInfoId
-          }
           plantLocMap
           plantLocCity
           plantLocState
           plantLocCounty
           plantLocCountry{
-            countryId
             countryName
             countryCode
           }
@@ -538,13 +529,11 @@ query plantcontacts{
           plantLocLongitude
         }
         plantInfoSiteLeader{
-          plantContId
           plantContFname
           plantContLname
           plantContMname
         }
         plantInfoQa{
-          plantContId
           plantContFname
           plantContLname
           plantContMname
@@ -766,15 +755,11 @@ const UpdatePlant = gql `
         plantInfoPhoneAfterOfficeHrs
         plantLocationSet{
           plantLocId
-          plantInfoId{
-            plantInfoId
-          }
           plantLocMap
           plantLocCity
           plantLocState
           plantLocCounty
           plantLocCountry{
-            countryId
             countryName
             countryCode
           }
@@ -785,13 +770,11 @@ const UpdatePlant = gql `
           plantLocLongitude
         }
         plantInfoSiteLeader{
-          plantContId
           plantContFname
           plantContLname
           plantContMname
         }
         plantInfoQa{
-          plantContId
           plantContFname
           plantContLname
           plantContMname
@@ -1244,7 +1227,7 @@ mutation updatePlantFunction(
           this.update_plant_loc()    
           this.update_plant_function()   
           this.dialog = false
-        //this.clear()
+          //this.clear()
       },
       // async getState() {
       //   this.statesList = [];
@@ -2119,7 +2102,8 @@ mutation updatePlantFunction(
         }
       }
       ,
-    },
+    }
+    ,
     beforeMount() {
       this.getPlantInformation()
     }
