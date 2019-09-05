@@ -92,7 +92,7 @@
                         <v-btn color="primary" @click="e1=2">
                           Continue
                         </v-btn>
-                        <v-btn @click="cancel">Cancel</v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
                       </v-stepper-content>
 
                       <v-stepper-content step="2">
@@ -100,24 +100,21 @@
                           <v-text-field label="Plant Map :" placeholder="Plant Map"
                             v-model="plantLocMap"></v-text-field>
 
-                          <v-text-field label="Address :" placeholder="Address"
-                            v-model="plantLocAddress"></v-text-field>
-
-                          <v-text-field label="City :" placeholder="City" v-model="City">
-                          </v-text-field>
-
-                          <v-autocomplete label="Country :" v-model="Country" @change="getState"
+                          <v-autocomplete label="Country :" v-model="Country"
                             :key="countryId" :items="countries" item-text="countryName"
                             item-value="countryId"></v-autocomplete>
 
-                          <v-autocomplete label="State Province :" v-model="State"
-                            @change="getCounty" :items="stateprovinces" item-text="stateName"
-                            item-value="stateId">
-                          </v-autocomplete>
 
-                          <v-autocomplete label="County :" v-model="County" :items="counties"
-                            item-text="countyName" item-value="countyId">
-                          </v-autocomplete>
+                          <v-text-field label="State Province :" placeholder="State Province"  v-model="State">
+                                                    </v-text-field>
+
+                          <v-text-field label="County :" placeholder="County"  v-model="County">
+                          </v-text-field>
+
+                          <v-text-field label="City :" placeholder="City" v-model="City">
+                          </v-text-field>
+                          <v-text-field label="Address :" placeholder="Address"
+                            v-model="plantLocAddress"></v-text-field>
 
                           <v-text-field label="Zipcode :" placeholder="Zipcode" v-model="Zipcode">
                           </v-text-field>
@@ -130,7 +127,7 @@
                         <v-btn color="primary" @click="e1=3">
                           Continue
                         </v-btn>
-                        <v-btn @click="cancel">Cancel</v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
                         <v-btn text color="warning" @click="e1=1">Back</v-btn>
                       </v-stepper-content>
 
@@ -169,7 +166,7 @@
                         <v-btn color="primary" @click="e1=4">
                           Continue
                         </v-btn>
-                        <v-btn @click="cancel">Cancel</v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
                         <v-btn text color="warning" @click="e1=2">Back</v-btn>
                       </v-stepper-content>
 
@@ -206,7 +203,7 @@
                         <v-btn color="primary" v-show="IsUpdate" @click="update">
                           Update
                         </v-btn>
-                        <v-btn @click="cancel">Cancel</v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
                       </v-stepper-content>
                     </v-stepper-items>
                   </v-stepper>
@@ -222,17 +219,20 @@
         <v-spacer></v-spacer>
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details>
         </v-text-field>
+
       </v-card-title>
-      <v-data-table :headers="headers" v-if="plantInformationList" :items="plantInformationList"
+      <v-data-table 
+        :headers="headers" 
+        :items="plantInformationList"
         :search="search" :rows-per-page-items="[20, 10, 30, 40]">
         <template v-slot:items="plant" style="text-align:center">
           <td>{{plant.item.plantLocationSet[0].plantLocCity}}</td>
           <td style="text-alignment:center">{{plant.item.plantInfoName}}</td>
           <td>{{plant.item.plantLocationSet[0].plantLocAddress 
             +" "+ plant.item.plantLocationSet[0].plantLocCity
-            +", "+  plant.item.plantLocationSet[0].plantLocCounty.countyName  
-            +", "+ plant.item.plantLocationSet[0].plantLocState.stateCode  
-            +", "+ plant.item.plantLocationSet[0].plantLocCountry.countryCode  
+            +", "+  plant.item.plantLocationSet[0].plantLocCounty
+            +", "+ plant.item.plantLocationSet[0].plantLocState  
+            +", "+ plant.item.plantLocationSet[0].plantLocCountry.countryCode
             + ", " + plant.item.plantLocationSet[0].plantLocZipcode}}</td>
           <td>
             {{plant.item.plantInfoSiteLeader.plantContLname + ", " + plant.item.plantInfoSiteLeader.plantContFname}}
@@ -299,6 +299,8 @@
   import {
     fail
   } from 'assert';
+import { loadavg } from 'os';
+import { lookup } from 'dns';
 
   const CountriesQuery = gql `
   query{
@@ -388,15 +390,8 @@ const StatesQuery = gql `
           }
           plantLocMap
           plantLocCity
-          plantLocState{
-            stateId
-            stateName
-            stateCode
-          }
-          plantLocCounty{
-            countyId
-            countyName
-          }
+          plantLocState
+          plantLocCounty
           plantLocCountry{
             countryId
             countryName
@@ -524,16 +519,15 @@ query plantcontacts{
         plantInfoPhoneAfterOfficeHrs
         plantLocationSet{
           plantLocId
+          plantInfoId{
+            plantInfoId
+          }
           plantLocMap
           plantLocCity
-          plantLocState{
-            stateName
-            stateCode
-          }
-          plantLocCounty{
-            countyName
-          }
+          plantLocState
+          plantLocCounty
           plantLocCountry{
+            countryId
             countryName
             countryCode
           }
@@ -544,11 +538,13 @@ query plantcontacts{
           plantLocLongitude
         }
         plantInfoSiteLeader{
+          plantContId
           plantContFname
           plantContLname
           plantContMname
         }
         plantInfoQa{
+          plantContId
           plantContFname
           plantContLname
           plantContMname
@@ -580,8 +576,8 @@ query plantcontacts{
     $plantInfoId:Int,
     $plantLocMap:String,
     $plantLocCity:String,
-    $plantLocState:Int,
-    $plantLocCounty:Int,
+    $plantLocState:String,
+    $plantLocCounty:String,
     $plantLocCountry:Int,
     $plantLocZipcode:Int,
     $plantLocAddress:String,
@@ -605,15 +601,8 @@ query plantcontacts{
                 plantInfoName
               }
               plantLocCity
-              plantLocState{
-                stateId
-                stateName
-                stateCode
-              }
-              plantLocCounty{
-                countyId
-                countyName
-              }
+              plantLocState
+              plantLocCounty
               plantLocCountry{
                 countryId
                 countryName
@@ -777,16 +766,15 @@ const UpdatePlant = gql `
         plantInfoPhoneAfterOfficeHrs
         plantLocationSet{
           plantLocId
+          plantInfoId{
+            plantInfoId
+          }
           plantLocMap
           plantLocCity
-          plantLocState{
-            stateName
-            stateCode
-          }
-          plantLocCounty{
-            countyName
-          }
+          plantLocState
+          plantLocCounty
           plantLocCountry{
+            countryId
             countryName
             countryCode
           }
@@ -797,11 +785,13 @@ const UpdatePlant = gql `
           plantLocLongitude
         }
         plantInfoSiteLeader{
+          plantContId
           plantContFname
           plantContLname
           plantContMname
         }
         plantInfoQa{
+          plantContId
           plantContFname
           plantContLname
           plantContMname
@@ -832,8 +822,8 @@ const UpdatePlantLoc = gql `
     $plantLocId:Int,
     $plantLocMap:String,
     $plantLocCity:String,
-    $plantLocState:Int,
-    $plantLocCounty:Int,
+    $plantLocState:String,
+    $plantLocCounty:String,
     $plantLocCountry:Int,
     $plantLocZipcode:Int,
     $plantLocAddress:String,
@@ -857,15 +847,8 @@ const UpdatePlantLoc = gql `
                 plantInfoName
               }
               plantLocCity
-              plantLocState{
-                stateId
-                stateName
-                stateCode
-              }
-              plantLocCounty{
-                countyId
-                countyName
-              }
+              plantLocState
+              plantLocCounty
               plantLocCountry{
                 countryId
                 countryName
@@ -983,13 +966,8 @@ mutation updatePlantFunction(
         plantLocationSet{
           plantLocMap
           plantLocCity
-          plantLocState{
-            stateName
-            stateCode
-          }
-          plantLocCounty{
-            countyName
-          }
+          plantLocState
+          plantLocCounty
           plantLocCountry{
             countryName
             countryCode
@@ -1233,13 +1211,14 @@ mutation updatePlantFunction(
       plantinformations: PlantInformationQuery,
       countries: CountriesQuery,
       plantcontacts: PlantContactsQuery,
-      stateprovinces:StatesQuery,
+      //stateprovinces:StatesQuery,
       //stateprovince:StateQuery
-      counties:CountiesQuery
+      //counties:CountiesQuery
       // plantinformations:PlantQuery
     },
     methods: {
       async save() {   
+
         setTimeout(() => {
           this.save_plant_QA()
         }, 1000)
@@ -1248,56 +1227,48 @@ mutation updatePlantFunction(
         }, 2000)     
         setTimeout(() => {
           this.create_plant()
-        },3000)
-        setTimeout(() => {
-          this.create_plant_loc()
-        },4000)
-        setTimeout(() => {
-          this.create_plant_function()
-        },4000)            
+        },5000)
+        // setTimeout(() => {
+        //   this.create_plant_loc()
+        // },10000)
+        // setTimeout(() => {
+        //   this.create_plant_function()
+        // },10000)            
         this.dialog = false
+        //this.clear()
       },
       async update() {   
-        setTimeout(() => {
+          this.update_plant()    
           this.update_plant_QA()
-        }, 1000)
-         setTimeout(() => {
-           this.update_plant_SL()
-        }, 2000)     
-        setTimeout(() => {
-          this.update_plant()
-        },3000)
-        setTimeout(() => {
-          this.update_plant_loc()
-        },4000)
-        setTimeout(() => {
-          this.update_plant_function()
-        },4000)            
-        this.dialog = false
+          this.update_plant_SL()         
+          this.update_plant_loc()    
+          this.update_plant_function()   
+          this.dialog = false
+        //this.clear()
       },
-      async getState() {
-        this.statesList = [];
-        return this.$apollo.query({
-          query: StateQuery,
-          variables: {
-            stateCountry: this.Country
-          }
-        }).then((data) => {
-          this.stateprovinces = data.data.stateprovince
-        })
-      },
+      // async getState() {
+      //   this.statesList = [];
+      //   return this.$apollo.query({
+      //     query: StateQuery,
+      //     variables: {
+      //       stateCountry: this.Country
+      //     }
+      //   }).then((data) => {
+      //     this.stateprovinces = data.data.stateprovince
+      //   })
+      // },
 
-      async getCounty() {
-        this.countyList = [];
-        return this.$apollo.query({
-          query: CountyQuery,
-          variables: {
-            countyState: this.State
-          }
-        }).then((data) => {
-          this.counties = data.data.county
-        })
-      },
+      // async getCounty() {
+      //   this.countyList = [];
+      //   return this.$apollo.query({
+      //     query: CountyQuery,
+      //     variables: {
+      //       countyState: this.State
+      //     }
+      //   }).then((data) => {
+      //     this.counties = data.data.county
+      //   })
+      // },
       async getPlantInformation() {
         //alert("test")
         this.plantInformationList = [];
@@ -1390,8 +1361,13 @@ mutation updatePlantFunction(
             // add to all tasks list
             const data = store.readQuery({
               query: PlantInformationQuery
-            });
+            });      
             data.plantinformations.push(createPlant.plant);
+            setTimeout(() => {
+              this.create_plant_loc(createPlant.plant.plantInfoId)
+              this.create_plant_function(createPlant.plant.plantInfoId)     
+            }, 1000);      
+            console.log(createPlant.plant.plantInfoId)
             store.writeQuery({
               query: PlantInformationQuery,
               data
@@ -1418,10 +1394,10 @@ mutation updatePlantFunction(
         this.plantInfoOnlineSellerSite = "";
         this.plantInfoPhoneAfterOfficeHrs = "";
       },
-      async create_plant_loc() {
+      async create_plant_loc(infoId) {
         //this.e1 = 3
-        this.CountPlant = this.plantinformations[parseInt(this.plantinformations.length) - 1]
-          .plantInfoId
+        // this.CountPlant = this.plantinformations[parseInt(this.plantinformations.length) - 1]
+        //   .plantInfoId
         const {
           plantInfoId,
           plantLocMap,
@@ -1434,11 +1410,11 @@ mutation updatePlantFunction(
           plantLocLatitude,
           plantLocLongitude,
         } = {
-          plantInfoId: parseInt(this.CountPlant),
+          plantInfoId: infoId,
           plantLocMap: this.plantLocMap,
           plantLocCity: this.City,
-          plantLocState: parseInt(this.State),
-          plantLocCounty: parseInt(this.County),
+          plantLocState: this.State,
+          plantLocCounty: this.County,
           plantLocCountry: parseInt(this.Country),
           plantLocZipcode: parseInt(this.Zipcode),
           plantLocAddress: this.plantLocAddress,
@@ -1463,21 +1439,21 @@ mutation updatePlantFunction(
             plantLocLongitude: plantLocLongitude
           }
         });
-        const t = data.data.createPlantLoc.plantLoc;
+        //const t = data.data.createPlantLoc.plantLoc;
         // console.log('Added:', t);
         this.plantInfoId = "";
         this.plantLocMap = "";
-        this.plantLocCity = "";
-        this.plantLocState = "";
-        this.plantLocCounty = "";
-        this.plantLocCountry = "";
-        this.plantLocZipcode = "";
+        this.City = "";
+        this.State = "";
+        this.County = "";
+        this.Country = "";
+        this.Zipcode = "";
         this.plantLocAddress = "";
         this.plantLocLatitude = "";
         this.plantLocLongitude = "";
         
       },
-       async create_plant_function() {
+       async create_plant_function(infoId) {
         const {
         plantInfoId,
         plantFuncHydro,
@@ -1494,7 +1470,7 @@ mutation updatePlantFunction(
         plantFuncProductListing,
         plantFuncFunctionalTesting
         } = {
-          plantInfoId:this.CountPlant,
+          plantInfoId:infoId,
           plantFuncHydro:this.plantFuncHydro,
           plantFuncVisual:this.plantFuncVisual,
           plantFuncWelding:this.plantFuncWelding,
@@ -1504,7 +1480,7 @@ mutation updatePlantFunction(
           plantFuncPenetrant:this.plantFuncPenetrant,
           plantFuncRadiograph:this.plantFuncRadiograph,
           plantFuncUltrasonic:this.plantFuncUltrasonic,
-          plantFuncMagParticle:this.lantFuncMagParticle,
+          plantFuncMagParticle:this.plantFuncMagParticle,
           plantFuncCapacityPer:this.plantFuncCapacityPer,
           plantFuncProductListing:this.plantFuncProductListing,
           plantFuncFunctionalTesting:this.plantFuncFunctionalTesting
@@ -1679,8 +1655,8 @@ mutation updatePlantFunction(
           this.City = plant.item.plantLocationSet[0].plantLocCity,
           this.Country = plant.item.plantLocationSet[0].plantLocCountry.countryId,
           this.State = plant.item.plantLocationSet[0].plantLocState.stateId,
-          this.County = plant.item.plantLocationSet[0].plantLocCounty.countyId,
-          this.plantLocZipcode = plant.item.plantLocationSet[0].plantLocZipcode,
+          this.County = plant.item.plantLocationSet[0].plantLocCounty,
+          this.Zipcode = plant.item.plantLocationSet[0].plantLocZipcode,
           this.plantLocAddress =plant.item.plantLocationSet[0].plantLocAddress ,
           this.plantLocLatitude =plant.item.plantLocationSet[0].plantLocLatitude ,
           this.plantLocLongitude =plant.item.plantLocationSet[0].plantLocLongitude ,
@@ -1694,7 +1670,7 @@ mutation updatePlantFunction(
           this.plantFuncPenetrant=plant.item.plantFunctionsSet[0].plantFuncPenetrant,
           this.plantFuncRadiograph=plant.item.plantFunctionsSet[0].plantFuncRadiograph,
           this.plantFuncUltrasonic=plant.item.plantFunctionsSet[0].plantFuncUltrasonic,
-          this.lantFuncMagParticle=plant.item.plantFunctionsSet[0].plantFuncMagParticle,
+          this.plantFuncMagParticle=plant.item.plantFunctionsSet[0].plantFuncMagParticle,
           this.plantFuncCapacityPer=plant.item.plantFunctionsSet[0].plantFuncCapacityPer,
           this.plantFuncProductListing=plant.item.plantFunctionsSet[0].plantFuncProductListing,
           this.plantFuncFunctionalTesting=plant.item.plantFunctionsSet[0].plantFuncFunctionalTesting,
@@ -1705,7 +1681,7 @@ mutation updatePlantFunction(
           this.plantSLId = plant.item.plantInfoSiteLeader.plantContId,
           this.plantSLFname=plant.item.plantInfoSiteLeader.plantContFname,
           this.plantSLMname=plant.item.plantInfoSiteLeader.plantContMname,
-          this.plantSLLname=plant.item.plantInfoQa.plantContLname
+          this.plantSLLname=plant.item.plantInfoSiteLeader.plantContLname
           this.dialog = true
           this.IsUpdate = true
           this.IsCreate = false
@@ -1785,22 +1761,23 @@ mutation updatePlantFunction(
             plantInfoPhoneAfterOfficeHrs: plantInfoPhoneAfterOfficeHrs,
             plantInfoSiteLeader: plantInfoSiteLeader,
             plantInfoQa: plantInfoQa
-          },
-          update: (store, {
-            data: {
-              updatePlant
+            },
+            update: (store, {
+              data: {
+                updatePlant
+              }
+            }) => {
+              // add to all tasks list
+              const data = store.readQuery({
+                query: PlantInformationQuery
+              });
+              //data.plantinformations = []
+              data.plantinformations.push(updatePlant.plant)
+              store.writeQuery({
+                query: PlantInformationQuery,
+                data
+              });
             }
-          }) => {
-            // add to all tasks list
-            const data = store.readQuery({
-              query: PlantInformationQuery
-            });
-            data.plantinformations.push(updatePlant.plant);
-            store.writeQuery({
-              query: PlantInformationQuery,
-              data
-            });
-          },
         });
         const t = data.data.updatePlant.plant;
         this.plantInfoId="",
@@ -1844,8 +1821,8 @@ mutation updatePlantFunction(
           plantLocId: parseInt(this.plantLocId),
           plantLocMap: this.plantLocMap,
           plantLocCity: this.City,
-          plantLocState: parseInt(this.State),
-          plantLocCounty: parseInt(this.County),
+          plantLocState: this.State,
+          plantLocCounty: this.County,
           plantLocCountry: parseInt(this.Country),
           plantLocZipcode: parseInt(this.Zipcode),
           plantLocAddress: this.plantLocAddress,
@@ -1870,15 +1847,15 @@ mutation updatePlantFunction(
             plantLocLongitude: plantLocLongitude
           }
         });
-        const t = data.data.updatePlant.plantLoc;
+        //const t = data.data.updatePlant.plantLoc;
         // console.log('Added:', t);
         this.plantLocId = "";
         this.plantLocMap = "";
         this.City = "";
-        this.plantLocState = "";
-        this.plantLocCounty = "";
-        this.plantLocCountry = "";
-        this.plantLocZipcode = "";
+        this.State = "";
+        this.County = "";
+        this.Country = "";
+        this.Zipcode = "";
         this.plantLocAddress = "";
         this.plantLocLatitude = "";
         this.plantLocLongitude = "";
@@ -2003,7 +1980,7 @@ mutation updatePlantFunction(
           plantFuncPenetrant:this.plantFuncPenetrant,
           plantFuncRadiograph:this.plantFuncRadiograph,
           plantFuncUltrasonic:this.plantFuncUltrasonic,
-          plantFuncMagParticle:this.lantFuncMagParticle,
+          plantFuncMagParticle:this.plantFuncMagParticle,
           plantFuncCapacityPer:this.plantFuncCapacityPer,
           plantFuncProductListing:this.plantFuncProductListing,
           plantFuncFunctionalTesting:this.plantFuncFunctionalTesting
@@ -2029,22 +2006,7 @@ mutation updatePlantFunction(
            plantFuncProductListing:plantFuncProductListing,
            plantFuncFunctionalTesting:plantFuncFunctionalTesting,
           },
-          update: (store, {
-            data: {
-              updatePlantFunction
-            }
-          }) => {
-            // add to all tasks list
-            const data = store.readQuery({
-              query: PlantContactsQuery
-            });
-            data.plantcontacts.push(updatePlantFunction.plantContact);
-            store.writeQuery({
-              query: PlantContactsQuery,
-              data
-            });
-          },
-        });
+       });
         const t = data.data.updatePlantFunction.plantFunction;
         // console.log('Added:', t);
          this.plantFuncId="",
@@ -2085,7 +2047,8 @@ mutation updatePlantFunction(
             const data = store.readQuery({
               query: PlantInformationQuery
             });
-            data.plantinformations.splice( data.plantinformations.findIndex(v => v.plantInfoName === deletePlant.plant.plantInfoName), 1);
+            //console.log(data.plantinformations.findIndex(v => v.plantInfoName === deletePlant.plant.plantInfoName))
+            data.plantinformations.splice(data.plantinformations.findIndex(v => v.plantInfoName === deletePlant.plant.plantInfoName), 1);        
             store.writeQuery({
               query: PlantInformationQuery,
               data
@@ -2094,7 +2057,7 @@ mutation updatePlantFunction(
         })
         this.getPlantInformation()
       },
-      async cancel(){
+      async clear(){
         {
           this.plantInfoId = "",
           this.plantInfoName = "",
@@ -2124,7 +2087,7 @@ mutation updatePlantFunction(
           this.Country = "",
           this.State = "",
           this.County = "",
-          this.plantLocZipcode = "",
+          this.Zipcode = "",
           this.plantLocAddress ="" ,
           this.plantLocLatitude ="" ,
           this.plantLocLongitude ="",
