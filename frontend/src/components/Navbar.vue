@@ -4,7 +4,9 @@
       <v-toolbar-side-icon @click="drawer = !drawer">
         <v-icon>{{ drawer ? 'keyboard_arrow_left' : 'keyboard_arrow_right' }}</v-icon>
       </v-toolbar-side-icon>
-      
+      <v-toolbar-title class="text-uppercase primary--text--emerson">
+        <h1 class="body-1">Final Control<br><span class="font-weight-light">Contacts Directory</span></h1>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       
       <v-toolbar-items class="hidden-sm-and-down toolbar-items-height">

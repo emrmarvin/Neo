@@ -63,72 +63,95 @@
                           </v-text-field>
 
                           <v-text-field
-                            placeholder="Plant Website (Optional)"
+                            label="Plant Website (Optional)"
                             v-model="plantInfoWebsite"
                             :error-messages="plantInfoWebsiteErrors"
                             @blur="$v.plantInfoWebsite.$touch()"
                           >
                           </v-text-field>
 
-                          <v-text-field
-                            label="Square ft."
-                            v-model="plantInfoSquareFt"
-                            :error-messages="plantInfoSquareFtErrors"
-                            required
-                            @input="$v.plantInfoSquareFt.$touch()"
-                            @blur="$v.plantInfoSquareFt.$touch()"
-                          ></v-text-field>
-                          
-                          <v-text-field
-                            label="Total Headcount"
-                            v-model="plantInfoHeadCount"
-                            :error-messages="plantInfoHeadCountErrors"
-                            required
-                            @input="$v.plantInfoHeadCount.$touch()"
-                            @blur="$v.plantInfoHeadCount.$touch()"
-                          ></v-text-field>
+                          <v-layout>
+                            
+                            <v-flex class="ml-2" md4>
+                              <v-text-field
+                                label="Square ft."
+                                v-model="plantInfoSquareFt"
+                                type="number"
+                                :error-messages="plantInfoSquareFtErrors"
+                                required
+                                @input="$v.plantInfoSquareFt.$touch()"
+                                @blur="$v.plantInfoSquareFt.$touch()"
+                              ></v-text-field>
+                            </v-flex>
 
-                          <v-text-field
-                            label="Production (DK-H/S)"
-                            v-model="plantInfoProduction"
-                            :error-messages="plantInfoProductionErrors"
-                            required
-                            @input="$v.plantInfoProduction.$touch()"
-                            @blur="$v.plantInfoProduction.$touch()"
-                          ></v-text-field>
+                            <v-flex class="ml-2" md4>
+                              <v-text-field
+                                label="Total Headcount"
+                                v-model="plantInfoHeadCount"
+                                type="number"
+                                :error-messages="plantInfoHeadCountErrors"
+                                required
+                                @input="$v.plantInfoHeadCount.$touch()"
+                                @blur="$v.plantInfoHeadCount.$touch()"
+                              ></v-text-field>
+                            </v-flex>
 
-                          <v-text-field
-                            label="Engineer / Technical"
-                            v-model="plantInfoEngTech"
-                            :error-messages="plantInfoEngTechErrors"
-                            required
-                            @input="$v.plantInfoEngTech.$touch()"
-                            @blur="$v.plantInfoEngTech.$touch()"
-                          ></v-text-field>
+                            <v-flex class="ml-2" md4>
+                              <v-text-field
+                                label="Production (DK-H/S)"
+                                v-model="plantInfoProduction"
+                                type="number"
+                                :error-messages="plantInfoProductionErrors"
+                                required
+                                @input="$v.plantInfoProduction.$touch()"
+                                @blur="$v.plantInfoProduction.$touch()"
+                              ></v-text-field>
+                            </v-flex>
+                          </v-layout>
 
-                          <v-text-field
-                            label="Number of shifts"
-                            v-model="plantInfoNumShifts"
-                            :error-messages="plantInfoNumShiftsErrors"
-                            required
-                            @input="$v.plantInfoNumShifts.$touch()"
-                            @blur="$v.plantInfoNumShifts.$touch()"
-                          ></v-text-field>
+                          <v-layout>
+                            <v-flex class="ml-2" md4>
+                              <v-text-field
+                              label="Engineer / Technical"
+                              v-model="plantInfoEngTech"
+                              type="number"
+                              :error-messages="plantInfoEngTechErrors"
+                              required
+                              @input="$v.plantInfoEngTech.$touch()"
+                              @blur="$v.plantInfoEngTech.$touch()"
+                              ></v-text-field>
+                            </v-flex>
+
+                            <v-flex class="ml-2" md4>
+                              <v-text-field
+                                label="Number of shifts"
+                                type="number"
+                                v-model="plantInfoNumShifts"
+                                :error-messages="plantInfoNumShiftsErrors"
+                                required
+                                @input="$v.plantInfoNumShifts.$touch()"
+                                @blur="$v.plantInfoNumShifts.$touch()"
+                              ></v-text-field>
+                            </v-flex>
+
+                            <v-flex class="ml-2" md4>
+                              <v-text-field
+                                label="Number of Hours Operation"
+                                v-model="plantInfoHrsOperation"
+                                type="number"
+                                :error-messages="plantInfoHrsOperationErrors"
+                                required
+                                @input="$v.plantInfoHrsOperation.$touch()"
+                                @blur="$v.plantInfoHrsOperation.$touch()"
+                              ></v-text-field>
+                            </v-flex>
+                          </v-layout>
 
                           <v-text-field
                             label="Contact form (Optional)"
                             v-model="plantInfoContactForm"
                           ></v-text-field>
                           
-                          <v-text-field
-                            label="Number of Hours Operation"
-                            v-model="plantInfoHrsOperation"
-                            :error-messages="plantInfoHrsOperationErrors"
-                            required
-                            @input="$v.plantInfoHrsOperation.$touch()"
-                            @blur="$v.plantInfoHrsOperation.$touch()"
-                          ></v-text-field>
-
                           <v-text-field
                             label="Sales Phone Number"
                             v-model="plantInfoPhoneNoSales"
@@ -531,7 +554,7 @@
         :items="plantInformationList"
         :search="search"
         v-if="plantInformationList"
-        :rows-per-page-items="[5, 10, 30, 40]">
+      >
 
         <template v-slot:items="plant" style="text-align:center">
           <td v-bind:class="{location:location}">{{plant.item.plantLocationSet[0].plantLocCity}}</td>

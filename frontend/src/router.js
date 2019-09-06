@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 // import Auth from '@okta/okta-vue';
 import Home from './views/Home.vue';
+import VueGoodTablePlugin from 'vue-good-table';
+import 'vue-good-table/dist/vue-good-table.css';
 // import FlowControls from './views/FlowControls.vue';
 // import IsolationValves from './views/IsolationValves.vue';
 // import PressureManagement from './views/PressureManagement.vue';
@@ -11,6 +13,7 @@ import Home from './views/Home.vue';
 
 
 Vue.use(Router);
+Vue.use(VueGoodTablePlugin);
 // Vue.use(Auth, {
 //   issuer: 'https://dev-279632.okta.com/oauth2/default',
 //   client_id: '0oannn51zQdFqD0pG356',
