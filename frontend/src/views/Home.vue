@@ -33,9 +33,7 @@
                     <v-stepper-items>
                       <v-stepper-content step="1">
                         <v-card class="mb-12" height="auto">
-                          <v-text-field v-show="false" label="Plant ID :" placeholder="Plant Id"
-                            v-model="plantInfoId"></v-text-field>
-
+                          
                           <v-text-field
                             label="Plant Name"
                             v-model="plantInfoName"
@@ -179,13 +177,7 @@
                             @input="$v.plantInfoAddInfo.$touch()"
                             @blur="$v.plantInfoAddInfo.$touch()"
                           ></v-text-field>
-
-                          <v-text-field label="QA :" v-show="false" placeholder="Additional Info"
-                            v-model="plantContactQALeader"></v-text-field>
-                          <v-text-field label="Site Leader :" v-show="false"
-                            placeholder="Additional Info" v-model="plantContactSiteLeader">
-                          </v-text-field>
-
+                          
                         </v-card>
                         <v-btn color="primary" @click="e1=2">
                           Continue
@@ -195,8 +187,14 @@
 
                       <v-stepper-content step="2">
                         <v-card class="mb-12" height="auto">
-                          <v-text-field label="Plant Map :" placeholder="Plant Map"
-                            v-model="plantLocMap"></v-text-field>
+                          <v-text-field
+                            label="Plant Map"
+                            v-model="plantLocMap"
+                            :error-messages="plantLocMapErrors"
+                            required
+                            @input="$v.plantLocMap.$touch()"
+                            @blur="$v.plantLocMap.$touch()"
+                          ></v-text-field>
 
                           <v-text-field label="Address :" placeholder="Address"
                             v-model="plantLocAddress"></v-text-field>
@@ -1240,6 +1238,16 @@ mutation updatePlantFunction(
       plantInfoOnlineSellerSite: { url },
       plantInfoPhoneAfterOfficeHrs: { },
       plantInfoAddInfo: { required, minLength: minLength(3) },
+
+      plantLocMap: { required, minLength: minLength(3) },
+      plantLocAddress: { required, minLength: minLength(3)  },
+      City: {required},
+      Country: {required},
+      State: {required},
+      County: {required},
+      Zipcode: {required, },
+      plantLocLatitude: {required},
+      plantLocLongitude: {required},
     },
 
     data() {
@@ -1347,21 +1355,21 @@ mutation updatePlantFunction(
         siteLeader: false,
         siteQALeader: false,
         totalHeadcount: false,
-        production: false,
-        engineeringTechnical : false,
-        machining: false,
-        painting: false,
-        heatTreat: false,
-        welding: false,
-        hydro: false,
-        functionalTesting: false,
-        radiograph: false,
-        ultrasonic: false,
-        penetrant: false,
-        magneticParticle: false,
-        visual: false,
-        currentCapacity: false,
-        productListing: false,
+        production: true,
+        engineeringTechnical : true,
+        machining: true,
+        painting: true,
+        heatTreat: true,
+        welding: true,
+        hydro: true,
+        functionalTesting: true,
+        radiograph: true,
+        ultrasonic: true,
+        penetrant: true,
+        magneticParticle: true,
+        visual: true,
+        currentCapacity: true,
+        productListing: true,
 
         //table filterable headers set
         filters: {
@@ -1403,7 +1411,7 @@ mutation updatePlantFunction(
       headers () {
       let headers = []
         if (!this.location) {
-          headers.push({ text: 'Location', value: 'location', sortable: true })
+          headers.push({ text: 'Location', value: 'plantLocCity', sortable: true })
         }
         if (!this.legalEntityName) {
           headers.push({ text: 'Legal Entity Name(plant)', value: 'legalEntityName', sortable: true })
@@ -1570,6 +1578,13 @@ mutation updatePlantFunction(
         if (!this.$v.plantInfoAddInfo.$dirty) return errors
         !this.$v.plantInfoAddInfo.minLength && errors.push('Plant Name must be atleast 3 Characters and above.')
         !this.$v.plantInfoAddInfo.required && errors.push('Plant Name is required.')
+        return errors
+      },
+      plantLocMapErrors () {
+        const errors = []
+        if (!this.$v.plantInfoAddInfo.$dirty) return errors
+        !this.$v.plantInfoAddInfo.minLength && errors.push('Plant Map must be atleast 3 Characters and above.')
+        !this.$v.plantInfoAddInfo.required && errors.push('Plant Map is required.')
         return errors
       },
     },

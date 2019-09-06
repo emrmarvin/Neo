@@ -45,7 +45,13 @@ INSTALLED_APPS = [
     'Apps.Address.county',
     'Apps.Address.city',
     'Apps.Address.zip_code',
-    'Apps.Address'
+    'Apps.Address',
+    'Apps.Plants.plant_contact_type',
+    'Apps.Plants.plant_contacts',
+    'Apps.Plants.plant_functions',
+    'Apps.Plants.plant_information',
+    'Apps.Plants.plant_location',
+    'Apps.Plants',
 ]
 
 GRAPHENE = {
@@ -66,8 +72,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8081",
-    "http://127.0.0.1:8000",
+    "http://10.169.14.78:8080",
+    "http://10.169.14.78:8000",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -99,10 +105,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Project_Neo_2',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'Rfanimi14'
+        'NAME': 'contactdbstg',
+        'HOST': 'neo-prod.postgres.database.azure.com',
+        'USER': 'neomanager@neo-prod',
+        'PASSWORD': '@NeoManager'
     }
 }
 

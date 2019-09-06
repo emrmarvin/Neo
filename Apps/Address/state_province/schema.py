@@ -58,14 +58,14 @@ class DeleteStateProvince(graphene.Mutation):
 
 class Query(graphene.ObjectType): 
   stateprovinces = graphene.List(StateProvinceType)
-  stateprovince = graphene.Field(StateProvinceType, stateId=graphene.Int())
+  stateprovince = graphene.List(StateProvinceType, stateCountry=graphene.Int())
 
 
   def resolve_stateprovince(self,info,**kwargs):
-    stateId = kwargs.get('stateId')
+    stateCountry = kwargs.get('stateCountry')
 
-    if stateId is not None:
-      return StateProvince.objects.get(pk=stateId)
+    if stateCountry is not None:
+      return StateProvince.objects.filter(state_country_id=stateCountry)
     else:
       return None
 

@@ -12,14 +12,14 @@ class Plant_Location(models.Model):
   plant_loc_id = models.BigAutoField(primary_key=True)
   plant_info_id = models.ForeignKey(Plant_Information,models.deletion.CASCADE,null=True)
   plant_loc_country = models.ForeignKey(Country,models.deletion.CASCADE,related_name="plant_loc_country",null=True)
-  plant_loc_state = models.ForeignKey(StateProvince,models.deletion.CASCADE,related_name="plant_loc_state",null=True)
-  plant_loc_county = models.ForeignKey(County,models.deletion.CASCADE,related_name="plant_loc_county",null=True)
-  plant_loc_city = models.ForeignKey(City,models.deletion.CASCADE,related_name="plant_loc_city",null=True)
-  plant_loc_zipcode = models.ForeignKey(ZipCode,models.deletion.CASCADE,related_name="plant_loc_zipcode",null=True)
+  plant_loc_state = models.CharField(max_length=150,null=True)
+  plant_loc_county = models.CharField(max_length=150,null=True)
+  plant_loc_city = models.CharField(max_length=150,null=True)
+  plant_loc_zipcode = models.IntegerField(null=True)
   plant_loc_latitude = models.FloatField()
   plant_loc_longitude = models.FloatField()
   plant_loc_address = models.CharField(max_length=150)
-  plant_loc_map = models.CharField(max_length=150) #temporary data type to be confirm must be Byte
+  plant_loc_map = models.CharField(max_length=150) #temporary data type to be confirm, must be Byte
   plant_loc_status = models.BooleanField()
 
   class Meta:
