@@ -196,30 +196,84 @@
                             @blur="$v.plantLocMap.$touch()"
                           ></v-text-field>
 
-                          <v-text-field label="Address :" placeholder="Address"
-                            v-model="plantLocAddress"></v-text-field>
+                          <v-text-field
+                            label="Address"
+                            v-model="plantLocAddress"
+                            :error-messages="plantLocAddressErrors"
+                            required
+                            @input="$v.plantLocAddress.$touch()"
+                            @blur="$v.plantLocAddress.$touch()"
+                          ></v-text-field>
 
-                          <v-text-field label="City :" placeholder="City" v-model="City">
-                          </v-text-field>
+                          <v-text-field
+                            label="City"
+                            v-model="City"
+                            :error-messages="CityErrors"
+                            required
+                            @input="$v.City.$touch()"
+                            @blur="$v.City.$touch()"
+                          ></v-text-field>
 
-                          <v-autocomplete label="Country :" v-model="Country"
-                            :key="countryId" :items="countries" item-text="countryName"
-                            item-value="countryId"></v-autocomplete>
+                          <v-autocomplete
+                            label="Country"
+                            v-model="Country"
+                            :key="countryId"
+                            :items="countries"
+                            item-text="countryName"
+                            item-value="countryId"
+                            :error-messages="CountryErrors"
+                            required
+                            @input="$v.City.$touch()"
+                            @blur="$v.City.$touch()"
+                          ></v-autocomplete>
 
-                          <v-text-field label="State Province :" placeholder="State Province"  v-model="State">
-                                                    </v-text-field>
+                          <v-text-field
+                            label="State Province"
+                            v-model="State"
+                            :error-messages="StateErrors"
+                            required
+                            @input="$v.State.$touch()"
+                            @blur="$v.State.$touch()"
+                          ></v-text-field>
 
-                          <v-text-field label="County :" placeholder="County"  v-model="County">
-                          </v-text-field>
+                          <v-text-field
+                            label="County"
+                            v-model="County"
+                            :error-messages="CountyErrors"
+                            required
+                            @input="$v.County.$touch()"
+                            @blur="$v.County.$touch()"
+                          ></v-text-field>
 
-                          <v-text-field label="Zipcode :" placeholder="Zipcode" v-model="Zipcode">
-                          </v-text-field>
+                          <v-text-field
+                            label="Zipcode"
+                            v-model="Zipcode"
+                            :error-messages="ZipcodeErrors"
+                            required
+                            @input="$v.Zipcode.$touch()"
+                            @blur="$v.Zipcode.$touch()"
+                          ></v-text-field>
 
-                          <v-text-field label="Latitude :" placeholder="Latitude"
-                            v-model="plantLocLatitude"></v-text-field>
-                          <v-text-field label="Longitude :" placeholder="Longitude"
-                            v-model="plantLocLongitude"></v-text-field>
+                          <v-text-field
+                            label="Latitude"
+                            v-model="plantLocLatitude"
+                            :error-messages="plantLocLatitudeErrors"
+                            required
+                            @input="$v.plantLocLatitude.$touch()"
+                            @blur="$v.plantLocLatitude.$touch()"
+                          ></v-text-field>
+
+                          <v-text-field
+                            label="Longitude"
+                            v-model="plantLocLongitude"
+                            :error-messages="plantLocLongitudeErrors"
+                            required
+                            @input="$v.plantLocLongitude.$touch()"
+                            @blur="$v.plantLocLongitude.$touch()"
+                          ></v-text-field>
+
                         </v-card>
+
                         <v-btn color="primary" @click="e1=3">
                           Continue
                         </v-btn>
@@ -229,34 +283,45 @@
 
                       <v-stepper-content step="3">
                         <v-stepper-header>
-                          <v-stepper-step step="3.1"> Site Leader
-                          </v-stepper-step>
+                          <v-stepper-step step="3.1">Site Leader (Optional)</v-stepper-step>
                         </v-stepper-header>
 
                         <v-card class="mb-12" height="auto">
 
-                          <v-text-field label="First Name :" placeholder="First Name"
-                            v-model="plantSLFname"></v-text-field>
+                          <v-text-field
+                            label="First Name"
+                            v-model="plantSLFname"
+                          ></v-text-field>
 
-                          <v-text-field label="Last Name :" placeholder="Last Name"
-                            v-model="plantSLLname"></v-text-field>
+                          <v-text-field
+                            label="Last Name"
+                            v-model="plantSLLname"
+                          ></v-text-field>
 
-                          <v-text-field label="Middle Initial :" placeholder="Middle Initial"
-                            v-model="plantSLMname"></v-text-field>
+                          <v-text-field
+                            label="Middle Initial"
+                            v-model="plantSLMname"
+                          ></v-text-field>
 
                           <v-stepper-header>
                             <v-stepper-step step="3.2">QA Leader
                             </v-stepper-step>
                           </v-stepper-header>
 
-                          <v-text-field label="First Name :" placeholder="First Name"
-                            v-model="plantQAFname"></v-text-field>
+                          <v-text-field
+                            label="First Name"
+                            v-model="plantQAFname"
+                          ></v-text-field>
 
-                          <v-text-field label="Last Name :" placeholder="Last Name"
-                            v-model="plantQALname"></v-text-field>
+                          <v-text-field
+                            label="Last Name"
+                            v-model="plantQALname"
+                          ></v-text-field>
 
-                          <v-text-field label="Middle Initial :" placeholder="Middle Initial"
-                            v-model="plantQAMname"></v-text-field>
+                          <v-text-field
+                            label="Middle Initial"  
+                            v-model="plantQAMname"
+                          ></v-text-field>
 
                         </v-card>
                         <v-btn color="primary" @click="e1=4">
@@ -285,11 +350,24 @@
                           </v-checkbox>
                           <v-checkbox v-model="plantFuncFunctionalTesting"
                             label="Functional Testing"></v-checkbox>
-                          <v-text-field v-model="plantFuncCapacityPer"
-                            placeholder="Current capacity (% Loaded of expected Capacity) : ">
-                          </v-text-field>
-                          <v-text-field v-model="plantFuncProductListing"
-                            placeholder="Product listing (size, pressure, etc..)"></v-text-field>
+                          
+                          <v-text-field
+                            v-model="plantFuncCapacityPer"
+                            placeholder="Current capacity (% Loaded of expected Capacity)"
+                            :error-messages="plantFuncCapacityPerErrors"
+                            required
+                            @input="$v.plantFuncCapacityPer.$touch()"
+                            @blur="$v.plantFuncCapacityPer.$touch()"
+                          ></v-text-field>
+
+                          <v-text-field
+                            v-model="plantFuncProductListing"
+                            placeholder="Product listing (size, pressure, etc..)"
+                            :error-messages="plantFuncProductListingErrors"
+                            required
+                            @input="$v.plantFuncProductListing.$touch()"
+                            @blur="$v.plantFuncProductListing.$touch()"
+                          ></v-text-field>
 
 
                         </v-card>
@@ -511,7 +589,7 @@
   } from 'assert';
 
   import { validationMixin } from 'vuelidate'
-  import { required, minLength, email, url, numeric, } from 'vuelidate/lib/validators'
+  import { required, minLength, email, url, numeric, decimal} from 'vuelidate/lib/validators'
 
   const CountriesQuery = gql `
   query{
@@ -1220,6 +1298,7 @@ mutation updatePlantFunction(
     mixins: [validationMixin],
     
     validations: {
+      //Plant Information
       plantInfoName: { required, minLength: minLength(3) },
       plantInfoPhoneNo: { required, numeric },
       plantInfoEmailAddress: { required, email },
@@ -1238,16 +1317,30 @@ mutation updatePlantFunction(
       plantInfoOnlineSellerSite: { url },
       plantInfoPhoneAfterOfficeHrs: { },
       plantInfoAddInfo: { required, minLength: minLength(3) },
-
+      
+      //Plant Address
       plantLocMap: { required, minLength: minLength(3) },
       plantLocAddress: { required, minLength: minLength(3)  },
-      City: {required},
+      City: {required, minLength: minLength(3)},
       Country: {required},
-      State: {required},
-      County: {required},
-      Zipcode: {required, },
-      plantLocLatitude: {required},
-      plantLocLongitude: {required},
+      State: {required, minLength: minLength(3)},
+      County: {required, minLength: minLength(3)},
+      Zipcode: {required, minLength: minLength(4)},
+      plantLocLatitude: {required, decimal},
+      plantLocLongitude: {required, decimal},
+
+      //site QA Leader
+      // plantSLFname: { minLength: minLength(3) },
+      // plantSLLname: { minLength: minLength(3) },
+      // plantSLMname: { },
+      
+      // plantQAFname: { minLength: minLength(3) },
+      // plantQALname: { minLength: minLength(3) },
+      // plantQAMname: { },
+
+      //Plant Capabilities
+      plantFuncCapacityPer: {required, numeric},
+      plantFuncProductListing: {required, minLength: minLength(3)},
     },
 
     data() {
@@ -1582,9 +1675,78 @@ mutation updatePlantFunction(
       },
       plantLocMapErrors () {
         const errors = []
-        if (!this.$v.plantInfoAddInfo.$dirty) return errors
-        !this.$v.plantInfoAddInfo.minLength && errors.push('Plant Map must be atleast 3 Characters and above.')
-        !this.$v.plantInfoAddInfo.required && errors.push('Plant Map is required.')
+        if (!this.$v.plantLocMap.$dirty) return errors
+        !this.$v.plantLocMap.minLength && errors.push('Plant Map must be atleast 3 Characters and above.')
+        !this.$v.plantLocMap.required && errors.push('Plant Map is required.')
+        return errors
+      },
+      plantLocAddressErrors () {
+        const errors = []
+        if (!this.$v.plantLocAddress.$dirty) return errors
+        !this.$v.plantLocAddress.minLength && errors.push('Plant Address must be atleast 3 Characters and above.')
+        !this.$v.plantLocAddress.required && errors.push('Plant Address is required.')
+        return errors
+      },
+      CityErrors () {
+        const errors = []
+        if (!this.$v.City.$dirty) return errors
+        !this.$v.City.minLength && errors.push('Plant City Adress must be atleast 3 Characters and above.')
+        !this.$v.City.required && errors.push('Plant City Adress is required.')
+        return errors
+      },
+      CountryErrors () {
+        const errors = []
+        if (!this.$v.Country.$dirty) return errors
+        !this.$v.Country.required && errors.push('Please Select a Country')
+        return errors
+      },
+      StateErrors () {
+        const errors = []
+        if (!this.$v.State.$dirty) return errors
+        !this.$v.State.minLength && errors.push('Plant State Adress must be atleast 3 Characters and above.')
+        !this.$v.State.required && errors.push('Plant State Adress is required.')
+        return errors
+      },
+      CountyErrors () {
+        const errors = []
+        if (!this.$v.County.$dirty) return errors
+        !this.$v.County.minLength && errors.push('Plant County Adress must be atleast 3 Characters and above.')
+        !this.$v.County.required && errors.push('Plant County Adress is required.')
+        return errors
+      },
+      ZipcodeErrors () {
+        const errors = []
+        if (!this.$v.Zipcode.$dirty) return errors
+        !this.$v.Zipcode.minLength && errors.push('Plant County Adress must be atleast 4 Characters and above.')
+        !this.$v.Zipcode.required && errors.push('Plant County Adress is required.')
+        return errors
+      },
+      plantLocLatitudeErrors () {
+        const errors = []
+        if (!this.$v.plantLocLatitude.$dirty) return errors
+        !this.$v.plantLocLatitude.decimal && errors.push('Must be a decimal. Ex. 1.52 or 1.00')
+        !this.$v.plantLocLatitude.required && errors.push('Plant Latitude Adress is required.')
+        return errors
+      },
+      plantLocLongitudeErrors () {
+        const errors = []
+        if (!this.$v.plantLocLongitude.$dirty) return errors
+        !this.$v.plantLocLongitude.decimal && errors.push('Must be a decimal. Ex. 1.52 or 1.00')
+        !this.$v.plantLocLongitude.required && errors.push('Plant Longitude Adress is required.')
+        return errors
+      },
+      plantFuncCapacityPerErrors () {
+        const errors = []
+        if (!this.$v.plantFuncCapacityPer.$dirty) return errors
+        !this.$v.plantFuncCapacityPer.numeric && errors.push('Must be a number. ex. 83')
+        !this.$v.plantFuncCapacityPer.required && errors.push('Plant Capacity is required.')
+        return errors
+      },
+      plantFuncProductListingErrors () {
+        const errors = []
+        if (!this.$v.plantFuncProductListing.$dirty) return errors
+        !this.$v.plantFuncProductListing.minLength && errors.push('Atleast 3 Characters and above.')
+        !this.$v.plantFuncProductListing.required && errors.push('Plant Product Listing is required.')
         return errors
       },
     },
