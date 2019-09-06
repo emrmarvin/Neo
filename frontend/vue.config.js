@@ -7,7 +7,7 @@ module.exports = {
   publicPath: '/',
 
  devServer: {
-    publicPath: "http://localhost:8081/",
+    publicPath: "http://localhost:8080/",
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
@@ -49,7 +49,7 @@ module.exports = {
         }) :
         new BundleTracker({
           filename: 'webpack-stats.json',
-          publicPath: 'http://localhost:8081/'
+          publicPath: 'http://localhost:8080/'
         })
       )
     ]

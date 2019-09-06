@@ -206,7 +206,7 @@ export default {
         update: (store, { data: { createCountry } }) => {
           // add to all tasks list
           const data = store.readQuery({ query: CountryQuery });
-          data.country.push(createCountry.country);
+          data.countries.push(createCountry.country);
           store.writeQuery({ query: CountryQuery, data });
         },
         optimisticResponse: {

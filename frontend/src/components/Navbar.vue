@@ -1,21 +1,18 @@
 <template>
   <nav>
-    <v-app-bar flat app class="toolbar-background">
-
-      <v-app-bar-nav-icon @click="drawer = !drawer" class="primary--text ml-2">
+    <v-toolbar flat app >
+      <v-toolbar-side-icon @click="drawer = !drawer">
         <v-icon>{{ drawer ? 'keyboard_arrow_left' : 'keyboard_arrow_right' }}</v-icon>
-      </v-app-bar-nav-icon>
-
-      <v-toolbar-title class="text-uppercase primary--text headline">
-        <span class="font-weight-bold">Final Control</span>
-        <span class="font-weight-light"> Contacts Directory</span>
+      </v-toolbar-side-icon>
+      <v-toolbar-title class="text-uppercase primary--text--emerson">
+        <h1>Final Control <span class="font-weight-light">Contacts Directory</span></h1>
       </v-toolbar-title>
-
       <v-spacer></v-spacer>
-  </v-app-bar>
 
-   <v-navigation-drawer app v-model="drawer" class="primewhite">
-     <v-layout column align-center>
+    </v-toolbar>
+
+    <v-navigation-drawer app v-model="drawer">
+      <v-layout column align-center>
         <v-flex class="mt-3 mb-4">
           <v-avatar size="100%" class="emerson-logo">
             <img class="text-lg-center" src="/emerson.png">
@@ -29,51 +26,47 @@
           <p class="subheading mt-1">{{ userName }}</p>
         </v-flex>
       </v-layout>
-
-        <v-list tile flat>
-          <v-list-item-group class="primary--text">
-            <v-list-item
-              v-for="(link, i) in links"
-              :key="i"
-              router :to="link.route"
-            >
-              <v-list-item-icon>
-                <v-icon v-text="link.icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-text="link.text"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            
-          </v-list-item-group>
-        </v-list>
+      <v-list>
+        <v-list-tile v-for="link in links" :key="link.text" router :to="link.route">
+          <v-list-tile-action>
+            <v-icon class="primary--text--emerson">{{ link.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="primary--text--emerson">{{ link.text }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
     </v-navigation-drawer>
-
   </nav>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        userName: 'Simon Sigur',
-        drawer: true,
-        links: [
-          { icon: 'home', text: 'Home', route: '/' },
-          { icon: 'settings', text: 'Settings', route: '/' },
-          { icon: 'help', text: 'Help', route: '/' },
-          { icon: 'feedback', text: 'Feedback', route: '/' },
-        ],
-        snackbar: false
-      }
-    },
+
+export default {
+  data() {
+    return {
+      userName: 'Simon Sigur',
+      drawer: true,
+      links: [
+        { icon: 'home', text: 'Home', route: '/' },
+        { icon: 'settings', text: 'Settings', route: '/' },
+        { icon: 'help', text: 'Help', route: '/' },
+        { icon: 'feedback', text: 'Feedback', route: '/' },
+      ],
+      snackbar: false
+    }
   }
+}
 </script>
 
 <style>
   nav {
     background-image: linear-gradient(90deg, #F5F7FA, #C3CFE2);
   }
+  .primary--text--emerson {
+    color: #004b8d !important;
+  }
+  .theme--light.v-navigation-drawer,
   .theme--light.v-sheet.toolbar-background {
     background-image: linear-gradient(90deg, #F5F7FA, #C3CFE2);
   }
