@@ -10,11 +10,12 @@
       <v-spacer></v-spacer>
       
       <v-toolbar-items class="hidden-sm-and-down toolbar-items-height">
+        <v-divider inset vertical></v-divider>
         <v-btn small flat class="body-1 font-weight-bold"><router-link class="primary--text--emerson" to="/flow">Flow Controls</router-link></v-btn><v-divider inset vertical></v-divider>
         <v-btn small flat class="body-1 font-weight-bold"><router-link class="primary--text--emerson" to="/isv">Isolation Valves</router-link></v-btn><v-divider inset vertical></v-divider>
         <v-btn small flat class="body-1 font-weight-bold"><router-link class="primary--text--emerson" to="/pm">Pressure Management</router-link></v-btn><v-divider inset vertical></v-divider>
         <v-btn small flat class="body-1 font-weight-bold"><router-link class="primary--text--emerson" to="/act">Actuation Technologies</router-link></v-btn><v-divider inset vertical></v-divider>
-        <v-btn small flat class="body-1 font-weight-bold"><router-link class="primary--text--emerson" to="/lcs">Lifecycle Services</router-link></v-btn><v-divider inset vertical></v-divider>
+        <v-btn small flat class="body-1 font-weight-bold"><router-link class="primary--text--emerson" to="/lcs">Lifecycle Services</router-link></v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
