@@ -4,7 +4,7 @@
       <v-card-title>
         <div class="text-xs-center">
           <template>
-              <p class="headline primary--text--emerson ma-2">Site Safety and Quality Information</p>
+              <p class="headline primary--text--emerson ma-2">Pressure Management</p>
           </template>
 
           <v-dialog v-model="dialog" width="1000">

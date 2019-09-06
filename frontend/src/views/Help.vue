@@ -1,17 +1,11 @@
 <template>
-  <div class="projects">
-    <h1 class="subheading grey--text">Help</h1>
-    <img src="/emerson.png">
+  <div>
+    <h1>Help</h1>
   </div>
 </template>
 
 <script>
+  export default {
 
-export default {
-  data() {
-    return {
-
-    }
   }
-}
 </script>
