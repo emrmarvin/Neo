@@ -5,7 +5,7 @@
         <v-icon>{{ drawer ? 'keyboard_arrow_left' : 'keyboard_arrow_right' }}</v-icon>
       </v-toolbar-side-icon>
       <v-toolbar-title class="text-uppercase primary--text--emerson">
-        <h1 class="body-1">Final Control<br><span class="font-weight-light">Contacts Directory</span></h1>
+        <h1 class="body-2 font-weight-bold">Final Control<br><span class="font-weight-regular">Contacts Directory</span></h1>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       
