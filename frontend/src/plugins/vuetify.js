@@ -18,5 +18,5 @@ export default new Vuetify({
         primewhite: '#F5F7FA',
       },
     },
-  }
+  },
 });

@@ -26,7 +26,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-    
+
   </div>
 </template>
 
@@ -39,10 +39,10 @@ export default {
         { name: 'Hezekiah Valdez', role: 'Front End Web Developer', avatar: '/avatar-2.png' },
         { name: 'Chun Li', role: 'Web developer', avatar: '/avatar-3.png' },
         { name: 'Gouken', role: 'Social media maverick', avatar: '/avatar-4.png' },
-        { name: 'Yoshi', role: 'Sales guru', avatar: '/avatar-5.png'}
+        { name: 'Yoshi', role: 'Sales guru', avatar: '/avatar-5.png' },
 
-      ]
-    }
-  }
-}
+      ],
+    };
+  },
+};
 </script>

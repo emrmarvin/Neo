@@ -53,10 +53,10 @@ export default {
         { icon: 'help', text: 'Help', route: '/' },
         { icon: 'feedback', text: 'Feedback', route: '/' },
       ],
-      snackbar: false
-    }
-  }
-}
+      snackbar: false,
+    };
+  },
+};
 </script>
 
 <style>
