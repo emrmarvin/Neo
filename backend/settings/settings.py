@@ -45,7 +45,13 @@ INSTALLED_APPS = [
     'Apps.Address.county',
     'Apps.Address.city',
     'Apps.Address.zip_code',
-    'Apps.Address'
+    'Apps.Address',
+    'Apps.Plants.plant_contact_type',
+    'Apps.Plants.plant_contacts',
+    'Apps.Plants.plant_functions',
+    'Apps.Plants.plant_information',
+    'Apps.Plants.plant_location',
+    'Apps.Plants',
 ]
 
 GRAPHENE = {
@@ -66,8 +72,13 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
+<<<<<<< HEAD
     "http://localhost:8080",
     "http://127.0.0.1:8000",
+=======
+    "http://locahost:8080",
+    "http://localhost:8000",
+>>>>>>> davao
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
