@@ -72,13 +72,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-<<<<<<< HEAD
     "http://localhost:8080",
-    "http://127.0.0.1:8000",
-=======
-    "http://locahost:8080",
     "http://localhost:8000",
->>>>>>> davao
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
