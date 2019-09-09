@@ -8,7 +8,7 @@
         <h1 class="body-2 font-weight-bold">Final Control<br><span class="font-weight-regular">Contacts Directory</span></h1>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      
+
       <v-toolbar-items class="hidden-sm-and-down toolbar-items-height">
         <v-divider inset vertical></v-divider>
         <v-btn small flat class="body-1 font-weight-bold"><router-link class="primary--text--emerson" to="/flow">Flow Controls</router-link></v-btn><v-divider inset vertical></v-divider>

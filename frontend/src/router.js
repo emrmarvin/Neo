@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 // import Auth from '@okta/okta-vue';
-import Home from './views/Home.vue';
 import VueGoodTablePlugin from 'vue-good-table';
+import Home from './views/Home.vue';
 import 'vue-good-table/dist/vue-good-table.css';
 // import FlowControls from './views/FlowControls.vue';
 // import IsolationValves from './views/IsolationValves.vue';

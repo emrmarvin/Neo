@@ -1,16 +1,19 @@
 .DS_Store
-/venv
-/backend/__pycache__
-/backend/settings/__pycache__
+# Basics
+*.py[cod]
+__pycache__
 
 # local env files
 .env.local
 .env.*.local
 
 # Log files
+logs
+*.log
+pip-log.txt
+npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-yarn.lock
 
 # Editor directories and files
 .idea
@@ -20,3 +23,22 @@ yarn.lock
 *.njsproj
 *.sln
 *.sw?
+
+#webpack
+webpack-stats.json
+dist/
+
+#npm 
+node_modules
+
+# User-uploaded media
+media/
+
+# Collected staticfiles
+*/staticfiles/
+
+.cache/
+**/certs
+
+#venv
+venv

@@ -1,7 +1,6 @@
 const BundleTracker = require('webpack-bundle-tracker');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 
-
 module.exports = {
   outputDir: (process.env.NODE_ENV === 'production' ? 'dist' : 'static'),
   publicPath: '/',
