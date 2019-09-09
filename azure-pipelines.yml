@@ -23,7 +23,7 @@ steps:
 - task: ShellScript@2
   displayName: 'Run shell script'
   inputs:
-    scriptPath: run.sh
+    scriptPath: ./backend/run.sh
     #args: '' # Optional
     #disableAutoCwd: false # Optional
     #cwd: '' # Optional
@@ -41,7 +41,7 @@ steps:
       manage_py = next(iglob(path.join('**', 'manage.py'), recursive=True), None)
       if not manage_py:
           raise SystemExit('Could not find a Django project')
-      project_location = path.dirname(path.abspath(manage_py))
+      project_location = path.dirname(path.abspath(./backend/manage_py))
       print('Found Django project in', project_location)
       print('##vso[task.setvariable variable=projectRoot]{}'.format(project_location))
   
