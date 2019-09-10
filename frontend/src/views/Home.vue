@@ -30,6 +30,8 @@
                       <v-divider></v-divider>
                       <v-stepper-step :complete="e1 > 4" step="4" editable> Plant Functions
                       </v-stepper-step>
+                      <v-stepper-step :complete="e1 > 5" step="5" editable> Brands / Product Category
+                      </v-stepper-step>
                       <v-divider></v-divider>
                     </v-stepper-header>
                     <v-stepper-items>
@@ -197,6 +199,40 @@
 
 
                         </v-card>
+                        <v-btn color="primary" @click="e1=5">
+                          Continue
+                        </v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
+                        <v-btn text color="warning" @click="e1=2">Back</v-btn>
+                      </v-stepper-content>
+                      
+                       <v-stepper-content step="5">
+
+                        <v-card class="mb-12" height="auto">
+                          <v-autocomplete
+                          v-model="businessUnits"
+                          :items="BusinessUnits"
+                          item-text="busUnitName"
+                          item-value="busUnitId"
+                          :menu-props="{ maxHeight: '400' }"
+                          label="Select"
+                          multiple
+                          hint="Product Categories"
+                          persistent-hint
+                          @input="getbrands"
+                        ></v-autocomplete>
+                        <v-autocomplete
+                          v-model="brands"
+                          :items="BrandAll"
+                          item-text="brandsName"
+                          item-value="brandsId"
+                          :menu-props="{ maxHeight: '400' }"
+                          label="Select"
+                          multiple
+                          hint="Brands"
+                          persistent-hint
+                        ></v-autocomplete>
+                        </v-card>
                         <v-btn color="primary" v-show="IsCreate" @click="save">
                           Save
                         </v-btn>
@@ -223,52 +259,52 @@
       <v-data-table :headers="headers" v-if="plantInformationList" :items="plantInformationList"
         :search="search" :rows-per-page-items="[20, 10, 30, 40]">
         <template v-slot:items="plant" style="text-align:center">
-          <td>{{plant.item.plantLocationSet[0].plantLocCity}}</td>
-          <td style="text-alignment:center">{{plant.item.plantInfoName}}</td>
-          <td>{{plant.item.plantLocationSet[0].plantLocAddress 
-            +" "+ plant.item.plantLocationSet[0].plantLocCity
-            +", "+  plant.item.plantLocationSet[0].plantLocCounty 
-            +", "+ plant.item.plantLocationSet[0].plantLocState 
-            +", "+ plant.item.plantLocationSet[0].plantLocCountry.countryCode  
-            + ", " + plant.item.plantLocationSet[0].plantLocZipcode}}</td>
+          <td>{{plant.item.plantInfoId.plantLocationSet[0].plantLocCity}}</td>
+          <td style="text-alignment:center">{{plant.item.plantInfoId.plantInfoName}}</td>
+          <td>{{plant.item.plantInfoId.plantLocationSet[0].plantLocAddress 
+            +" "+ plant.item.plantInfoId.plantLocationSet[0].plantLocCity
+            +", "+  plant.item.plantInfoId.plantLocationSet[0].plantLocCounty 
+            +", "+ plant.item.plantInfoId.plantLocationSet[0].plantLocState 
+            +", "+ plant.item.plantInfoId.plantLocationSet[0].plantLocCountry.countryCode  
+            + ", " + plant.item.plantInfoId.plantLocationSet[0].plantLocZipcode}}</td>
           <td>
-            {{plant.item.plantInfoSiteLeader.plantContLname + ", " + plant.item.plantInfoSiteLeader.plantContFname}}
+            {{plant.item.plantInfoId.plantInfoSiteLeader.plantContLname + ", " + plant.item.plantInfoId.plantInfoSiteLeader.plantContFname}}
           </td>
           <td>
-            {{plant.item.plantInfoQa.plantContLname + ", " + plant.item.plantInfoQa.plantContFname}}
+            {{plant.item.plantInfoId.plantInfoQa.plantContLname + ", " + plant.item.plantInfoId.plantInfoQa.plantContFname}}
           </td>
-          <td style="text-align:center">{{plant.item.plantInfoHeadCount}}</td>
-          <td style="text-align:center">{{plant.item.plantInfoProduction}}</td>
-          <td style="text-align:center">{{plant.item.plantInfoEngTech}}</td>
+          <td style="text-align:center">{{plant.item.plantInfoId.plantInfoHeadCount}}</td>
+          <td style="text-align:center">{{plant.item.plantInfoId.plantInfoProduction}}</td>
+          <td style="text-align:center">{{plant.item.plantInfoId.plantInfoEngTech}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncMachining ? "Yes" : "No"}}</td>
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncMachining ? "Yes" : "No"}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncPainting ? "Yes" : "No"}}</td>
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncPainting ? "Yes" : "No"}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncHeatTreat ? "Yes" : "No"}}</td>
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncHeatTreat ? "Yes" : "No"}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncWelding ? "Yes" : "No"}}</td>
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncWelding ? "Yes" : "No"}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncHydro ? "Yes" : "No"}}</td>
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncHydro ? "Yes" : "No"}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncFunctionalTesting ? "Yes" : "No"}}</td>
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncFunctionalTesting ? "Yes" : "No"}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncRadiograph ? "Yes" : "No"}}</td>
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncRadiograph ? "Yes" : "No"}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncUltrasonic ? "Yes" : "No"}}</td>
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncUltrasonic ? "Yes" : "No"}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncPenetrant ? "Yes" : "No"}}</td>
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncPenetrant ? "Yes" : "No"}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncMagParticle ? "Yes" : "No"}}</td>
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncMagParticle ? "Yes" : "No"}}</td>
           <td style="text-align:center">
-            {{plant.item.plantFunctionsSet[0].plantFuncVisual ? "Yes" : "No"}}</td>
-          <td style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncCapacityPer}}
+            {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncVisual ? "Yes" : "No"}}</td>
+          <td style="text-align:center">{{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncCapacityPer}}
           </td>
-          <td style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncProductListing}}
+          <td style="text-align:center">{{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncProductListing}}
           </td>
           <td>
             <v-icon title="Edit" color="warning" @click="getPlantInfo(plant)">edit</v-icon>
-            <v-icon title="Delete" color="error" @click="DeletePlant(plant.item.plantInfoId)">delete
+            <v-icon title="Delete" color="error" @click="DeletePlant(plant.item.plantInfoId.plantInfoId)">delete
             </v-icon>
           </td>
 
@@ -288,14 +324,17 @@
   import {
     constants,
     truncate,
-    truncateSync
+    truncateSync,
+    unwatchFile
   } from "fs";
   import {
-    any, compose
+    any, compose, retry
   } from 'async';
   import {
     fail
   } from 'assert';
+import { connect } from 'tls';
+import { log } from 'util';
 
   const CountriesQuery = gql `
   query{
@@ -305,59 +344,41 @@
     }
   }
 `;
-const StatesQuery = gql `
-    query stateprovinces{
-      stateprovinces{
-        stateId
-        stateName
-        stateCode
-      }
-    }
-`;
 
-  const StateQuery = gql `
-    query stateprovince($stateCountry:Int){
-      stateprovince(stateCountry:$stateCountry){
-        stateId
-        stateName
-      }
-    }
-`;
-
-  const CountiesQuery = gql `
-  query counties{
-      counties{
-        countyId
-        countyName
-      }
-    }
-`;
-
-  const CountyQuery = gql `
-  query county($countyState:Int){
-      county(countyState:$countyState){
-        countyId
-        countyName
-      }
-    }
-`;
-
-
-  const CitiesQuery = gql `
-  query{
-    cities{
-      cityId
-      cityName
-      cityCounty{
-          countyId
+  const BrandsQuery = gql `
+    query getbrandcategory($prodCategoryIds:[Int]){
+      BrandProdCategory(prodCategoryIds:$prodCategoryIds){
+        brandId{
+         brandsId
+         brandsName
         }
+      }
     }
-  }
 `;
+
+const ProductCategoriesQuery = gql `
+query{
+ 	BusinessUnits{
+    busUnitId
+    busUnitName
+  }
+}
+`
+
+const BrandAllQuery = gql `
+query{
+  BrandAll{
+    brandsId
+  	brandsName
+  }
+}
+`
+
 
   const PlantInformationQuery = gql `
   query plantinformations{
-    plantinformations{
+     plantfunctions{
+     plantInfoId{
         plantInfoId
         plantInfoName
         plantInfoStatus
@@ -426,9 +447,20 @@ const StatesQuery = gql `
         plantFuncProductListing
         plantFuncFunctionalTesting      
       }
-      
+      plantBrandsSet{
+        brandId{
+          brandsId
+          brandsName
+          brandProdCatSet{
+            prodCategoryId{
+              busUnitId
+              busUnitName
+            }
+          }
+        }
+      }
     }
-
+  }
   }
 
 `;
@@ -529,11 +561,13 @@ query plantcontacts{
           plantLocLongitude
         }
         plantInfoSiteLeader{
+          plantContId
           plantContFname
           plantContLname
           plantContMname
         }
         plantInfoQa{
+          plantContId
           plantContFname
           plantContLname
           plantContMname
@@ -553,7 +587,18 @@ query plantcontacts{
         plantFuncCapacityPer
         plantFuncProductListing
         plantFuncFunctionalTesting
-      
+      }
+      plantBrandsSet{
+        brandId{
+          brandsId
+          brandsName
+          brandProdCatSet{
+            prodCategoryId{
+              busUnitId
+              busUnitName
+            }
+          }
+        }
       }
       }
     }
@@ -630,9 +675,10 @@ query plantcontacts{
     }
   
   `
+  
 const CreatePlantFunction = gql`
-mutation createPlantFunction(
-        $plantInfoId:Int,
+ mutation createPlantFunction(
+  			$plantInfoId:Int,
         $plantFuncHydro:Boolean,
         $plantFuncVisual:Boolean,
         $plantFuncWelding:Boolean,
@@ -645,9 +691,8 @@ mutation createPlantFunction(
         $plantFuncMagParticle:Boolean,
         $plantFuncCapacityPer:Int,
         $plantFuncProductListing:String,
-        $plantFuncFunctionalTesting:Boolean,){
-  createPlantFunction( 
-    		plantInfoId:$plantInfoId,
+        $plantFuncFunctionalTesting:Boolean){
+  createPlantFunction(plantInfoId:$plantInfoId,
         plantFuncHydro:$plantFuncHydro,
         plantFuncVisual:$plantFuncVisual,
         plantFuncWelding:$plantFuncWelding,
@@ -660,9 +705,63 @@ mutation createPlantFunction(
         plantFuncMagParticle:$plantFuncMagParticle,
         plantFuncCapacityPer:$plantFuncCapacityPer,
         plantFuncProductListing:$plantFuncProductListing,
-        plantFuncFunctionalTesting:$plantFuncFunctionalTesting,){
-    plantFunction{
-        plantFuncId
+        plantFuncFunctionalTesting:$plantFuncFunctionalTesting){
+        plantFunction{
+        plantInfoId{
+        plantInfoId
+        plantInfoName
+        plantInfoStatus
+        plantInfoPhoneNo
+        plantInfoAddInfo
+        plantInfoWebsite
+        plantInfoSquareFt
+        plantInfoHeadCount
+        plantInfoEngTech
+        plantInfoProduction
+        plantInfoNumShifts
+        plantInfoContactForm
+        plantInfoHrsOperation
+        plantInfoPhoneNoSales
+        plantInfoEmailAddress
+        plantInfoRequestQoute
+        plantInfoPhoneNoSupport
+        plantInfoCertifications
+        plantInfoOnlineSellerSite
+        plantInfoPhoneAfterOfficeHrs
+        plantLocationSet{
+          plantLocId
+          plantInfoId{
+            plantInfoId
+          }
+          plantLocMap
+          plantLocCity
+          plantLocState
+          plantLocCounty
+          plantLocCountry{
+            countryId
+            countryName
+            countryCode
+          }
+          plantLocZipcode
+          plantLocAddress
+          plantLocStatus
+          plantLocLatitude
+          plantLocLongitude
+        }
+      plantInfoSiteLeader{
+          plantContId
+          plantContFname
+          plantContLname
+          plantContMname
+      }
+      plantInfoQa{
+          plantContId
+          plantContFname
+          plantContLname
+          plantContMname
+      }
+      plantFunctionsSet{
+       plantFuncId
         plantFuncHydro
         plantFuncVisual
         plantFuncWelding
@@ -675,15 +774,57 @@ mutation createPlantFunction(
         plantFuncMagParticle
         plantFuncCapacityPer
         plantFuncProductListing
-        plantFuncFunctionalTesting
+        plantFuncFunctionalTesting      
+      }
+      plantBrandsSet{
+        brandId{
+          brandsId
+          brandsName
+          brandProdCatSet{
+            prodCategoryId{
+              busUnitId
+              busUnitName
+            }
+          }
+        }
+      }
     }
+        }
     
   }
 }
 
 `;
 
+  const CreatePlantBrand = gql `
+      mutation createPlantBrand(
+        $plantId:Int,
+        $brandId:[Int]){
+      createPlantBrand(
+          plantId:$plantId,
+          brandId:$brandId,){
+        brands{
+          plantBrandId
+        }
+      }
+    }
+  `
 
+  const UpdatePlantBrand = gql `
+      mutation updatePlantBrand(
+        $plantInfoId:Int,
+        $plantId:Int,
+        $brandId:[Int]){
+      updatePlantBrand(
+          plantInfoId:$plantInfoId,
+          plantId:$plantId,
+          brandId:$brandId,){
+        brands{
+          plantBrandId
+        }
+      }
+    }
+  `
 
 const UpdatePlant = gql `
   mutation updatePlant(
@@ -901,7 +1042,61 @@ mutation updatePlantFunction(
         plantFuncProductListing:$plantFuncProductListing,
         plantFuncFunctionalTesting:$plantFuncFunctionalTesting,){
     plantFunction{
-        plantFuncId
+        plantInfoId{
+        plantInfoId
+        plantInfoName
+        plantInfoStatus
+        plantInfoPhoneNo
+        plantInfoAddInfo
+        plantInfoWebsite
+        plantInfoSquareFt
+        plantInfoHeadCount
+        plantInfoEngTech
+        plantInfoProduction
+        plantInfoNumShifts
+        plantInfoContactForm
+        plantInfoHrsOperation
+        plantInfoPhoneNoSales
+        plantInfoEmailAddress
+        plantInfoRequestQoute
+        plantInfoPhoneNoSupport
+        plantInfoCertifications
+        plantInfoOnlineSellerSite
+        plantInfoPhoneAfterOfficeHrs
+        plantLocationSet{
+          plantLocId
+          plantInfoId{
+            plantInfoId
+          }
+          plantLocMap
+          plantLocCity
+          plantLocState
+          plantLocCounty
+          plantLocCountry{
+            countryId
+            countryName
+            countryCode
+          }
+          plantLocZipcode
+          plantLocAddress
+          plantLocStatus
+          plantLocLatitude
+          plantLocLongitude
+        }
+      plantInfoSiteLeader{
+          plantContId
+          plantContFname
+          plantContLname
+          plantContMname
+      }
+      plantInfoQa{
+          plantContId
+          plantContFname
+          plantContLname
+          plantContMname
+      }
+      plantFunctionsSet{
+       plantFuncId
         plantFuncHydro
         plantFuncVisual
         plantFuncWelding
@@ -914,7 +1109,21 @@ mutation updatePlantFunction(
         plantFuncMagParticle
         plantFuncCapacityPer
         plantFuncProductListing
-        plantFuncFunctionalTesting
+        plantFuncFunctionalTesting      
+      }
+      plantBrandsSet{
+        brandId{
+          brandsId
+          brandsName
+          brandProdCatSet{
+            prodCategoryId{
+              busUnitId
+              busUnitName
+            }
+          }
+        }
+      }
+    }
     }
     
   }
@@ -1096,6 +1305,10 @@ mutation updatePlantFunction(
         plantFuncCapacityPer:"",
         plantFuncProductListing:"",
         plantFuncFunctionalTesting:"",
+        businessUnits:[],
+        brandList:[],
+        brands:[],
+        brandIdToInt:[],
         IsUpdate:false,
         IsCreate:true,
 
@@ -1191,9 +1404,11 @@ mutation updatePlantFunction(
       };
     },
     apollo: {
-      plantinformations: PlantInformationQuery,
+      plantfunctions: PlantInformationQuery,
       countries: CountriesQuery,
       plantcontacts: PlantContactsQuery,
+      BusinessUnits : ProductCategoriesQuery,
+      BrandAll : BrandAllQuery,
       //stateprovinces:StatesQuery,
       //stateprovince:StateQuery
       //counties:CountiesQuery
@@ -1201,7 +1416,6 @@ mutation updatePlantFunction(
     },
     methods: {
       async save() {   
-
         setTimeout(() => {
           this.save_plant_QA()
         }, 1000)
@@ -1210,57 +1424,47 @@ mutation updatePlantFunction(
         }, 2000)     
         setTimeout(() => {
           this.create_plant()
-        },5000)
-        // setTimeout(() => {
-        //   this.create_plant_loc()
-        // },10000)
-        // setTimeout(() => {
-        //   this.create_plant_function()
-        // },10000)            
+        },3000)   
         this.dialog = false
         //this.clear()
       },
-      async update() {   
-          this.update_plant()    
-          this.update_plant_QA()
-          this.update_plant_SL()         
-          this.update_plant_loc()    
-          this.update_plant_function()   
+      async update() {  
+          this.update_plant_brand(this.plantInfoId)
+          setTimeout(() => {
+            this.update_plant() 
+            this.update_plant_QA()
+            this.update_plant_SL()         
+            this.update_plant_loc()    
+            this.update_plant_function()
+          },2000);      
           this.dialog = false
           //this.clear()
       },
-      // async getState() {
-      //   this.statesList = [];
-      //   return this.$apollo.query({
-      //     query: StateQuery,
-      //     variables: {
-      //       stateCountry: this.Country
-      //     }
-      //   }).then((data) => {
-      //     this.stateprovinces = data.data.stateprovince
-      //   })
-      // },
-
-      // async getCounty() {
-      //   this.countyList = [];
-      //   return this.$apollo.query({
-      //     query: CountyQuery,
-      //     variables: {
-      //       countyState: this.State
-      //     }
-      //   }).then((data) => {
-      //     this.counties = data.data.county
-      //   })
-      // },
+      async getbrands() {     
+        //console.log(this.businessUnits) 
+        this.BrandAll = []  
+        return this.$apollo.query({
+                    query: BrandsQuery,
+                    variables: {
+                      prodCategoryIds: this.businessUnits
+                    }
+                  }).then((data) => {
+                    //console.log(data.data.BrandProdCategory.length)
+                    for(var i = 0 ; i < data.data.BrandProdCategory.length ; i++){
+                        this.BrandAll.push(data.data.BrandProdCategory[i].brandId)
+                    }        
+                    console.log(this.BrandAll)
+                  })              
+      },
       async getPlantInformation() {
         //alert("test")
         this.plantInformationList = [];
         this.$apollo.query({
           query: PlantInformationQuery
         }).then((data) => {
-          for(var i = 0 ; i < data.data.plantinformations.length; i++){
-            if(data.data.plantinformations[i].plantInfoStatus == true ){             
-               this.plantInformationList.push(data.data.plantinformations[i])   
+          for(var i = 0 ; i < data.data.plantfunctions.length; i++){
+            if(data.data.plantfunctions[i].plantInfoId.plantInfoStatus == true ){             
+               this.plantInformationList.push(data.data.plantfunctions[i])   
             }        
           }          
         })   
@@ -1341,21 +1545,10 @@ mutation updatePlantFunction(
               createPlant
             }
           }) => {
-            // add to all tasks list
-            const data = store.readQuery({
-              query: PlantInformationQuery
-            });      
-            data.plantinformations.push(createPlant.plant);
-            setTimeout(() => {
+              this.create_plant_brand(createPlant.plant.plantInfoId)
               this.create_plant_loc(createPlant.plant.plantInfoId)
-              this.create_plant_function(createPlant.plant.plantInfoId)     
-            }, 1000);      
-            console.log(createPlant.plant.plantInfoId)
-            store.writeQuery({
-              query: PlantInformationQuery,
-              data
-            });
-          },
+              this.create_plant_function(createPlant.plant.plantInfoId)      
+          }
         });
         const t = data.data.createPlant.plant;
         this.plantInfoName = "";
@@ -1375,12 +1568,9 @@ mutation updatePlantFunction(
         this.plantInfoPhoneNoSupport = "";
         this.plantInfoCertifications = "";
         this.plantInfoOnlineSellerSite = "";
-        this.plantInfoPhoneAfterOfficeHrs = "";
+        this.plantInfoPhoneAfterOfficeHrs = ""; 
       },
       async create_plant_loc(infoId) {
-        //this.e1 = 3
-        // this.CountPlant = this.plantinformations[parseInt(this.plantinformations.length) - 1]
-        //   .plantInfoId
         const {
           plantInfoId,
           plantLocMap,
@@ -1489,7 +1679,21 @@ mutation updatePlantFunction(
            plantFuncProductListing:plantFuncProductListing,
            plantFuncFunctionalTesting:plantFuncFunctionalTesting,
            
-          }
+          },update: (store, {
+            data: {
+              createPlantFunction
+            }
+          }) => {
+            // add to all tasks list
+            const data = store.readQuery({
+              query: PlantInformationQuery
+            });
+            data.plantfunctions.push(createPlantFunction.plantFunction);
+            store.writeQuery({
+              query: PlantInformationQuery,
+              data
+            });
+          },
         });
         const t = data.data.createPlantFunction.plantFunction;
         // console.log('Added:', t);
@@ -1609,66 +1813,111 @@ mutation updatePlantFunction(
         this.plantContStatus = "";
         this.plantContactQALeader = this.plantcontacts[this.plantcontacts.length - 1].plantContId
       },
+      async create_plant_brand(plantID) {
+        {
+        const {
+          plantId,
+          brandId
+        } = {
+          plantId: plantID,
+          brandId: this.brands,
+        };
+        // call the graphql mutation
+        let data = await this.$apollo.mutate({
+          // query
+          mutation: CreatePlantBrand,
+          // parameters
+          variables: {
+            plantId: plantId,
+            brandId: brandId,
+          }
+        });
+        }
+      },
       async getPlantInfo(plant){
         {
-          this.plantInfoId = plant.item.plantInfoId,
-          this.plantInfoName = plant.item.plantInfoName,
-          this.plantInfoPhoneNo = plant.item.plantInfoPhoneNo,
-          this.plantInfoAddInfo = plant.item.plantInfoAddInfo,
-          this.plantInfoWebsite = plant.item.plantInfoWebsite,
-          this.plantInfoSquareFt = plant.item.plantInfoSquareFt,
-          this.plantInfoHeadCount = plant.item.plantInfoHeadCount,
-          this.plantInfoProduction = plant.item.plantInfoProduction,
-          this.plantInfoEngTech = plant.item.plantInfoEngTech,
-          this.plantInfoNumShifts = plant.item.plantInfoNumShifts,
-          this.plantInfoContactForm = plant.item.plantInfoContactForm,
-          this.plantInfoHrsOperation = plant.item.plantInfoHrsOperation,
-          this.plantInfoPhoneNoSales = plant.item.plantInfoPhoneNoSales,
-          this.plantInfoEmailAddress = plant.item.plantInfoEmailAddress,
-          this.plantInfoRequestQoute = plant.item.plantInfoRequestQoute,
-          this.plantInfoPhoneNoSupport = plant.item.plantInfoPhoneNoSupport,
-          this.plantInfoCertifications = plant.item.plantInfoCertifications,
-          this.plantInfoOnlineSellerSite = plant.item.plantInfoOnlineSellerSite,
-          this.plantInfoPhoneAfterOfficeHrs = plant.item.plantInfoPhoneAfterOfficeHrs,
-          this.plantContactSiteLeader = plant.item.plantInfoSiteLeader.plantContId,
-          this.plantContactQALeader = plant.item.plantInfoQa.plantContId,
-          this.plantInfoId = plant.item.plantLocationSet[0].plantInfoId.plantInfoId,
-          this.plantLocId = plant.item.plantLocationSet[0].plantLocId
-          this.plantLocMap =plant.item.plantLocationSet[0].plantLocMap,
-          this.City = plant.item.plantLocationSet[0].plantLocCity,
-          this.Country = plant.item.plantLocationSet[0].plantLocCountry.countryId,
-          this.State = plant.item.plantLocationSet[0].plantLocState.stateId,
-          this.County = plant.item.plantLocationSet[0].plantLocCounty,
-          this.Zipcode = plant.item.plantLocationSet[0].plantLocZipcode,
-          this.plantLocAddress =plant.item.plantLocationSet[0].plantLocAddress ,
-          this.plantLocLatitude =plant.item.plantLocationSet[0].plantLocLatitude ,
-          this.plantLocLongitude =plant.item.plantLocationSet[0].plantLocLongitude ,
-          this.plantFuncId=plant.item.plantFunctionsSet[0].plantFuncId,
-          this.plantFuncHydro=plant.item.plantFunctionsSet[0].plantFuncHydro,
-          this.plantFuncVisual=plant.item.plantFunctionsSet[0].plantFuncVisual,
-          this.plantFuncWelding=plant.item.plantFunctionsSet[0].plantFuncWelding,
-          this.plantFuncPainting=plant.item.plantFunctionsSet[0].plantFuncPainting,
-          this.plantFuncMachining=plant.item.plantFunctionsSet[0].plantFuncMachining,
-          this.plantFuncHeatTreat=plant.item.plantFunctionsSet[0].plantFuncHeatTreat,
-          this.plantFuncPenetrant=plant.item.plantFunctionsSet[0].plantFuncPenetrant,
-          this.plantFuncRadiograph=plant.item.plantFunctionsSet[0].plantFuncRadiograph,
-          this.plantFuncUltrasonic=plant.item.plantFunctionsSet[0].plantFuncUltrasonic,
-          this.plantFuncMagParticle=plant.item.plantFunctionsSet[0].plantFuncMagParticle,
-          this.plantFuncCapacityPer=plant.item.plantFunctionsSet[0].plantFuncCapacityPer,
-          this.plantFuncProductListing=plant.item.plantFunctionsSet[0].plantFuncProductListing,
-          this.plantFuncFunctionalTesting=plant.item.plantFunctionsSet[0].plantFuncFunctionalTesting,
-          this.plantQAId =  plant.item.plantInfoQa.plantContId,
-          this.plantQAFname=plant.item.plantInfoQa.plantContFname,
-          this.plantQAMname=plant.item.plantInfoQa.plantContMname,
-          this.plantQALname=plant.item.plantInfoQa.plantContLname,
-          this.plantSLId = plant.item.plantInfoSiteLeader.plantContId,
-          this.plantSLFname=plant.item.plantInfoSiteLeader.plantContFname,
-          this.plantSLMname=plant.item.plantInfoSiteLeader.plantContMname,
-          this.plantSLLname=plant.item.plantInfoSiteLeader.plantContLname
+          this.brands = [],
+          this.businessUnits = [],
+          this.plantInfoId = plant.item.plantInfoId.plantInfoId,
+          this.plantInfoName = plant.item.plantInfoId.plantInfoName,
+          this.plantInfoPhoneNo = plant.item.plantInfoId.plantInfoPhoneNo,
+          this.plantInfoAddInfo = plant.item.plantInfoId.plantInfoAddInfo,
+          this.plantInfoWebsite = plant.item.plantInfoId.plantInfoWebsite,
+          this.plantInfoSquareFt = plant.item.plantInfoId.plantInfoSquareFt,
+          this.plantInfoHeadCount = plant.item.plantInfoId.plantInfoHeadCount,
+          this.plantInfoProduction = plant.item.plantInfoId.plantInfoProduction,
+          this.plantInfoEngTech = plant.item.plantInfoId.plantInfoEngTech,
+          this.plantInfoNumShifts = plant.item.plantInfoId.plantInfoNumShifts,
+          this.plantInfoContactForm = plant.item.plantInfoId.plantInfoContactForm,
+          this.plantInfoHrsOperation = plant.item.plantInfoId.plantInfoHrsOperation,
+          this.plantInfoPhoneNoSales = plant.item.plantInfoId.plantInfoPhoneNoSales,
+          this.plantInfoEmailAddress = plant.item.plantInfoId.plantInfoEmailAddress,
+          this.plantInfoRequestQoute = plant.item.plantInfoId.plantInfoRequestQoute,
+          this.plantInfoPhoneNoSupport = plant.item.plantInfoId.plantInfoPhoneNoSupport,
+          this.plantInfoCertifications = plant.item.plantInfoId.plantInfoCertifications,
+          this.plantInfoOnlineSellerSite = plant.item.plantInfoId.plantInfoOnlineSellerSite,
+          this.plantInfoPhoneAfterOfficeHrs = plant.item.plantInfoId.plantInfoPhoneAfterOfficeHrs,
+          this.plantContactSiteLeader = plant.item.plantInfoId.plantInfoSiteLeader.plantContId,
+          this.plantContactQALeader = plant.item.plantInfoId.plantInfoQa.plantContId,
+          this.plantInfoId = plant.item.plantInfoId.plantLocationSet[0].plantInfoId.plantInfoId,
+          this.plantLocId = plant.item.plantInfoId.plantLocationSet[0].plantLocId
+          this.plantLocMap =plant.item.plantInfoId.plantLocationSet[0].plantLocMap,
+          this.City = plant.item.plantInfoId.plantLocationSet[0].plantLocCity,
+          this.Country = plant.item.plantInfoId.plantLocationSet[0].plantLocCountry.countryId,
+          this.State = plant.item.plantInfoId.plantLocationSet[0].plantLocState.stateId,
+          this.County = plant.item.plantInfoId.plantLocationSet[0].plantLocCounty,
+          this.Zipcode = plant.item.plantInfoId.plantLocationSet[0].plantLocZipcode,
+          this.plantLocAddress =plant.item.plantInfoId.plantLocationSet[0].plantLocAddress ,
+          this.plantLocLatitude =plant.item.plantInfoId.plantLocationSet[0].plantLocLatitude ,
+          this.plantLocLongitude =plant.item.plantInfoId.plantLocationSet[0].plantLocLongitude ,
+          this.plantFuncId=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncId,
+          this.plantFuncHydro=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncHydro,
+          this.plantFuncVisual=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncVisual,
+          this.plantFuncWelding=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncWelding,
+          this.plantFuncPainting=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncPainting,
+          this.plantFuncMachining=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncMachining,
+          this.plantFuncHeatTreat=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncHeatTreat,
+          this.plantFuncPenetrant=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncPenetrant,
+          this.plantFuncRadiograph=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncRadiograph,
+          this.plantFuncUltrasonic=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncUltrasonic,
+          this.plantFuncMagParticle=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncMagParticle,
+          this.plantFuncCapacityPer=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncCapacityPer,
+          this.plantFuncProductListing=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncProductListing,
+          this.plantFuncFunctionalTesting=plant.item.plantInfoId.plantFunctionsSet[0].plantFuncFunctionalTesting,
+          this.plantQAId =  plant.item.plantInfoId.plantInfoQa.plantContId,
+          this.plantQAFname=plant.item.plantInfoId.plantInfoQa.plantContFname,
+          this.plantQAMname=plant.item.plantInfoId.plantInfoQa.plantContMname,
+          this.plantQALname=plant.item.plantInfoId.plantInfoQa.plantContLname,
+          this.plantSLId = plant.item.plantInfoId.plantInfoSiteLeader.plantContId,
+          this.plantSLFname=plant.item.plantInfoId.plantInfoSiteLeader.plantContFname,
+          this.plantSLMname=plant.item.plantInfoId.plantInfoSiteLeader.plantContMname,
+          this.plantSLLname=plant.item.plantInfoId.plantInfoSiteLeader.plantContLname
+          var brandsId = []
+          for(var i = 0 ; i<plant.item.plantInfoId.plantBrandsSet.length; i++){
+            brandsId.push(plant.item.plantInfoId.plantBrandsSet[i].brandId.brandsId)
+          }
+            brandsId.filter((item, index)=>{
+            //console.log(item,index,brandsId.indexOf(item),brandsId.indexOf(item)===index)
+            if(brandsId.indexOf(item)===index){
+              this.brands.push(item)
+            }
+          })
+
+          var categoriesId = []
+          for(var i = 0 ; i<plant.item.plantInfoId.plantBrandsSet.length; i++){
+            categoriesId.push(plant.item.plantInfoId.plantBrandsSet[i].brandId.brandProdCatSet[0].prodCategoryId.busUnitId)
+          }
+          categoriesId.filter((item, index)=>{
+            //console.log(item,index,brandsId.indexOf(item),brandsId.indexOf(item)===index)
+            if(categoriesId.indexOf(item)===index){
+              this.businessUnits.push(item)
+            }
+          })
           this.dialog = true
           this.IsUpdate = true
           this.IsCreate = false
-        }
+
+      }
       }
       ,
       async update_plant() {
@@ -1755,7 +2004,8 @@ mutation updatePlantFunction(
                 query: PlantInformationQuery
               });
               //data.plantinformations = []
-              data.plantinformations.push(updatePlant.plant)
+              //data.plantinformations.push(updatePlant.plant)
+              //this.create_plant_brand(this.plantInfoId)
               store.writeQuery({
                 query: PlantInformationQuery,
                 data
@@ -1988,6 +2238,21 @@ mutation updatePlantFunction(
            plantFuncCapacityPer:plantFuncCapacityPer,
            plantFuncProductListing:plantFuncProductListing,
            plantFuncFunctionalTesting:plantFuncFunctionalTesting,
+          },update: (store, {
+            data: {
+              updatePlantFunction
+            }
+          }) => {
+            // add to all tasks list
+            const data = store.readQuery({
+              query: PlantInformationQuery
+            });
+            var plantToUpdate = data.plantfunctions.findIndex(x=>x.plantInfoId.plantInfoId == updatePlantFunction.plantFunction.plantInfoId.plantInfoId)
+            data.plantfunctions[plantToUpdate] = updatePlantFunction.plantFunction;
+            store.writeQuery({
+              query: PlantInformationQuery,
+              data
+            });
           },
        });
         const t = data.data.updatePlantFunction.plantFunction;
@@ -2007,6 +2272,30 @@ mutation updatePlantFunction(
          this.plantFuncProductListing="",
          this.plantFuncFunctionalTesting=""
          this.getPlantInformation()
+      },
+      async update_plant_brand(plantID) {
+        {
+        const {
+          plantInfoId,
+          plantId,
+          brandId
+        } = {
+          plantInfoId:parseInt(plantID),
+          plantId: parseInt(plantID),
+          brandId: this.brands,
+        };
+        // call the graphql mutation
+        let data = await this.$apollo.mutate({
+          // query
+          mutation: UpdatePlantBrand,
+          // parameters
+          variables: {
+            plantInfoId:plantInfoId,
+            plantId: plantId,
+            brandId: brandId,
+          }
+        });
+        }
       },
       async DeletePlant(plantId){        
         const{
@@ -2031,7 +2320,7 @@ mutation updatePlantFunction(
               query: PlantInformationQuery
             });
             //console.log(data.plantinformations.findIndex(v => v.plantInfoName === deletePlant.plant.plantInfoName))
-            data.plantinformations.splice(data.plantinformations.findIndex(v => v.plantInfoName === deletePlant.plant.plantInfoName), 1);        
+            data.plantfunctions.splice(data.plantfunctions.findIndex(v => v.plantInfoId.plantInfoName === deletePlant.plant.plantInfoName), 1);        
             store.writeQuery({
               query: PlantInformationQuery,
               data
@@ -2096,9 +2385,21 @@ mutation updatePlantFunction(
           this.plantSLFname="",
           this.plantSLMname="",
           this.plantSLLname=""
+          this.brands = [],
+          this.businessUnits = [],
           this.dialog = false
           this.IsUpdate = false
           this.IsCreate = true
+          this.BrandAll = []  
+          return this.$apollo.query({
+                    query: BrandAllQuery,
+                  }).then((data) => {
+                    //console.log(data.data.BrandProdCategory.length)
+                    for(var i = 0 ; i < data.data.BrandAll.length ; i++){
+                        this.BrandAll.push(data.data.BrandAll[i])
+                    }        
+                    console.log(this.BrandAll)
+                  }) 
         }
       }
       ,

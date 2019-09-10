@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from Apps.Plants.plant_contacts.models import Plant_Contacts
+#from Apps.brand_product_category.models import Brands
 
 # Create your models here.
 class Plant_Information(models.Model):
@@ -26,6 +27,7 @@ class Plant_Information(models.Model):
   plant_info_square_ft = models.IntegerField(null=True,blank=True)
   plant_info_num_shifts = models.IntegerField(null=True,blank=True)
   plant_info_certifications = models.CharField(max_length=150,null=True,blank=True)
+  #brand_ids = models.ManyToManyField(Brands, related_name ="brand_ids")
 
   class Meta:
     db_table = 'plant_information'
