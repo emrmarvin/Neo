@@ -61,10 +61,10 @@ export default {
         { icon: 'help', text: 'Help', route: '/help' },
         { icon: 'feedback', text: 'Feedback', route: '/feedback' },
       ],
-      snackbar: false
-    }
-  }
-}
+      snackbar: false,
+    };
+  },
+};
 </script>
 
 <style>

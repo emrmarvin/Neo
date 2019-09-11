@@ -39,7 +39,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import( /* webpackChunkName: "about" */ './views/FlowControls.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/FlowControls.vue'),
     },
     {
       path: '/isv/',
@@ -47,7 +47,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import( /* webpackChunkName: "about" */ './views/IsolationValves.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/IsolationValves.vue'),
     },
     {
       path: '/pm/',
@@ -55,7 +55,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import( /* webpackChunkName: "about" */ './views/PressureManagement.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/PressureManagement.vue'),
     },
     {
       path: '/act/',
@@ -63,7 +63,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import( /* webpackChunkName: "about" */ './views/ActuationTechs.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/ActuationTechs.vue'),
     },
     {
       path: '/lcs/',
@@ -71,7 +71,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import( /* webpackChunkName: "about" */ './views/LifecycleServices.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/LifecycleServices.vue'),
     },
     {
       path: '/about/',
@@ -131,7 +131,7 @@ const router = new Router({
     },
     // {
     //   path: '/implicit/callback', component: Auth.handleCallback()
-    // }    
+    // }
   ],
 });
 
