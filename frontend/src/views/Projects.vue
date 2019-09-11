@@ -1,56 +1,25 @@
 <template>
-  <div class="home">
-    <v-card>
-      
-      <v-data-table
-        :headers="headers"
-        :items="plantInformationList"
-        :search="search"
-        v-if="plantInformationList"
-      >
-
-        <template v-slot:items="plant" style="text-align:center">
-          <td v-bind:class="{location:location}">{{plant.item.plantLocationSet[0].plantLocCity}}</td>
-          <td v-bind:class="{legalEntityName:legalEntityName}" style="text-alignment:center">{{plant.item.plantInfoName}}</td>
-          <td v-bind:class="{physicalAddress:physicalAddress}">{{plant.item.plantLocationSet[0].plantLocAddress  +" "+ plant.item.plantLocationSet[0].plantLocCity +", "+  plant.item.plantLocationSet[0].plantLocCounty  +", "+ plant.item.plantLocationSet[0].plantLocState  +", "+ plant.item.plantLocationSet[0].plantLocCountry.countryCode   + ", " + plant.item.plantLocationSet[0].plantLocZipcode}}</td>
-          <td v-bind:class="{siteLeader:siteLeader}">{{plant.item.plantInfoSiteLeader.plantContLname + ", " + plant.item.plantInfoSiteLeader.plantContFname}}
-          </td>
-          <td v-bind:class="{siteQALeader:siteQALeader}">{{plant.item.plantInfoQa.plantContLname + ", " + plant.item.plantInfoQa.plantContFname}}
-          </td>
-          <td v-bind:class="{totalHeadcount:totalHeadcount}" style="text-align:center">{{plant.item.plantInfoHeadCount}}</td>
-          <td v-bind:class="{production:production}" style="text-align:center">{{plant.item.plantInfoProduction}}</td>
-          <td v-bind:class="{engineeringTechnical:engineeringTechnical}" style="text-align:center">{{plant.item.plantInfoEngTech}}</td>
-          <td v-bind:class="{machining:machining}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncMachining ? "Yes" : "No"}}</td>
-          <td v-bind:class="{painting:painting}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncPainting ? "Yes" : "No"}}</td>
-          <td v-bind:class="{heatTreat:heatTreat}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncHeatTreat ? "Yes" : "No"}}</td>
-          <td v-bind:class="{welding:welding}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncWelding ? "Yes" : "No"}}</td>
-          <td v-bind:class="{hydro:hydro}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncHydro ? "Yes" : "No"}}</td>
-          <td v-bind:class="{functionalTesting:functionalTesting}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncFunctionalTesting ? "Yes" : "No"}}</td>
-          <td v-bind:class="{radiograph:radiograph}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncRadiograph ? "Yes" : "No"}}</td>
-          <td v-bind:class="{ultrasonic:ultrasonic}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncUltrasonic ? "Yes" : "No"}}</td>
-          <td v-bind:class="{penetrant:penetrant}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncPenetrant ? "Yes" : "No"}}</td>
-          <td v-bind:class="{magneticParticle:magneticParticle}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncMagParticle ? "Yes" : "No"}}</td>
-          <td v-bind:class="{visual:visual}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncVisual ? "Yes" : "No"}}</td>
-          <td v-bind:class="{currentCapacity:currentCapacity}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncCapacityPer}}</td>
-          <td v-bind:class="{productListing:productListing}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncProductListing}}</td>
-          <td>
-            <v-icon title="Edit" color="warning" @click="getPlantInfo(plant)">edit</v-icon>
-            <v-icon title="Delete" color="error" @click="DeletePlant(plant.item.plantInfoId)">delete
-            </v-icon>
-          </td>
-
-        </template>
-        <template v-slot:no-data>
-          <v-alert :value="true" color="warning" icon="warning">Sorry, no data, nothing to display
-            here</v-alert>
-        </template>
-      </v-data-table>
-    </v-card>
-  </div>
+   <div>
+     <vue-good-table
+      :columns="columns"
+      :rows="plantInformationList"
+    >
+     <template v-slot:rows="plant">
+       <td>{{plant.row.plantLocationSet.plantLocCity}}</td>
+       <td>{{plant.row.plantInfoName}}</td>
+       <td>{{plant.row.plantInfoSiteLeader.plantContLname}}</td>
+       <td>{{plant.row.plantInfoHeadCount}}</td>
+       <td>{{plant.row.plantInfoProduction}}</td>
+       <td>{{plant.row.plantInfoEngTech}}</td>
+       <!-- <td>{{plant.item.plantFunctionsSet[0].plantFuncMachining ? "Yes" : "No"}}</td>
+       <td>{{plant.item.plantFunctionsSet[0].plantFuncPainting ? "Yes" : "No"}}</td> -->
+     </template>
+    </vue-good-table>
+   </div>
 </template>
 
 <script>
-  // @ is an alias to /src
+  // @ is an alias to /src+
   import gql from "graphql-tag";
   import {
     constants,
@@ -63,6 +32,9 @@
   import {
     fail
   } from 'assert';
+
+  import { validationMixin } from 'vuelidate'
+  import { required, minLength, email, url, numeric, decimal} from 'vuelidate/lib/validators'
 
   const CountriesQuery = gql `
   query{
@@ -164,7 +136,7 @@ const StatesQuery = gql `
           plantLocStatus
           plantLocLatitude
           plantLocLongitude
-        }
+      }
       plantInfoSiteLeader{
           plantContId
           plantContFname
@@ -768,7 +740,6 @@ mutation updatePlantFunction(
   `
 
   export default {
-
     data() {
       return {
         ZipcodeId: "",
@@ -864,6 +835,41 @@ mutation updatePlantFunction(
         plantFuncFunctionalTesting:"",
         IsUpdate:false,
         IsCreate:true,
+
+        columns: [
+          // {
+          //   label: 'Location',
+          //   field: 'plantLocCity'
+          // },
+          {
+            label: 'Legal Entity Name',
+            field: 'plantInfoName',
+          },
+          {
+            label: 'Site Leader',
+            field: 'plantContLname',
+          },
+          {
+            label: 'Plant Headcount',
+            field: 'plantInfoHeadCount',
+          },
+          {
+            label: 'Plant Production',
+            field: 'plantInfoProduction',
+          },
+          {
+            label: 'Plant Engineering Tech',
+            field: 'plantInfoEngTech',
+          },
+          // {
+          //   label: 'Plant Machining',
+          //   field: 'plantFuncMachining',
+          // },
+          // {
+          //   label: 'Plant Painting',
+          //   field: 'plantFuncPainting',
+          // },
+        ],
       };
     },
     apollo: {
@@ -875,6 +881,7 @@ mutation updatePlantFunction(
       //counties:CountiesQuery
       // plantinformations:PlantQuery
     },
+    
     methods: {
       async save() {   
 
@@ -886,9 +893,15 @@ mutation updatePlantFunction(
         }, 2000)     
         setTimeout(() => {
           this.create_plant()
-        },5000)      
+        },5000)
+        // setTimeout(() => {
+        //   this.create_plant_loc()
+        // },10000)
+        // setTimeout(() => {
+        //   this.create_plant_function()
+        // },10000)            
         this.dialog = false
-
+        //this.clear()
       },
       async update() {   
           this.update_plant()    
@@ -897,8 +910,31 @@ mutation updatePlantFunction(
           this.update_plant_loc()    
           this.update_plant_function()   
           this.dialog = false
+          //this.clear()
       },
+      // async getState() {
+      //   this.statesList = [];
+      //   return this.$apollo.query({
+      //     query: StateQuery,
+      //     variables: {
+      //       stateCountry: this.Country
+      //     }
+      //   }).then((data) => {
+      //     this.stateprovinces = data.data.stateprovince
+      //   })
+      // },
 
+      // async getCounty() {
+      //   this.countyList = [];
+      //   return this.$apollo.query({
+      //     query: CountyQuery,
+      //     variables: {
+      //       countyState: this.State
+      //     }
+      //   }).then((data) => {
+      //     this.counties = data.data.county
+      //   })
+      // },
       async getPlantInformation() {
         //alert("test")
         this.plantInformationList = [];
@@ -912,6 +948,7 @@ mutation updatePlantFunction(
           }          
         })   
       },
+
       async create_plant() {
         const {
           plantInfoName,
@@ -1756,7 +1793,3 @@ mutation updatePlantFunction(
     }
   };
 </script>
-
-<style>
-  
-</style>

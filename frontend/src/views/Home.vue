@@ -557,13 +557,17 @@
       >
 
         <template v-slot:items="plant" style="text-align:center">
+
           <td v-bind:class="{location:location}">{{plant.item.plantLocationSet[0].plantLocCity}}</td>
           <td v-bind:class="{legalEntityName:legalEntityName}" style="text-alignment:center">{{plant.item.plantInfoName}}</td>
           <td v-bind:class="{physicalAddress:physicalAddress}">{{plant.item.plantLocationSet[0].plantLocAddress  +" "+ plant.item.plantLocationSet[0].plantLocCity +", "+  plant.item.plantLocationSet[0].plantLocCounty  +", "+ plant.item.plantLocationSet[0].plantLocState  +", "+ plant.item.plantLocationSet[0].plantLocCountry.countryCode   + ", " + plant.item.plantLocationSet[0].plantLocZipcode}}</td>
+          
           <td v-bind:class="{siteLeader:siteLeader}">{{plant.item.plantInfoSiteLeader.plantContLname + ", " + plant.item.plantInfoSiteLeader.plantContFname}}
           </td>
+
           <td v-bind:class="{siteQALeader:siteQALeader}">{{plant.item.plantInfoQa.plantContLname + ", " + plant.item.plantInfoQa.plantContFname}}
           </td>
+
           <td v-bind:class="{totalHeadcount:totalHeadcount}" style="text-align:center">{{plant.item.plantInfoHeadCount}}</td>
           <td v-bind:class="{production:production}" style="text-align:center">{{plant.item.plantInfoProduction}}</td>
           <td v-bind:class="{engineeringTechnical:engineeringTechnical}" style="text-align:center">{{plant.item.plantInfoEngTech}}</td>
@@ -580,8 +584,8 @@
           <td v-bind:class="{visual:visual}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncVisual ? "Yes" : "No"}}</td>
           <td v-bind:class="{currentCapacity:currentCapacity}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncCapacityPer}}</td>
           <td v-bind:class="{productListing:productListing}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncProductListing}}</td>
-          <td>
-            <v-icon title="Edit" color="warning" @click="getPlantInfo(plant)">edit</v-icon>
+          <td class="table-width pa-0">
+            <v-icon title="Edit" class="mr-2" color="warning" @click="getPlantInfo(plant)">edit</v-icon>
             <v-icon title="Delete" color="error" @click="DeletePlant(plant.item.plantInfoId)">delete
             </v-icon>
           </td>
@@ -1381,7 +1385,7 @@ mutation updatePlantFunction(
         zipcode: [""],
         plantInformationList: [],
         //stateprovince: [],
-        search: "",
+        search: '',
         dialog: false,
         e1: 0,
         countryId: "",
@@ -1486,30 +1490,6 @@ mutation updatePlantFunction(
         visual: true,
         currentCapacity: true,
         productListing: true,
-
-        //table filterable headers set
-        filters: {
-          legalEntityName: [],
-          physicalAddress: [],
-          siteLeader: [],
-          siteQALeader: [],
-          totalHeadcount: [],
-          production: [],
-          engineeringTechnical: [],
-          machining: [],
-          painting: [],
-          heatTreat: [],
-          welding: [],
-          hydro: [],
-          functionalTesting: [],
-          radiograph: [],
-          ultrasonic: [],
-          penetrant: [],
-          magneticParticle: [],
-          visual: [],
-          currentCapacity: [],
-          productListing: [],
-        },
       };
     },
     apollo: {
@@ -1530,19 +1510,19 @@ mutation updatePlantFunction(
           headers.push({ text: 'Location', value: 'plantLocCity', sortable: true })
         }
         if (!this.legalEntityName) {
-          headers.push({ text: 'Legal Entity Name(plant)', value: 'legalEntityName', sortable: true })
+          headers.push({ text: 'Legal Entity Name(plant)', value: 'plantInfoName', sortable: true })
         }
         if (!this.physicalAddress) {
-          headers.push({ text: 'Physical Address', value: 'physicalAddress', sortable: true })
+          headers.push({ text: 'Physical Address', value: 'plantLocAddress', sortable: true })
         }
         if (!this.siteLeader) {
-          headers.push({ text: 'Site Leader', value: 'siteLeader', sortable: true })
+          headers.push({ text: 'Site Leader', value: 'plantContLname', sortable: true })
         }
         if (!this.siteQALeader) {
           headers.push({ text: 'Site QA Leader', value: 'siteQALeader', sortable: true })
         }
         if (!this.totalHeadcount) {
-          headers.push({ text: 'Total Headcount(H/S)', value: 'totalHeadcount', sortable: true })
+          headers.push({ text: 'Total Headcount(H/S)', value: 'plantInfoHeadCount', sortable: true })
         }
         if (!this.production) {
           headers.push({ text: 'Production (DK - H/S)', value: 'production', sortable: true })
@@ -1593,12 +1573,7 @@ mutation updatePlantFunction(
         headers.push({ text: '', value: 'actions', sortable: false, })
         return headers
       },
-      filteredGeneralSearch: function() {
-        return this.plantInformationList.filter((plant) => {
-          return boolean;
-        });
-      },
-      
+
       // form validations
       plantInfoNameErrors () {
         const errors = []
@@ -1772,6 +1747,12 @@ mutation updatePlantFunction(
         !this.$v.plantFuncProductListing.required && errors.push('Plant Product Listing is required.')
         return errors
       },
+
+      // filteredPlants: function(){
+      //   return this.items.filter((plantinformations) => {
+      //     return plantinformations.plant.match(this.search);
+      //   });
+      // }
     },
     methods: {
       async save() {   
@@ -2714,5 +2695,8 @@ mutation updatePlantFunction(
   .currentCapacity,
   .productListing {
     display: none;
+  }
+  .table-width {
+    min-width: 100px;
   }
 </style>
