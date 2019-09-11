@@ -1,0 +1,8 @@
+ query BrandProdCategory($prodCategoryIds:[Int]){
+      BrandProdCategory(prodCategoryIds:$prodCategoryIds){
+        brandId{
+         brandsId
+         brandsName
+        }
+      }
+    }

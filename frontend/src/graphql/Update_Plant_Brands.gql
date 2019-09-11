@@ -1,0 +1,13 @@
+ mutation updatePlantBrand(
+        $plantInfoId:Int,
+        $plantId:Int,
+        $brandId:[Int]){
+      updatePlantBrand(
+          plantInfoId:$plantInfoId,
+          plantId:$plantId,
+          brandId:$brandId,){
+        brands{
+          plantBrandId
+        }
+      }
+    }

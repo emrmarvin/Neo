@@ -1,0 +1,11 @@
+mutation createPlantBrand(
+        $plantId:Int,
+        $brandId:[Int]){
+      createPlantBrand(
+          plantId:$plantId,
+          brandId:$brandId,){
+        brands{
+          plantBrandId
+        }
+      }
+    }

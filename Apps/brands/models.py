@@ -12,7 +12,7 @@ class Brands(models.Model):
    brands_code = models.CharField(max_length=120)
    brands_status = models.BooleanField(blank=True, null=True)
    brands_creation = models.DateField(blank=True, null=True)
-
+   
    class Meta:
       db_table = 'brands'
       managed = True

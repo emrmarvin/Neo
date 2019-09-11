@@ -33,8 +33,7 @@ class CreatePlantBrands(graphene.Mutation):
  
 class UpdatePlantBrands(graphene.Mutation):
    brands = graphene.List(lambda: PlantBrandsType)
-   brandDelete = graphene.Field(lambda:PlantBrandsType
-                                )
+   brandDelete = graphene.Field(lambda:PlantBrandsType)
    class Arguments:
       plant_info_id = graphene.Int()
       plantId = graphene.Int()

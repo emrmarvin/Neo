@@ -1,0 +1,124 @@
+ mutation createPlant(
+    $plantInfoName: String
+    $plantInfoPhoneNo: Int
+    $plantInfoAddInfo: String
+    $plantInfoWebsite: String
+    $plantInfoSquareFt: Int
+    $plantInfoHeadCount: Int
+    $plantInfoProduction:Int,
+    $plantInfoEngTech:Int,
+    $plantInfoNumShifts: Int
+    $plantInfoContactForm: String
+    $plantInfoHrsOperation: Int
+    $plantInfoPhoneNoSales: Int
+    $plantInfoEmailAddress: String
+    $plantInfoRequestQoute: String
+    $plantInfoPhoneNoSupport: Int
+    $plantInfoCertifications: String
+    $plantInfoOnlineSellerSite: String
+    $plantInfoPhoneAfterOfficeHrs: Int
+    $plantInfoSiteLeader:Int
+    $plantInfoQa:Int
+  ) {
+    createPlant(
+      plantInfoName:$plantInfoName
+      plantInfoPhoneNo:$plantInfoPhoneNo
+      plantInfoAddInfo:$plantInfoAddInfo
+      plantInfoWebsite:$plantInfoWebsite
+      plantInfoSquareFt:$plantInfoSquareFt
+      plantInfoHeadCount:$plantInfoHeadCount
+      plantInfoProduction:$plantInfoProduction
+      plantInfoEngTech:$plantInfoEngTech
+      plantInfoNumShifts:$plantInfoNumShifts
+      plantInfoContactForm:$plantInfoContactForm
+      plantInfoHrsOperation:$plantInfoHrsOperation
+      plantInfoPhoneNoSales:$plantInfoPhoneNoSales
+      plantInfoEmailAddress:$plantInfoEmailAddress
+      plantInfoRequestQoute:$plantInfoRequestQoute
+      plantInfoPhoneNoSupport:$plantInfoPhoneNoSupport
+      plantInfoCertifications:$plantInfoCertifications
+      plantInfoOnlineSellerSite:$plantInfoOnlineSellerSite
+      plantInfoPhoneAfterOfficeHrs:$plantInfoPhoneAfterOfficeHrs
+      plantInfoSiteLeader:$plantInfoSiteLeader
+      plantInfoQa:$plantInfoQa
+    ) {
+      plant{
+        plantInfoId  
+        plantInfoStatus 
+        plantInfoName
+        plantInfoPhoneNo
+        plantInfoAddInfo
+        plantInfoWebsite
+        plantInfoSquareFt
+        plantInfoHeadCount
+        plantInfoProduction
+        plantInfoEngTech
+        plantInfoNumShifts
+        plantInfoContactForm
+        plantInfoHrsOperation
+        plantInfoPhoneNoSales
+        plantInfoEmailAddress
+        plantInfoRequestQoute
+        plantInfoPhoneNoSupport
+        plantInfoCertifications
+        plantInfoOnlineSellerSite
+        plantInfoPhoneAfterOfficeHrs
+        plantLocationSet{
+          plantLocId
+          plantLocMap
+          plantLocCity
+          plantLocState
+          plantLocCounty
+          plantLocCountry{
+            countryName
+            countryCode
+          }
+          plantLocZipcode
+          plantLocAddress
+          plantLocStatus
+          plantLocLatitude
+          plantLocLongitude
+        }
+        plantInfoSiteLeader{
+          plantContId
+          plantContFname
+          plantContLname
+          plantContMname
+        }
+        plantInfoQa{
+          plantContId
+          plantContFname
+          plantContLname
+          plantContMname
+        }
+        plantFunctionsSet{
+        plantFuncId
+        plantFuncHydro
+        plantFuncVisual
+        plantFuncWelding
+        plantFuncPainting
+        plantFuncMachining
+        plantFuncHeatTreat
+        plantFuncPenetrant
+        plantFuncRadiograph
+        plantFuncUltrasonic
+        plantFuncMagParticle
+        plantFuncCapacityPer
+        plantFuncProductListing
+        plantFuncFunctionalTesting
+      }
+      plantBrandsSet{
+        brandId{
+          brandsId
+          brandsName
+          brandProdCatSet{
+            prodCategoryId{
+              busUnitId
+              busUnitName
+            }
+          }
+        }
+      }
+      }
+    }
+  }
