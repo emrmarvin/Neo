@@ -34,8 +34,6 @@ const router = new Router({
       // }
     },
     {
-<<<<<<< HEAD
-=======
       path: '/flow/',
       name: 'flow',
       // route level code-splitting
@@ -76,7 +74,6 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/LifecycleServices.vue'),
     },
     {
->>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
       path: '/about/',
       name: 'about',
       // route level code-splitting
@@ -92,25 +89,6 @@ const router = new Router({
       //   requiresAuth: true
       // }
     },
-<<<<<<< HEAD
-    // {
-    //   path: '/implicit/callback', component: Auth.handleCallback()
-    // }    
-  ],
-});
-
-// const onAuthRequired = async (from, to, next) => {
-//   if (from.matched.some(record => record.meta.requiresAuth) && !(await Vue.prototype.$auth.isAuthenticated())) {
-//     // Navigate to custom login page
-//     next({ path: '/login' })
-//   } else {
-//     next()
-//   }
-// };
-
-// router.beforeEach(onAuthRequired);
-
-=======
     {
       path: '/dashboard/',
       name: 'Dashboard',
@@ -149,5 +127,4 @@ const router = new Router({
   ],
 });
 
->>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
 export default router;
