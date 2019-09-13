@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    env_file: .env
+  backend:
+    build:
+      context: ./backend
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/app
+    command: /start.sh
+    entrypoint: /entrypoint.sh
+    restart: on-failure
+    env_file: .env
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./backend/staticfiles/:/staticfiles/
+      - ./nginx/dev.conf:/etc/nginx/nginx.conf:ro
+  frontend:
+    # build:
+    #   dockerfile: Dockerfile.dev
+    #   context: ./frontend
+    # volumes:
+    #   - ./frontend:/app
+    #   - ./app/node_modules
+    image: node:alpine
+    command: npm run serve
+    volumes:
+      - ./.env:/app/.env:ro
+      - ./frontend:/app
+    working_dir: /app
+    restart: on-failure
+
+  
