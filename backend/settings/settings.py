@@ -23,9 +23,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 SECRET_KEY = 'nh63*3c!n@x2-um)#bdjk%5oej^+$b$3#!6ib2zn9)=m&yb^8-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['finalcontrolcontacts.azurewebsites.net']
 
 # Application definition
 
@@ -82,8 +82,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    "http://10.169.14.78:8080",
-    "http://10.169.14.78:8000",
+    "http://localhost:8080",
+    "http://localhost:8000",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -114,16 +114,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DB_Neo_Matrix',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'Rfanimi14' 
         # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'contactdbstg',
-        # 'HOST': 'neo-prod.postgres.database.azure.com',
-        # 'USER': 'neomanager@neo-prod',
-        # 'PASSWORD': '@NeoManager'
+        # 'NAME': 'DB_Neo_Matrix',
+        # 'HOST': 'localhost',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'Rfanimi14' 
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'contactdbstg',
+        'HOST': 'neo-prod.postgres.database.azure.com',
+        'USER': 'neomanager@neo-prod',
+        'PASSWORD': '@NeoManager'
     }
 }
 
