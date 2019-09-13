@@ -1,0 +1,7 @@
+mutation createPlantCertificate($plantId:Int,$certificateIds:[Int]){
+  createPlantCertificate(plantId:$plantId,certificateIds:$certificateIds){
+    plantCertificate{
+      plantCertId
+    }
+  }
+}

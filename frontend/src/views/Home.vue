@@ -75,8 +75,6 @@
                           <v-text-field label="Support Phone Number :"
                             placeholder="Support Phone Number" v-model="plantInfoPhoneNoSupport">
                           </v-text-field>
-                          <v-text-field label="Certifications :" placeholder="Certifications"
-                            v-model="plantInfoCertifications"></v-text-field>
                           <v-text-field label="Online Seller Site :"
                             placeholder="Online Seller Site" v-model="plantInfoOnlineSellerSite">
                           </v-text-field>
@@ -85,17 +83,45 @@
                             v-model="plantInfoPhoneAfterOfficeHrs"></v-text-field>
                           <v-text-field label="Additional Info :" placeholder="Additional Info"
                             v-model="plantInfoAddInfo"></v-text-field>
-                          <v-text-field label="QA :" v-show="false" placeholder="Additional Info"
-                            v-model="plantContactQALeader"></v-text-field>
-                          <v-text-field label="Site Leader :" v-show="false"
-                            placeholder="Additional Info" v-model="plantContactSiteLeader">
-                          </v-text-field>
-
+                          
+                           <v-autocomplete
+                              v-model="plantInfoCertifications"
+                              :items="Certificates"
+                              chips
+                              label="Select Certificates"
+                              item-text="certsInfoTitle"
+                              item-value="certsInfoId"
+                              multiple
+                            >
+                              <template v-slot:selection="data">
+                                <v-chip
+                                  :selected="data.selected"
+                                  close
+                                  class="chip--select-multi"
+                                  @input="remove(data.item)"
+                                >
+                                  {{ data.item.certsInfoTitle }}
+                                </v-chip>
+                              </template>
+                              <template v-slot:item="data">
+                                <template v-if="typeof data.item !== 'object'">
+                                  <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                                </template>
+                                <template v-else>
+                                  <v-list-tile-content>
+                                    <v-list-tile-title v-html="data.item.certsInfoTitle"></v-list-tile-title>
+                                    <v-list-tile-sub-title v-html="data.item.certsInfoLink"></v-list-tile-sub-title>
+                                  </v-list-tile-content>
+                                </template>
+                              </template>
+                            </v-autocomplete>
+                              <template>
+                              </template>
                         </v-card>
                         <v-btn color="primary" @click="e1=2">
                           Continue
                         </v-btn>
-                        <v-btn @click="">Cancel</v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
                       </v-stepper-content>
 
                       <v-stepper-content step="2">
@@ -131,7 +157,7 @@
                         <v-btn color="primary" @click="e1=3">
                           Continue
                         </v-btn>
-                        <v-btn @click="">Cancel</v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
                         <v-btn text color="warning" @click="e1=1">Back</v-btn>
                       </v-stepper-content>
 
@@ -170,7 +196,7 @@
                         <v-btn color="primary" @click="e1=4">
                           Continue
                         </v-btn>
-                        <v-btn @click="">Cancel</v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
                         <v-btn text color="warning" @click="e1=2">Back</v-btn>
                       </v-stepper-content>
 
@@ -204,7 +230,7 @@
                         <v-btn color="primary" @click="e1=5">
                           Continue
                         </v-btn>
-                        <v-btn @click="">Cancel</v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
                         <v-btn text color="warning" @click="e1=2">Back</v-btn>
                       </v-stepper-content>
 
@@ -229,7 +255,7 @@
                         <v-btn color="primary" v-show="IsUpdate" @click="update">
                           Update
                         </v-btn>
-                        <v-btn @click="">Cancel</v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
                       </v-stepper-content>
                     </v-stepper-items>
                   </v-stepper>
@@ -249,6 +275,26 @@
             <v-data-table :headers="headers" :items="plantInformationList"
               :rows-per-page-items="[20, 10, 30, 40]">
               <template v-slot:items="plant" style="text-align:center">
+                <td>
+                  <v-speed-dial :top="top" :bottom="bottom"
+                      :right="right" :left="left" :direction="direction"
+                      :open-on-hover="hover" :transition="transition" style="bottom:0">
+                      <template v-slot:activator>
+                       <v-btn style="width:50px;height:50px"  color="blue darken-2" dark fab>
+                          <v-icon>fas fa-ellipsis-v</v-icon>
+                        </v-btn>
+                      </template>
+                        <v-btn title="EDIT" fab dark small color="green">
+                            <v-icon @click="getPlantInfo(plant)">edit</v-icon>
+                        </v-btn>
+                        <v-btn title="DELETE" fab dark small color="red">
+                            <v-icon @click="DeletePlant(plant.item.plantInfoId.plantInfoId)">delete</v-icon>
+                        </v-btn>
+                  </v-speed-dial>
+                  <!-- <v-icon title="Edit" color="warning" @click="getPlantInfo(plant)">edit</v-icon> -->
+                  <!-- <v-icon title="Delete" color="error" @click="DeletePlant(plant.item.plantInfoId.plantInfoId)">delete
+                  </v-icon> -->
+                </td>
                 <td>{{plant.item.plantInfoId.plantLocationSet[0].plantLocCity}}</td>
                 <td style="text-alignment:center">{{plant.item.plantInfoId.plantInfoName}}</td>
                 <td>{{plant.item.plantInfoId.plantLocationSet[0].plantLocAddress 
@@ -304,10 +350,8 @@
                 <td style="text-align:center">
                   {{plant.item.plantInfoId.plantFunctionsSet[0].plantFuncProductListing}}
                 </td>
-                <td>
-                  <v-icon title="Edit" color="warning" @click="getPlantInfo(plant)">edit</v-icon>
-                  <v-icon title="Delete" color="error" @click="DeletePlant(plant.item.plantInfoId.plantInfoId)">delete
-                  </v-icon>
+                <td style="text-align:center">
+                    <span v-for="item in plant.item.plantInfoId.plantCertificatesSet"><a target="_blank" v-bind:href="item.certificateId.certsInfoLink">{{item.certificateId.certsInfoTitle}}</a><br></span>
                 </td>
               </template>
               <template v-slot:no-data>
@@ -316,6 +360,7 @@
                   here</v-alert>
               </template>
             </v-data-table>
+            
     </v-card>
   </div>
 </template>
@@ -345,11 +390,15 @@ import * as Get_Brand_by_Category from '../graphql/Get_Brand_by_Category.gql';
 import * as Get_Countries from '../graphql/Get_Countries.gql';
 import * as Get_Product_Categories from '../graphql/Get_Product_Categories.gql';
 import * as Get_All_Brands from '../graphql/Get_All_Brands.gql';
+import * as Get_All_Certificates from '../graphql/Get_All_Certificates.gql';
+import * as  Get_Plant_Certificates from '../graphql/Get_Plant_Certificates.gql';
 import * as Create_Plant from '../graphql/Create_Plant.gql';
 import * as Create_Plant_Location from '../graphql/Create_Plant_Location.gql';
 import * as Create_Plant_Functions from '../graphql/Create_Plant_Functions.gql';
 import * as Create_Plant_Contacts from '../graphql/Create_Plant_Contacts.gql';
 import * as Create_Plant_Brands from '../graphql/Create_Plant_Brands.gql';
+import * as Create_Plant_Certificates from '../graphql/Create_Plant_Certificates.gql';
+import * as Update_Plant_Certificates from '../graphql/Update_Plant_Certificates.gql';
 import * as Update_Plant_Information from '../graphql/Update_Plant_Information.gql';
 import * as Update_Plant_Location from '../graphql/Update_Plant_Location.gql';
 import * as Update_Plant_Contacts from '../graphql/Update_Plant_Contacts.gql';
@@ -397,7 +446,7 @@ export default {
         plantInfoEmailAddress: "",
         plantInfoRequestQoute: "",
         plantInfoPhoneNoSupport: "",
-        plantInfoCertifications: "",
+        plantInfoCertifications: [],
         plantInfoOnlineSellerSite: "",
         plantInfoPhoneAfterOfficeHrs: "",
         plantInfoId: "",
@@ -457,7 +506,26 @@ export default {
         brandIdToInt:[],
         IsUpdate:false,
         IsCreate:true,
-       headers: [{
+        Title: "",
+        Type: "",
+        Category: "",
+        Status: true,
+        direction: 'right',
+        fab: false,
+        fling: false,
+        hover: true,
+        tabs: null,
+        top: false,
+        right: true,
+        bottom: true,
+        left: false,
+        transition: 'slide-y-reverse-transition',
+       headers: [
+          {
+            text: "",
+            value:""
+          },
+         {
             text: "Location",
             value: "zipcodeNumber"
           },
@@ -542,8 +610,8 @@ export default {
             value: "countryName"
           },
           {
-            text: "Actions",
-            value: "countryName"
+            text: "Certificates",
+            value: ""
           }
         ]
 
@@ -553,6 +621,8 @@ export default {
     BusinessUnits : Get_Product_Categories,
     BrandAll : Get_All_Brands,
     Allplantcontacts : Get_Plant_Contacts,
+    Certificates:Get_All_Certificates,
+    //PlantCertificate:Get_Plant_Certificates,
   },
     methods: {
       async save() {   
@@ -570,6 +640,7 @@ export default {
       },
       async update() {  
           this.update_plant_brand(this.plantInfoId)
+          this.update_plant_certificates(this.plantInfoId)
           setTimeout(() => {
             this.update_plant() 
             this.update_plant_QA()
@@ -686,6 +757,7 @@ export default {
           }) => {
               this.create_plant_brand(createPlant.plant.plantInfoId)
               this.create_plant_loc(createPlant.plant.plantInfoId)
+              this.create_plant_certificates(createPlant.plant.plantInfoId)
               this.create_plant_function(createPlant.plant.plantInfoId)      
           }
         });
@@ -970,6 +1042,27 @@ export default {
         });
         }
       },
+      async create_plant_certificates(plantID) {
+        {
+        const {
+          plantId,
+          certificateIds
+        } = {
+          plantId: plantID,
+          certificateIds: this.plantInfoCertifications,
+        };
+        // call the graphql mutation
+        let data = await this.$apollo.mutate({
+          // query
+          mutation: Create_Plant_Certificates,
+          // parameters
+          variables: {
+            plantId: plantId,
+            certificateIds: certificateIds,
+          }
+        });
+        }
+      },
       async getPlantInfo(plant){
         {
           this.brands = [],
@@ -1049,11 +1142,16 @@ export default {
               this.businessUnits.push(item)
             }
           })
+          this.plantInfoCertifications=[]
+          for(var i = 0 ; i<plant.item.plantInfoId.plantCertificatesSet.length; i++){
+                      this.plantInfoCertifications.push(plant.item.plantInfoId.plantCertificatesSet[i].certificateId.certsInfoId)
+                    }
+
           this.dialog = true
           this.IsUpdate = true
           this.IsCreate = false
       }
-      },
+      },  
       async update_plant() {
         const {
           plantInfoId,
@@ -1397,6 +1495,27 @@ export default {
         });
         }
       },
+      async update_plant_certificates(plantID) {
+        {
+        const {
+          plantId,
+          certificateIds
+        } = {
+          plantId: plantID,
+          certificateIds: this.plantInfoCertifications,
+        };
+        // call the graphql mutation
+        let data = await this.$apollo.mutate({
+          // query
+          mutation: Update_Plant_Certificates,
+          // parameters
+          variables: {
+            plantId: plantId,
+            certificateIds: certificateIds,
+          }
+        });
+        }
+      },
        async DeletePlant(plantId){        
         const{
           plantInfoId
@@ -1428,7 +1547,73 @@ export default {
           },
         })
         this.getPlantInformation()
+      },async clear(){
+        {
+          this.plantInfoId = "",
+          this.plantInfoName = "",
+          this.plantInfoPhoneNo = "",
+          this.plantInfoAddInfo = "",
+          this.plantInfoWebsite = "",
+          this.plantInfoSquareFt = "",
+          this.plantInfoHeadCount = "",
+          this.plantInfoProduction = "",
+          this.plantInfoEngTech = "",
+          this.plantInfoNumShifts = "",
+          this.plantInfoContactForm = "",
+          this.plantInfoHrsOperation = "",
+          this.plantInfoPhoneNoSales = "",
+          this.plantInfoEmailAddress = "",
+          this.plantInfoRequestQoute = "",
+          this.plantInfoPhoneNoSupport = "",
+          this.plantInfoCertifications = "",
+          this.plantInfoOnlineSellerSite = "",
+          this.plantInfoPhoneAfterOfficeHrs = "",
+          this.plantContactSiteLeader = "",
+          this.plantContactQALeader = "",
+          this.plantInfoId = "",
+          this.plantLocId = "",
+          this.plantLocMap = "",
+          this.City = "",
+          this.Country = "",
+          this.State = "",
+          this.County = "",
+          this.Zipcode = "",
+          this.plantLocAddress ="" ,
+          this.plantLocLatitude ="" ,
+          this.plantLocLongitude ="",
+          this.plantFuncId="",
+          this.plantFuncHydro="",
+          this.plantFuncVisual="",
+          this.plantFuncWelding="",
+          this.plantFuncPainting="",
+          this.plantFuncMachining="",
+          this.plantFuncHeatTreat="",
+          this.plantFuncPenetrant="",
+          this.plantFuncRadiograph="",
+          this.plantFuncUltrasonic="",
+          this.lantFuncMagParticle="",
+          this.plantFuncCapacityPer="",
+          this.plantFuncProductListing="",
+          this.plantFuncFunctionalTesting="",
+          this.plantQAId = "",
+          this.plantQAFname="",
+          this.plantQAMname="",
+          this.plantQALname="",
+          this.plantSLId = "",
+          this.plantSLFname="",
+          this.plantSLMname="",
+          this.plantSLLname=""
+          this.dialog = false
+          this.IsUpdate = false
+          this.IsCreate = true
+          this.brands=[]
+          this.businessUnits=[]      
+        }
       },
+      async remove(item) {
+       const index = this.plantInfoCertifications.indexOf(item.certsInfoId)
+      if (index >= 0) this.plantInfoCertifications.splice(index, 1)
+    }
     },
     beforeMount() {
       this.getPlantInformation()

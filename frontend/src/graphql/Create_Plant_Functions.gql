@@ -109,6 +109,13 @@
              }
            }
          }
+         plantCertificatesSet {
+           certificateId {
+             certsInfoId
+             certsInfoTitle
+             certsInfoLink
+           }
+         }
        }
      }
 

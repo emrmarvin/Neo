@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'Apps.Plants.plant_functions',
     'Apps.Plants.plant_information',
     'Apps.Plants.plant_location',
+    'Apps.Plants.Plant_Certificates',
     'Apps.business_group',
     'Apps.business_platform',
     'Apps.business_unit',

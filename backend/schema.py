@@ -19,6 +19,7 @@ import Apps.products_item.schema
 import Apps.Certificates.schema
 import Apps.brand_product_category.schema
 import Apps.Plants.plant_brands.schema
+import Apps.Plants.Plant_Certificates.schema
 
 class Query(Apps.Address.country.schema.Query,
             Apps.Address.state_province.schema.Query,
@@ -39,7 +40,8 @@ class Query(Apps.Address.country.schema.Query,
             Apps.products_item.schema.Query,  
             Apps.Certificates.schema.Query,
             Apps.brand_product_category.schema.Query,
-            Apps.Plants.plant_brands.schema.Query,           
+            Apps.Plants.plant_brands.schema.Query,   
+            Apps.Plants.Plant_Certificates.schema.Query,        
             graphene.ObjectType,
             ):
     # This class will inherit from multiple Queries
@@ -64,6 +66,7 @@ class Mutation(Apps.Address.country.schema.Mutations,
                Apps.products_item.schema.Mutations,
                Apps.Certificates.schema.Mutations,
                Apps.Plants.plant_brands.schema.Mutations,
+               Apps.Plants.Plant_Certificates.schema.Mutations,
                graphene.ObjectType):
   	pass
 

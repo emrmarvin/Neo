@@ -1,0 +1,7 @@
+query Certificates{
+  Certificates{
+    certsInfoId
+    certsInfoTitle
+    certsInfoLink
+  }
+}
