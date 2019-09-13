@@ -1,7 +1,7 @@
-from .settings import *
+from settings.settings import *
 
 DEBUG = False
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'finalcontrol-contacts-stg.azurewebsites.net']
+ALLOWED_HOSTS = ['*']
 
 WEBPACK_LOADER = {
     'DEFAULT': {

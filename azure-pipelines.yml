@@ -23,7 +23,11 @@ steps:
 - task: ShellScript@2
   displayName: 'Run shell script'
   inputs:
+<<<<<<< HEAD
     scriptPath: run.sh
+=======
+    scriptPath: ./backend/run.sh
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
     #args: '' # Optional
     #disableAutoCwd: false # Optional
     #cwd: '' # Optional
@@ -38,7 +42,7 @@ steps:
       from glob import iglob
       from os import path
       # Python >= 3.5
-      manage_py = next(iglob(path.join('**', 'manage.py'), recursive=True), None)
+      manage_py = next(iglob(path.join('**', './backend/manage.py'), recursive=True), None)
       if not manage_py:
           raise SystemExit('Could not find a Django project')
       project_location = path.dirname(path.abspath(manage_py))

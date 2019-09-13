@@ -29,9 +29,15 @@
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
       </v-card-title>
 
+<<<<<<< HEAD
       <v-data-table 
       :headers="headers" 
       :items="countries" 
+=======
+      <v-data-table
+      :headers="headers"
+      :items="countries"
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
       :search="search">
         <template v-slot:items="count">
           <td>{{ count.item.countryId}}</td>
@@ -61,8 +67,13 @@
 
 <script>
 // @ is an alias to /src
+<<<<<<< HEAD
 import gql from "graphql-tag";
 import { constants, truncate } from "fs";
+=======
+import gql from 'graphql-tag';
+import { constants, truncate } from 'fs';
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
 
 const CountryQuery = gql`
   query {
@@ -155,6 +166,7 @@ const CountryDelete = gql`
 export default {
   data() {
     return {
+<<<<<<< HEAD
       countries: [""],
       countryId: "",
       countryName: "",
@@ -175,6 +187,28 @@ export default {
   },
   apollo: {
     countries: CountryQuery
+=======
+      countries: [''],
+      countryId: '',
+      countryName: '',
+      countryRegion: '',
+      countryCode: '',
+      countryFlag: '',
+      countryLanguage: '',
+      search: '',
+      headers: [
+        { text: 'country ID', value: 'countryId' },
+        { text: 'Name', value: 'countryName' },
+        { text: 'Region', value: 'countryRegion' },
+        { text: 'Code', value: 'countryCode' },
+        { text: 'Flag', value: 'countryFlag' },
+        { text: 'Language', value: 'countryLanguage' },
+      ],
+    };
+  },
+  apollo: {
+    countries: CountryQuery,
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
   },
   methods: {
     async create_country() {
@@ -183,29 +217,49 @@ export default {
         countryRegion,
         countryCode,
         countryFlag,
+<<<<<<< HEAD
         countryLanguage
+=======
+        countryLanguage,
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
       } = {
         countryName: this.countryName,
         countryRegion: this.countryRegion,
         countryCode: this.countryCode,
         countryFlag: this.countryFlag,
+<<<<<<< HEAD
         countryLanguage: this.countryLanguage
       };
       // call the graphql mutation
       let data = await this.$apollo.mutate({
+=======
+        countryLanguage: this.countryLanguage,
+      };
+      // call the graphql mutation
+      const data = await this.$apollo.mutate({
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
         // query
         mutation: CountryCreate,
         // parameters
         variables: {
+<<<<<<< HEAD
           countryName: countryName,
           countryRegion: countryRegion,
           countryCode: countryCode,
           countryFlag: countryFlag,
           countryLanguage: countryLanguage
+=======
+          countryName,
+          countryRegion,
+          countryCode,
+          countryFlag,
+          countryLanguage,
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
         },
         update: (store, { data: { createCountry } }) => {
           // add to all tasks list
           const data = store.readQuery({ query: CountryQuery });
+<<<<<<< HEAD
           data.country.push(createCountry.country);
           store.writeQuery({ query: CountryQuery, data });
         },
@@ -237,15 +291,56 @@ export default {
       this.countryLanguage = "";
       this.countryStatus = false;
       this.countryCreation = "";
+=======
+          data.countries.push(createCountry.country);
+          store.writeQuery({ query: CountryQuery, data });
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createCountry: {
+            __typename: 'createCountry',
+            country: {
+              __typename: 'CountryType',
+              countryId: 8,
+              countryName: 'Korea',
+              countryRegion: 'Southeast Asia',
+              countryCode: 'KOR',
+              countryFlag: 'Korea Flag',
+              countryLanguage: '',
+              countryStatus: true,
+              countryCreation: '2019-08-01',
+            },
+            ok: false,
+          },
+        },
+      });
+      const t = data.data.createCountry.country;
+      // console.log('Added:', t);
+      this.countryName = '';
+      this.countryRegion = '';
+      this.countryCode = '';
+      this.countryFlag = '';
+      this.countryLanguage = '';
+      this.countryStatus = false;
+      this.countryCreation = '';
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
     },
     getbyID(country) {
       {
         (this.countryId = country.item.countryId),
+<<<<<<< HEAD
           (this.countryName = country.item.countryName),
           (this.countryRegion = country.item.countryRegion),
           (this.countryCode = country.item.countryCode),
           (this.countryFlag = country.item.countryFlag),
           (this.countryLanguage = country.item.countryLanguage);
+=======
+        (this.countryName = country.item.countryName),
+        (this.countryRegion = country.item.countryRegion),
+        (this.countryCode = country.item.countryCode),
+        (this.countryFlag = country.item.countryFlag),
+        (this.countryLanguage = country.item.countryLanguage);
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
       }
     },
     async update_country() {
@@ -255,30 +350,48 @@ export default {
         countryRegion,
         countryCode,
         countryFlag,
+<<<<<<< HEAD
         countryLanguage
+=======
+        countryLanguage,
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
       } = {
         countryId: parseInt(this.countryId),
         countryName: this.countryName,
         countryRegion: this.countryRegion,
         countryCode: this.countryCode,
         countryFlag: this.countryFlag,
+<<<<<<< HEAD
         countryLanguage: this.countryLanguage
+=======
+        countryLanguage: this.countryLanguage,
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
       };
       await this.$apollo.mutate({
         mutation: CountryUpdate,
         variables: {
+<<<<<<< HEAD
           countryId: countryId,
           countryName: countryName,
           countryRegion: countryRegion,
           countryCode: countryCode,
           countryFlag: countryFlag,
           countryLanguage: countryLanguage
+=======
+          countryId,
+          countryName,
+          countryRegion,
+          countryCode,
+          countryFlag,
+          countryLanguage,
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
         },
         update: (store, { data: { updateCountry } }) => {
           // add to all tasks list
           const data = store.readQuery({ query: CountryQuery });
           data.country.push(updateCountry.country);
           store.writeQuery({ query: CountryQuery, data });
+<<<<<<< HEAD
         }
       });
       const t = data.data.updateCountry.country;
@@ -293,20 +406,48 @@ export default {
     },
     async delete_country(country) {
       var result = confirm("Are you sure you want to delete this ?");
+=======
+        },
+      });
+      const t = data.data.updateCountry.country;
+      // console.log('Added:', t);
+      this.countryName = '';
+      this.countryRegion = '';
+      this.countryCode = '';
+      this.countryFlag = '';
+      this.countryLanguage = '';
+      this.countryStatus = false;
+      this.countryCreation = '';
+    },
+    async delete_country(country) {
+      const result = confirm('Are you sure you want to delete this ?');
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
       if (result == true) {
         await this.$apollo.mutate({
           mutation: CountryDelete,
           variables: {
+<<<<<<< HEAD
             countryId: country
+=======
+            countryId: country,
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
           },
           update: (store, { data: { deleteCountry } }) => {
             // add to all tasks list
             const data = store.readQuery({ query: CountryQuery });
             store.writeQuery({ query: CountryQuery, data });
+<<<<<<< HEAD
           }
         });
       }
     }
   }
+=======
+          },
+        });
+      }
+    },
+  },
+>>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
 };
 </script>
