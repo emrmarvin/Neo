@@ -1,19 +1,45 @@
 version: '3'
 
 services:
-  db:
+  postgres:
     image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-  web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:./app
-    ports:
-      - 8000:8000
+    env_file: .env
+  backend:
+    build:
+      context: ./backend
     depends_on:
-      - db
+      - postgres
+    volumes:
+      - ./backend:/app
+    command: /start.sh
+    entrypoint: /entrypoint.sh
+    restart: on-failure
+    env_file: .env
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./backend/staticfiles/:/staticfiles/
+      - ./nginx/dev.conf:/etc/nginx/nginx.conf:ro
+  frontend:
+    # build:
+    #   dockerfile: Dockerfile.dev
+    #   context: ./frontend
+    # volumes:
+    #   - ./frontend:/app
+    #   - ./app/node_modules
+    image: node:alpine
+    command: npm run serve
+    volumes:
+      - ./.env:/app/.env:ro
+      - ./frontend:/app
+    working_dir: /app
+    restart: on-failure
 
-volumes:
-  postgres_data:
+  
