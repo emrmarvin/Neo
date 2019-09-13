@@ -15,10 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-<<<<<<< HEAD
-=======
 # ROOT_DIR = os.path(__file__) - 2
->>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -27,15 +24,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 SECRET_KEY = 'nh63*3c!n@x2-um)#bdjk%5oej^+$b$3#!6ib2zn9)=m&yb^8-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-<<<<<<< HEAD
-DEBUG = False
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'finalcontrol-contacts-stg.azurewebsites.net']
-=======
 DEBUG = True
 
 ALLOWED_HOSTS = [os.environ['WEBSITE_SITE_NAME'] + '.azurewebsites.net', '127.0.0.1'] if 'WEBSITE_SITE_NAME' in os.environ else []
->>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
 
 # Application definition
 
@@ -55,13 +46,6 @@ INSTALLED_APPS = [
     'Apps.Address.county',
     'Apps.Address.city',
     'Apps.Address.zip_code',
-<<<<<<< HEAD
-    'Apps.Address'
-]
-
-GRAPHENE = {
-    'SCHEMA': 'backend.schema.schema'
-=======
     'Apps.Address',
     'Apps.Plants.plant_contact_type',
     'Apps.Plants.plant_contacts',
@@ -73,7 +57,6 @@ GRAPHENE = {
 
 GRAPHENE = {
     'SCHEMA': 'settings.schema.schema'
->>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
 }
 
 MIDDLEWARE = [
@@ -96,21 +79,13 @@ CORS_ORIGIN_WHITELIST = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-<<<<<<< HEAD
-ROOT_URLCONF = 'backend.urls'
-=======
 ROOT_URLCONF = 'settings.urls'
->>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-<<<<<<< HEAD
-        'APP_DIRS': True,
-=======
         'APP_DIRS': False,
->>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -122,11 +97,7 @@ TEMPLATES = [
     },
 ]
 
-<<<<<<< HEAD
-WSGI_APPLICATION = 'backend.wsgi.application'
-=======
 WSGI_APPLICATION = 'settings.wsgi.application'
->>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
 
 
 # Database
@@ -135,17 +106,10 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-<<<<<<< HEAD
-        'NAME': os.environ['DBNAME'],
-        'HOST': os.environ['DBHOST'],
-        'USER': os.environ['DBUSER'],
-        'PASSWORD': os.environ['DBPASS']
-=======
         'NAME': 'contactdbstg',
         'HOST': 'neo-prod.postgres.database.azure.com',
         'USER': 'neomanager@neo-prod',
         'PASSWORD': '@NeoManager'
->>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
     }
 }
 
@@ -186,11 +150,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-<<<<<<< HEAD
-STATIC_URL = '/static/'
-=======
 STATIC_URL = 'static/'
->>>>>>> b310e7ed1e93c1a87445f914bd283c4188b07c19
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
