@@ -1,5 +1,5 @@
 .DS_Store
-/venv
+.venv/
 
 # local env files
 .env.local
@@ -13,7 +13,8 @@ yarn.lock
 
 # Editor directories and files
 .idea
-.vscode
+.vscode/
+__pycache__
 *.suo
 *.ntvs*
 *.njsproj

@@ -2,9 +2,6 @@
 # Vue app will only detect VUE_APP_* envs
 #/usr/bin/env
 
-#Azure web app name
-#WEBSITE_SITE_NAME=finalcontrolcontacts
-
 # Django
 export DEBUG=False
 export SECRET_KEY='nh63*3c!n@x2-um)#bdjk%5oej^+$b$3#!6ib2zn9)=m&yb^8-'
