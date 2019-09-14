@@ -20,12 +20,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'nh63*3c!n@x2-um)#bdjk%5oej^+$b$3#!6ib2zn9)=m&yb^8-'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ['DEBUG']
 
-ALLOWED_HOSTS = [os.environ['WEBSITE_APP_NAME'] + '.azurewebsites.net', '127.0.0.1'] if 'WEBSITE_APP_NAME' in os.environ else []
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS']
 
 # Application definition
 
@@ -83,7 +83,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
-    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -114,16 +114,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'DB_Neo_Matrix',
-        # 'HOST': 'localhost',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'Rfanimi14' 
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'contactdbstg',
-        'HOST': 'neo-prod.postgres.database.azure.com',
-        'USER': 'neomanager@neo-prod',
-        'PASSWORD': '@NeoManager'
+        'NAME': os.environ['POSTGRES_DB'],
+        'HOST': os.environ['POSTGRES_HOST'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD']
     }
 }
 

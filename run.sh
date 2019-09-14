@@ -1,5 +1,6 @@
 #!/bin/bash
 source ./venv/Scripts/activate
+source ./env.sh
 # pipenv shell
 
 # python manage.py collectstatic --noinput
@@ -9,6 +10,7 @@ source ./venv/Scripts/activate
 
 case $1 in
   dev)
+    python manage.py migrate
     python manage.py runserver --settings=backend.settings.dev
     ;;
   prod)

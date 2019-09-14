@@ -3,6 +3,16 @@ from .settings import *
 DEBUG = False
 ALLOWED_HOSTS = ['*']
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['POSTGRES_DB'],
+        'HOST': os.environ['POSTGRES_HOST'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD']
+    }
+}
+
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': '',
@@ -13,6 +23,7 @@ WEBPACK_LOADER = {
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
 
 MEDIA_URL = '/dmedia/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
