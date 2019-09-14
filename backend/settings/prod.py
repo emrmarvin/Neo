@@ -1,7 +1,7 @@
 from .settings import *
 
 DEBUG = False
-ALLOWED_HOSTS = ['finalcontrolcontacts.azurewebsites.net']
+ALLOWED_HOSTS = ['*']
 
 WEBPACK_LOADER = {
     'DEFAULT': {
