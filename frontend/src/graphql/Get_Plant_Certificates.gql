@@ -1,0 +1,9 @@
+query PlantCertificate($plantIdId:Int){
+  PlantCertificate(plantIdId:$plantIdId){
+    certificateId{
+      certsInfoId
+      certsInfoTitle
+      certsInfoLink
+    }
+  }
+}

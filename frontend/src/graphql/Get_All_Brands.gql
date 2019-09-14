@@ -1,0 +1,6 @@
+query BrandAll{
+  BrandAll{
+    brandsId
+  	brandsName
+  }
+}

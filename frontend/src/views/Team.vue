@@ -26,7 +26,11 @@
         </v-flex>
       </v-layout>
     </v-container>
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> cubao
   </div>
 </template>
 
@@ -39,6 +43,7 @@ export default {
         { name: 'Hezekiah Valdez', role: 'Front End Web Developer', avatar: '/avatar-2.png' },
         { name: 'Chun Li', role: 'Web developer', avatar: '/avatar-3.png' },
         { name: 'Gouken', role: 'Social media maverick', avatar: '/avatar-4.png' },
+<<<<<<< HEAD
         { name: 'Yoshi', role: 'Sales guru', avatar: '/avatar-5.png' },
 
       ],
@@ -46,3 +51,12 @@ export default {
   },
 };
 </script>
+=======
+        { name: 'Yoshi', role: 'Sales guru', avatar: '/avatar-5.png'}
+
+      ]
+    }
+  }
+}
+</script>
+>>>>>>> cubao

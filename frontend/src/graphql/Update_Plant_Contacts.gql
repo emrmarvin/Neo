@@ -1,0 +1,20 @@
+ mutation updatePlantContact(
+        $plantContId:Int,
+        $plantContFname:String,
+        $plantContMname:String,
+        $plantContLname:String,){
+      updatePlantContact(
+          plantContId :$plantContId,
+          plantContFname:$plantContFname,
+          plantContMname:$plantContMname,
+          plantContLname:$plantContLname){
+        plantContact{
+          plantContId
+          plantContFname
+          plantContLname
+          plantContMname
+          plantContType
+          plantContStatus
+        }   	
+      }
+    }

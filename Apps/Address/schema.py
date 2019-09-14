@@ -8,6 +8,8 @@ class AddressType(DjangoObjectType):
   class Meta:
     model = Address
 
+
+
 class Query(graphene.ObjectType): 
   addresses = graphene.List(AddressType)
   address = graphene.Field(AddressType, addressId=graphene.Int())

@@ -1,0 +1,6 @@
+query BusinessUnits{
+ 	BusinessUnits{
+    busUnitId
+    busUnitName
+  }
+}

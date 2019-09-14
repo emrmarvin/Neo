@@ -18,14 +18,21 @@
     "graphql-tag": "^2.10.1",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
+<<<<<<< HEAD
     "vee-validate": "^3.0.3",
+=======
+>>>>>>> cubao
     "vue": "^2.6.10",
     "vue-apollo": "^3.0.0-beta.30",
     "vue-good-table": "^2.18.0",
     "vue-router": "^3.0.3",
     "vue-stepper": "^1.4.2",
     "vuelidate": "^0.7.4",
+<<<<<<< HEAD
     "vuetify": "^1.5.14",
+=======
+    "vuetify": "^1.5.18",
+>>>>>>> cubao
     "webpack-bundle-tracker": "^0.4.2-beta",
     "write-file-webpack-plugin": "^4.5.0"
   },
@@ -38,7 +45,8 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "material-design-icons-iconfont": "^5.0.1",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "vue-cli-plugin-apollo": "^0.20.0"
   },
   "eslintConfig": {
     "root": true,

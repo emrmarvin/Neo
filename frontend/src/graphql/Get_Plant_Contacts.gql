@@ -1,0 +1,8 @@
+query Allplantcontacts{
+  Allplantcontacts{
+    plantContId
+    plantContFname
+    plantContLname
+    plantContMname
+  } 
+}

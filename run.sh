@@ -9,6 +9,7 @@ source venv/Scripts/activate
 
 case $1 in
   dev)
+    python manage.py migrate
     python manage.py runserver --settings=backend.settings.dev
     ;;
   prod)

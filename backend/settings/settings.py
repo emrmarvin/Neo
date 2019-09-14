@@ -21,12 +21,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'nh63*3c!n@x2-um)#bdjk%5oej^+$b$3#!6ib2zn9)=m&yb^8-'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 
-ALLOWED_HOSTS = [os.environ['WEBSITE_SITE_NAME'] + '.azurewebsites.net', '127.0.0.1'] if 'WEBSITE_SITE_NAME' in os.environ else []
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS']
 
 # Application definition
 
@@ -52,7 +52,17 @@ INSTALLED_APPS = [
     'Apps.Plants.plant_functions',
     'Apps.Plants.plant_information',
     'Apps.Plants.plant_location',
+    'Apps.Plants.Plant_Certificates',
+    'Apps.business_group',
+    'Apps.business_platform',
+    'Apps.business_unit',
+    'Apps.brands',
+    'Apps.products',
+    'Apps.products_item', 
+    'Apps.Certificates',    
     'Apps.Plants',
+    'Apps.brand_product_category',
+    'Apps.Plants.plant_brands'
 ]
 
 GRAPHENE = {
@@ -73,7 +83,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    "http://127.0.0.1:8080",
+    "http://localhost:8080",
     "http://127.0.0.1:8000",
 ]
 
@@ -106,10 +116,10 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'contactdbstg',
-        'HOST': 'neo-prod.postgres.database.azure.com',
-        'USER': 'neomanager@neo-prod',
-        'PASSWORD': '@NeoManager'
+        'NAME': os.environ['POSTGRES_DB'],
+        'HOST': os.environ['POSTGRES_HOST'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD']
     }
 }
 
@@ -152,4 +162,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

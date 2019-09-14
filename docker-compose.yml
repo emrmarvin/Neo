@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 
 volumes:
     postgres_data: {}
@@ -6,18 +6,19 @@ volumes:
 services:
   backend:
     build:
-      context: ./backend
+      context: .
     depends_on:
       - postgres
     volumes:
-      - ./backend:/app
+      - .:/app
     command: /start.sh
     entrypoint: /entrypoint.sh
     restart: on-failure
     env_file: .env
 
   frontend:
-    image: node:10-alpine
+    build:
+      context: ./frontend
     command: npm run serve
     volumes:
       - ./.env:/app/.env:ro
@@ -41,3 +42,5 @@ services:
       - ./backend/media/:/media/
       - ./backend/staticfiles/:/staticfiles/
       - ./nginx/dev.conf:/etc/nginx/nginx.conf:ro
+    logging:
+      driver: none

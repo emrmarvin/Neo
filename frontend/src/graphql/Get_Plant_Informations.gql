@@ -1,0 +1,94 @@
+query plantfunctions {
+  plantfunctions {
+    plantInfoId {
+      plantInfoId
+      plantInfoName
+      plantInfoStatus
+      plantInfoPhoneNo
+      plantInfoAddInfo
+      plantInfoWebsite
+      plantInfoSquareFt
+      plantInfoHeadCount
+      plantInfoEngTech
+      plantInfoProduction
+      plantInfoNumShifts
+      plantInfoContactForm
+      plantInfoHrsOperation
+      plantInfoPhoneNoSales
+      plantInfoEmailAddress
+      plantInfoRequestQoute
+      plantInfoPhoneNoSupport
+      plantInfoCertifications
+      plantInfoOnlineSellerSite
+      plantInfoPhoneAfterOfficeHrs
+      plantLocationSet {  
+        plantLocId
+        plantInfoId {
+          plantInfoId
+        }
+        plantLocMap
+        plantLocCity
+        plantLocState
+        plantLocCounty
+        plantLocCountry {
+          countryId
+          countryName
+          countryCode
+        }
+        plantLocZipcode
+        plantLocAddress
+        plantLocStatus
+        plantLocLatitude
+        plantLocLongitude
+      }
+      plantInfoSiteLeader {
+        plantContId
+        plantContFname
+        plantContLname
+        plantContMname
+      }
+      plantInfoQa {
+        plantContId
+        plantContFname
+        plantContLname
+        plantContMname
+      }
+      plantFunctionsSet {
+        plantFuncId
+        plantFuncHydro
+        plantFuncVisual
+        plantFuncWelding
+        plantFuncPainting
+        plantFuncMachining
+        plantFuncHeatTreat
+        plantFuncPenetrant
+        plantFuncRadiograph
+        plantFuncUltrasonic
+        plantFuncMagParticle
+        plantFuncCapacityPer
+        plantFuncProductListing
+        plantFuncFunctionalTesting
+      }
+      plantBrandsSet {
+        brandId {
+          brandsId
+          brandsName
+          brandProdCatSet {
+            prodCategoryId {
+              busUnitId
+              busUnitName
+            }
+          }
+        }
+      }
+      plantCertificatesSet{
+        certificateId{
+          certsInfoId
+          certsInfoTitle
+          certsInfoLink
+        }
+      }
+      
+    }
+  }
+}
