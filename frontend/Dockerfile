@@ -14,10 +14,6 @@ RUN npm run build
 FROM nginx
 
 COPY nginx/prod.conf /etc/nginx/nginx.conf
-<<<<<<< HEAD
-COPY --from=build-deps /app/dist/ /dist/
-=======
 COPY --from=builder /app/dist/ /dist/
->>>>>>> cubao
 
 CMD ["nginx", "-g", "daemon off;"]

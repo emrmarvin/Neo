@@ -7,19 +7,11 @@
           sort-by="SiteFac_Name"
           class="elevation-1"
         >
-<<<<<<< HEAD
-
-          <template v-slot:top>
-            <v-toolbar flat color="white">
-              <v-toolbar-title>Site Safety and Quality Information</v-toolbar-title>
-
-=======
         
           <template v-slot:top>
             <v-toolbar flat color="white">
               <v-toolbar-title>Site Safety and Quality Information</v-toolbar-title>
               
->>>>>>> cubao
               <div class="flex-grow-1"></div>
               <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
@@ -81,11 +73,7 @@
           </template>
         </v-data-table>
     </v-container>
-<<<<<<< HEAD
-
-=======
    
->>>>>>> cubao
   </div>
 </template>
 
@@ -93,160 +81,6 @@
 export default {
   components: { },
   data: () => ({
-<<<<<<< HEAD
-    dialog: false,
-    headers: [
-      {
-        text: 'Location',
-        align: 'left',
-        value: 'name',
-      },
-
-      { text: 'Legal Entity Name (Plant)', value: 'SiteFac_Name' },
-      { text: 'Physical Address', value: 'SiteFacility_Address' },
-      { text: 'Site Leader', value: 'SiteFac_Leader' },
-      { text: 'Site QA Leader', value: 'SiteFac_QALeader' },
-
-      { text: 'Actions', value: 'action', sortable: false },
-    ],
-    desserts: [],
-    editedIndex: -1,
-    editedItem: {
-      name: '',
-      SiteFac_Name: '',
-      SiteFacility_Address: '',
-      SiteFac_Leader: '',
-      SiteFac_QALeader: '',
-    },
-    defaultItem: {
-      name: '',
-      SiteFac_Name: '',
-      SiteFacility_Address: '',
-      SiteFac_Leader: '',
-      SiteFac_QALeader: '',
-    },
-  }),
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
-    },
-  },
-  watch: {
-    dialog(val) {
-      val || this.close();
-    },
-  },
-
-  created() {
-    this.initialize();
-  },
-
-  methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: 'Frozen Yogurt',
-          SiteFac_Name: 159,
-          SiteFacility_Address: 6.0,
-          SiteFac_Leader: 24,
-          SiteFac_QALeader: 4.0,
-        },
-        {
-          name: 'Ice cream sandwich',
-          SiteFac_Name: 237,
-          SiteFacility_Address: 9.0,
-          SiteFac_Leader: 37,
-          SiteFac_QALeader: 4.3,
-        },
-        {
-          name: 'Eclair',
-          SiteFac_Name: 262,
-          SiteFacility_Address: 16.0,
-          SiteFac_Leader: 23,
-          SiteFac_QALeader: 6.0,
-        },
-        {
-          name: 'Cupcake',
-          SiteFac_Name: 305,
-          SiteFacility_Address: 3.7,
-          SiteFac_Leader: 67,
-          SiteFac_QALeader: 4.3,
-        },
-        {
-          name: 'Gingerbread',
-          SiteFac_Name: 356,
-          SiteFacility_Address: 16.0,
-          SiteFac_Leader: 49,
-          SiteFac_QALeader: 3.9,
-        },
-        {
-          name: 'Jelly bean',
-          SiteFac_Name: 375,
-          SiteFacility_Address: 0.0,
-          SiteFac_Leader: 94,
-          SiteFac_QALeader: 0.0,
-        },
-        {
-          name: 'Lollipop',
-          SiteFac_Name: 392,
-          SiteFacility_Address: 0.2,
-          SiteFac_Leader: 98,
-          SiteFac_QALeader: 0,
-        },
-        {
-          name: 'Honeycomb',
-          SiteFac_Name: 408,
-          SiteFacility_Address: 3.2,
-          SiteFac_Leader: 87,
-          SiteFac_QALeader: 6.5,
-        },
-        {
-          name: 'Donut',
-          SiteFac_Name: 452,
-          SiteFacility_Address: 25.0,
-          SiteFac_Leader: 51,
-          SiteFac_QALeader: 4.9,
-        },
-        {
-          name: 'KitKat',
-          SiteFac_Name: 518,
-          SiteFacility_Address: 26.0,
-          SiteFac_Leader: 65,
-          SiteFac_QALeader: 7,
-        },
-      ];
-    },
-
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-
-    deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1);
-    },
-
-    close() {
-      this.dialog = false;
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      }, 300);
-    },
-
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
-      } else {
-        this.desserts.push(this.editedItem);
-      }
-      this.close();
-    },
-  },
-};
-=======
       dialog: false,
       headers: [
         {
@@ -399,7 +233,6 @@ export default {
       },
     },
 }
->>>>>>> cubao
 </script>
 
 <style>

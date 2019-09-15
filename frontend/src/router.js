@@ -98,31 +98,9 @@ const router = new Router({
       // }
     },
     {
-<<<<<<< HEAD
-      path: '/settings/',
-      name: 'Settings',
-      component: () => import(/* webpackChunkName: "about" */ './views/Settings.vue'),
-      // meta: {
-      //   requiresAuth: true
-      // }
-    },
-    {
-      path: '/help/',
-      name: 'Help',
-      component: () => import(/* webpackChunkName: "about" */ './views/Help.vue'),
-      // meta: {
-      //   requiresAuth: true
-      // }
-    },
-    {
-      path: '/feedback/',
-      name: 'Feedback',
-      component: () => import(/* webpackChunkName: "about" */ './views/Feedback.vue'),
-=======
       path: '/Certificate_Form/',
       name: 'Certificate Form',
       component: () => import(/* webpackChunkName: "about" */ './views/Certificate_Form.vue'),
->>>>>>> cubao
       // meta: {
       //   requiresAuth: true
       // }

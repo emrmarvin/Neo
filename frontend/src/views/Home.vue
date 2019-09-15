@@ -1,8 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div>
-    <h1>Home</h1>
-=======
   <div class="home">
     <v-card>
       <v-card-title>
@@ -366,7 +362,6 @@
             </v-data-table>
             
     </v-card>
->>>>>>> cubao
   </div>
 </template>
 
@@ -374,12 +369,6 @@
 
 
 <script>
-<<<<<<< HEAD
-export default {
-
-};
-</script>
-=======
  import gql from "graphql-tag";
   import {
     constants,
@@ -1631,4 +1620,3 @@ export default {
     }
 }
 </script>
->>>>>>> cubao

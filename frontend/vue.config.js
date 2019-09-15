@@ -5,13 +5,8 @@ module.exports = {
   outputDir: (process.env.NODE_ENV === 'production' ? 'dist' : 'static'),
   publicPath: '/',
 
-<<<<<<< HEAD
-  devServer: {
-    publicPath: 'http://localhost:8080/',
-=======
  devServer: {
     publicPath: "http://localhost:8080/",
->>>>>>> cubao
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -53,11 +48,7 @@ module.exports = {
         })
         : new BundleTracker({
           filename: 'webpack-stats.json',
-<<<<<<< HEAD
-          publicPath: 'http://localhost:8080/',
-=======
           publicPath: 'http://localhost:8080/'
->>>>>>> cubao
         })
       ),
     ],

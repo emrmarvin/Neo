@@ -10,9 +10,7 @@ import Apps.Plants.plant_information.schema
 import Apps.Plants.plant_functions.schema
 import Apps.Plants.plant_contacts.schema
 import Apps.Plants.plant_contact_type.schema
-<<<<<<< HEAD
 import Apps.Plants.plant_functions.schema
-=======
 import Apps.business_group.schema
 import Apps.business_platform.schema
 import Apps.business_unit.schema
@@ -23,7 +21,6 @@ import Apps.Certificates.schema
 import Apps.brand_product_category.schema
 import Apps.Plants.plant_brands.schema
 import Apps.Plants.Plant_Certificates.schema
->>>>>>> cubao
 
 class Query(Apps.Address.country.schema.Query,
             Apps.Address.state_province.schema.Query,
@@ -36,8 +33,6 @@ class Query(Apps.Address.country.schema.Query,
             Apps.Plants.plant_information.schema.Query,
             Apps.Plants.plant_contacts.schema.Query,
             Apps.Plants.plant_functions.schema.Query,
-<<<<<<< HEAD
-=======
             Apps.business_group.schema.Query,
             Apps.business_platform.schema.Query,
             Apps.business_unit.schema.Query,
@@ -48,7 +43,6 @@ class Query(Apps.Address.country.schema.Query,
             Apps.brand_product_category.schema.Query,
             Apps.Plants.plant_brands.schema.Query,   
             Apps.Plants.Plant_Certificates.schema.Query,        
->>>>>>> cubao
             graphene.ObjectType,
             ):
     # This class will inherit from multiple Queries
@@ -65,8 +59,6 @@ class Mutation(Apps.Address.country.schema.Mutations,
                Apps.Plants.plant_location.schema.Mutations,
                Apps.Plants.plant_contacts.schema.Mutations,
                Apps.Plants.plant_functions.schema.Mutations,
-<<<<<<< HEAD
-=======
                Apps.business_group.schema.Mutations,
                Apps.business_platform.schema.Mutations,
                Apps.business_unit.schema.Mutations,
@@ -76,9 +68,7 @@ class Mutation(Apps.Address.country.schema.Mutations,
                Apps.Certificates.schema.Mutations,
                Apps.Plants.plant_brands.schema.Mutations,
                Apps.Plants.Plant_Certificates.schema.Mutations,
->>>>>>> cubao
                graphene.ObjectType):
   	pass
-
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
