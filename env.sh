@@ -9,9 +9,9 @@
 export DEBUG=False
 export SECRET_KEY='nh63*3c!n@x2-um)#bdjk%5oej^+$b$3#!6ib2zn9)=m&yb^8-'
 
-export DOMAIN='https://finalcontrolcontacts-staging.azurewebsites.net'
+export DOMAIN='https://finalcontrol-contacts-stg.azurewebsites.net/'
 
-export ALLOWED_HOSTS=['https://finalcontrolcontacts-staging.azurewebsites.net']
+export ALLOWED_HOSTS=['https://finalcontrol-contacts-stg.azurewebsites.net','https://finalcontrol-contacts.azurewebsites.net/', 127.0.0.1]
 
 # Email settings, defaults to 1025 and mailhog
 #EMAIL_PORT=25
