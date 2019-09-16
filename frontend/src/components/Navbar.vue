@@ -29,7 +29,6 @@
           <p class="subheading mt-1">{{ userName }}</p>
         </v-flex>
       </v-layout>
-
         <v-list tile flat>
           <v-list-item-group class="primary--text">
             <v-list-item

@@ -29,9 +29,9 @@
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
       </v-card-title>
 
-      <v-data-table 
-      :headers="headers" 
-      :items="countries" 
+      <v-data-table
+      :headers="headers"
+      :items="countries"
       :search="search">
         <template v-slot:items="count">
           <td>{{ count.item.countryId}}</td>
@@ -61,8 +61,8 @@
 
 <script>
 // @ is an alias to /src
-import gql from "graphql-tag";
-import { constants, truncate } from "fs";
+import gql from 'graphql-tag';
+import { constants, truncate } from 'fs';
 
 const CountryQuery = gql`
   query {
@@ -155,26 +155,26 @@ const CountryDelete = gql`
 export default {
   data() {
     return {
-      countries: [""],
-      countryId: "",
-      countryName: "",
-      countryRegion: "",
-      countryCode: "",
-      countryFlag: "",
-      countryLanguage: "",
-      search: "",
+      countries: [''],
+      countryId: '',
+      countryName: '',
+      countryRegion: '',
+      countryCode: '',
+      countryFlag: '',
+      countryLanguage: '',
+      search: '',
       headers: [
-        { text: "country ID", value: "countryId" },
-        { text: "Name", value: "countryName" },
-        { text: "Region", value: "countryRegion" },
-        { text: "Code", value: "countryCode" },
-        { text: "Flag", value: "countryFlag" },
-        { text: "Language", value: "countryLanguage" },
-      ]
+        { text: 'country ID', value: 'countryId' },
+        { text: 'Name', value: 'countryName' },
+        { text: 'Region', value: 'countryRegion' },
+        { text: 'Code', value: 'countryCode' },
+        { text: 'Flag', value: 'countryFlag' },
+        { text: 'Language', value: 'countryLanguage' },
+      ],
     };
   },
   apollo: {
-    countries: CountryQuery
+    countries: CountryQuery,
   },
   methods: {
     async create_country() {
@@ -183,25 +183,25 @@ export default {
         countryRegion,
         countryCode,
         countryFlag,
-        countryLanguage
+        countryLanguage,
       } = {
         countryName: this.countryName,
         countryRegion: this.countryRegion,
         countryCode: this.countryCode,
         countryFlag: this.countryFlag,
-        countryLanguage: this.countryLanguage
+        countryLanguage: this.countryLanguage,
       };
       // call the graphql mutation
-      let data = await this.$apollo.mutate({
+      const data = await this.$apollo.mutate({
         // query
         mutation: CountryCreate,
         // parameters
         variables: {
-          countryName: countryName,
-          countryRegion: countryRegion,
-          countryCode: countryCode,
-          countryFlag: countryFlag,
-          countryLanguage: countryLanguage
+          countryName,
+          countryRegion,
+          countryCode,
+          countryFlag,
+          countryLanguage,
         },
         update: (store, { data: { createCountry } }) => {
           // add to all tasks list
@@ -210,42 +210,42 @@ export default {
           store.writeQuery({ query: CountryQuery, data });
         },
         optimisticResponse: {
-          __typename: "Mutation",
+          __typename: 'Mutation',
           createCountry: {
-            __typename: "createCountry",
+            __typename: 'createCountry',
             country: {
-              __typename: "CountryType",
+              __typename: 'CountryType',
               countryId: 8,
-              countryName: "Korea",
-              countryRegion: "Southeast Asia",
-              countryCode: "KOR",
-              countryFlag: "Korea Flag",
-              countryLanguage: "",
+              countryName: 'Korea',
+              countryRegion: 'Southeast Asia',
+              countryCode: 'KOR',
+              countryFlag: 'Korea Flag',
+              countryLanguage: '',
               countryStatus: true,
-              countryCreation: "2019-08-01"
+              countryCreation: '2019-08-01',
             },
-            ok: false
-          }
-        }
+            ok: false,
+          },
+        },
       });
       const t = data.data.createCountry.country;
       // console.log('Added:', t);
-      this.countryName = "";
-      this.countryRegion = "";
-      this.countryCode = "";
-      this.countryFlag = "";
-      this.countryLanguage = "";
+      this.countryName = '';
+      this.countryRegion = '';
+      this.countryCode = '';
+      this.countryFlag = '';
+      this.countryLanguage = '';
       this.countryStatus = false;
-      this.countryCreation = "";
+      this.countryCreation = '';
     },
     getbyID(country) {
       {
         (this.countryId = country.item.countryId),
-          (this.countryName = country.item.countryName),
-          (this.countryRegion = country.item.countryRegion),
-          (this.countryCode = country.item.countryCode),
-          (this.countryFlag = country.item.countryFlag),
-          (this.countryLanguage = country.item.countryLanguage);
+        (this.countryName = country.item.countryName),
+        (this.countryRegion = country.item.countryRegion),
+        (this.countryCode = country.item.countryCode),
+        (this.countryFlag = country.item.countryFlag),
+        (this.countryLanguage = country.item.countryLanguage);
       }
     },
     async update_country() {
@@ -255,58 +255,58 @@ export default {
         countryRegion,
         countryCode,
         countryFlag,
-        countryLanguage
+        countryLanguage,
       } = {
         countryId: parseInt(this.countryId),
         countryName: this.countryName,
         countryRegion: this.countryRegion,
         countryCode: this.countryCode,
         countryFlag: this.countryFlag,
-        countryLanguage: this.countryLanguage
+        countryLanguage: this.countryLanguage,
       };
       await this.$apollo.mutate({
         mutation: CountryUpdate,
         variables: {
-          countryId: countryId,
-          countryName: countryName,
-          countryRegion: countryRegion,
-          countryCode: countryCode,
-          countryFlag: countryFlag,
-          countryLanguage: countryLanguage
+          countryId,
+          countryName,
+          countryRegion,
+          countryCode,
+          countryFlag,
+          countryLanguage,
         },
         update: (store, { data: { updateCountry } }) => {
           // add to all tasks list
           const data = store.readQuery({ query: CountryQuery });
           data.country.push(updateCountry.country);
           store.writeQuery({ query: CountryQuery, data });
-        }
+        },
       });
       const t = data.data.updateCountry.country;
       // console.log('Added:', t);
-      this.countryName = "";
-      this.countryRegion = "";
-      this.countryCode = "";
-      this.countryFlag = "";
-      this.countryLanguage = "";
+      this.countryName = '';
+      this.countryRegion = '';
+      this.countryCode = '';
+      this.countryFlag = '';
+      this.countryLanguage = '';
       this.countryStatus = false;
-      this.countryCreation = "";
+      this.countryCreation = '';
     },
     async delete_country(country) {
-      var result = confirm("Are you sure you want to delete this ?");
+      const result = confirm('Are you sure you want to delete this ?');
       if (result == true) {
         await this.$apollo.mutate({
           mutation: CountryDelete,
           variables: {
-            countryId: country
+            countryId: country,
           },
           update: (store, { data: { deleteCountry } }) => {
             // add to all tasks list
             const data = store.readQuery({ query: CountryQuery });
             store.writeQuery({ query: CountryQuery, data });
-          }
+          },
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>

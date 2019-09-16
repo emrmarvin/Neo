@@ -1,11 +1,19 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 // import Auth from '@okta/okta-vue';
+import VueGoodTablePlugin from 'vue-good-table';
 import Home from './views/Home.vue';
-import Country from './views/Country.vue';
+import 'vue-good-table/dist/vue-good-table.css';
+// import FlowControls from './views/FlowControls.vue';
+// import IsolationValves from './views/IsolationValves.vue';
+// import PressureManagement from './views/PressureManagement.vue';
+// import ActuationTechs from './views/ActuationTechs.vue';
+// import LifecycleServices from './views/LifecycleServices.vue';
+// import Country from './views/Country.vue';
 
 
 Vue.use(Router);
+Vue.use(VueGoodTablePlugin);
 // Vue.use(Auth, {
 //   issuer: 'https://dev-279632.okta.com/oauth2/default',
 //   client_id: '0oannn51zQdFqD0pG356',
@@ -24,6 +32,46 @@ const router = new Router({
       // meta: {
       //   requiresAuth: true
       // }
+    },
+    {
+      path: '/flow/',
+      name: 'flow',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/FlowControls.vue'),
+    },
+    {
+      path: '/isv/',
+      name: 'isolation',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/IsolationValves.vue'),
+    },
+    {
+      path: '/pm/',
+      name: 'pressureManagement',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/PressureManagement.vue'),
+    },
+    {
+      path: '/act/',
+      name: 'actuationTechs',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/ActuationTechs.vue'),
+    },
+    {
+      path: '/lcs/',
+      name: 'lifecycleServices',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/LifecycleServices.vue'),
     },
     {
       path: '/about/',
@@ -59,19 +107,8 @@ const router = new Router({
     },
     // {
     //   path: '/implicit/callback', component: Auth.handleCallback()
-    // }    
+    // }
   ],
 });
-
-// const onAuthRequired = async (from, to, next) => {
-//   if (from.matched.some(record => record.meta.requiresAuth) && !(await Vue.prototype.$auth.isAuthenticated())) {
-//     // Navigate to custom login page
-//     next({ path: '/login' })
-//   } else {
-//     next()
-//   }
-// };
-
-// router.beforeEach(onAuthRequired);
 
 export default router;
