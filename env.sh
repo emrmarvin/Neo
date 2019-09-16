@@ -19,6 +19,7 @@ export POSTGRES_HOST=neo-prod.postgres.database.azure.com
 export POSTGRES_DB=contactdbstg
 export POSTGRES_PASSWORD=@NeoManager
 export POSTGRES_USER=neomanager@neo-prod
+export POSTGRES_PORT=5432
 
 
 # Google Analytics

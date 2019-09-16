@@ -1,0 +1,11 @@
+# NOTICE:
+# Vue app will only detect VUE_APP_* envs
+#/usr/bin/env
+DEBUG=True
+SECRET_KEY='nh63*3c!n@x2-um)#bdjk%5oej^+$b$3#!6ib2zn9)=m&yb^8-'
+ALLOWED_HOSTS=*
+POSTGRES_HOST=localhost
+POSTGRES_DB=dev-neo-db
+POSTGRES_PASSWORD=marvin
+POSTGRES_USER=postgres
+POSTGRES_PORT=5432

@@ -1,18 +1,10 @@
 FROM python:3.7
+LABEL Maintainer="Marvin Villanueva"
+ENV PYTHONUNBUFFERED 1
+COPY . /usr/src
+COPY ./gunicorn.conf /etc/init/
+WORKDIR /usr/src
+RUN pip install -r requirements.txt
+EXPOSE 8000
 
-# python envs
-ENV PYTHONFAULTHANDLER=1 \
-    PYTHONUNBUFFERED=1 \
-    PYTHONHASHSEED=random \
-    PIP_NO_CACHE_DIR=off \
-    PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100
-
-# python dependencies
-COPY ./requirements.txt /
-RUN pip install -r ./requirements.txt
-
-# upload scripts
-COPY ./scripts/entrypoint.sh ./scripts/start.sh ./scripts/gunicorn.sh /
-
-WORKDIR /app
+CMD ["pyhon", "manage.py", "runserver", "--settings=backend.settings.prod"]
