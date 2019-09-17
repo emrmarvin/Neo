@@ -129,6 +129,15 @@ const router = new Router({
       //   requiresAuth: true
       // }
     },
+    ,
+    {
+      path: '/CertificateForm/',
+      name: 'CertificateForm',
+      component: () => import(/* webpackChunkName: "about" */ './views/CertificateForm.vue'),
+      // meta: {
+      //   requiresAuth: true
+      // }
+    }
     // {
     //   path: '/implicit/callback', component: Auth.handleCallback()
     // }

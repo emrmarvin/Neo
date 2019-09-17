@@ -3,6 +3,7 @@ from graphene_django.types import DjangoObjectType
 from graphql_relay.node.node import from_global_id
 from Apps.Plants.plant_information.models import Plant_Information
 import datetime
+from Apps.brand_product_category.models import Brands
 
 class PlantInformationType(DjangoObjectType):
    class Meta:
@@ -11,7 +12,7 @@ class PlantInformationType(DjangoObjectType):
 class CreatePlant(graphene.Mutation):
   plant = graphene.Field(lambda:PlantInformationType)
 
-  class Arguments:
+  class Arguments:   
    plantInfoName = graphene.String(required=False)
    plantInfoPhoneNo = graphene.Int(default_value=0)
    plantInfoAddInfo = graphene.String(default_value="")
@@ -131,7 +132,8 @@ class Query(graphene.ObjectType):
 
    def resolve_plantinformations(self,info):
          return Plant_Information.objects.filter(plant_info_status=True)
-
+         #return Plant_Information.objects.annotate(plant_info_c=Count(1)).order_by('plant_info_id')
+         
 class Mutations(graphene.ObjectType):
    create_plant = CreatePlant.Field()
    update_plant = UpdatePlant.Field()

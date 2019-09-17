@@ -28,12 +28,15 @@
                       <v-divider></v-divider>
                       <v-stepper-step :complete="e1 > 4" step="4" editable> Plant Functions
                       </v-stepper-step>
+                      <v-stepper-step :complete="e1 > 5" step="5" editable> Brands / Product
+                        Category
+                      </v-stepper-step>
                     </v-stepper-header>
 
                     <v-stepper-items>
                       <v-stepper-content step="1">
                         <v-card class="mb-12" height="auto">
-                          
+
                           <v-text-field
                             label="Plant Name"
                             v-model="plantInfoName"
@@ -71,7 +74,7 @@
                           </v-text-field>
 
                           <v-layout>
-                            
+
                             <v-flex class="ml-2" md4>
                               <v-text-field
                                 label="Square ft."
@@ -151,7 +154,7 @@
                             label="Contact form (Optional)"
                             v-model="plantInfoContactForm"
                           ></v-text-field>
-                          
+
                           <v-text-field
                             label="Sales Phone Number"
                             v-model="plantInfoPhoneNoSales"
@@ -176,11 +179,6 @@
                           ></v-text-field>
 
                           <v-text-field
-                            label="Certifications"
-                            v-model="plantInfoCertifications">
-                          </v-text-field>
-
-                          <v-text-field
                             label="Online Seller Site (Optional)"
                             v-model="plantInfoOnlineSellerSite"
                             :error-messages="plantInfoOnlineSellerSiteErrors"
@@ -200,7 +198,40 @@
                             @input="$v.plantInfoAddInfo.$touch()"
                             @blur="$v.plantInfoAddInfo.$touch()"
                           ></v-text-field>
-                          
+
+                          <v-autocomplete
+                              v-model="plantInfoCertifications"
+                              :items="Certificates"
+                              chips
+                              label="Select Certificates"
+                              item-text="certsInfoTitle"
+                              item-value="certsInfoId"
+                              multiple
+                            >
+                              <template v-slot:selection="data">
+                                <v-chip
+                                  :selected="data.selected"
+                                  close
+                                  class="chip--select-multi"
+                                  @input="remove(data.item)"
+                                >
+                                  {{ data.item.certsInfoTitle }}
+                                </v-chip>
+                              </template>
+                              <template v-slot:item="data">
+                                <template v-if="typeof data.item !== 'object'">
+                                  <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                                </template>
+                                <template v-else>
+                                  <v-list-tile-content>
+                                    <v-list-tile-title v-html="data.item.certsInfoTitle"></v-list-tile-title>
+                                    <v-list-tile-sub-title v-html="data.item.certsInfoLink"></v-list-tile-sub-title>
+                                  </v-list-tile-content>
+                                </template>
+                              </template>
+                            </v-autocomplete>
+
+
                         </v-card>
                         <v-btn color="primary" @click="e1=2">
                           Continue
@@ -342,7 +373,7 @@
                           ></v-text-field>
 
                           <v-text-field
-                            label="Middle Initial"  
+                            label="Middle Initial"
                             v-model="plantQAMname"
                           ></v-text-field>
 
@@ -373,7 +404,7 @@
                           </v-checkbox>
                           <v-checkbox v-model="plantFuncFunctionalTesting"
                             label="Functional Testing"></v-checkbox>
-                          
+
                           <v-text-field
                             v-model="plantFuncCapacityPer"
                             placeholder="Current capacity (% Loaded of expected Capacity)"
@@ -392,6 +423,27 @@
                             @blur="$v.plantFuncProductListing.$touch()"
                           ></v-text-field>
 
+
+                        </v-card>
+                        <v-btn color="primary" @click="e1=4">
+                          Continue
+                        </v-btn>
+                        <v-btn @click="clear">Cancel</v-btn>
+                        <v-btn text color="warning" @click="e1=2">Back</v-btn>
+                      </v-stepper-content>
+                         <v-stepper-content step="5">
+
+                        <v-card class="mb-12" height="auto">
+                              <v-autocomplete v-if="BusinessUnits" v-model="businessUnits"
+                                :items="BusinessUnits" item-text="busUnitName"
+                                item-value="busUnitId" :menu-props="{ maxHeight: '400' }"
+                                label="Select" multiple hint="Product Categories" persistent-hint
+                                @input="getbrands"></v-autocomplete>
+
+                              <v-autocomplete v-if="BrandAll" v-model="brands" :items="BrandAll"
+                                item-text="brandsName" item-value="brandsId"
+                                :menu-props="{ maxHeight: '400' }" label="Select" multiple
+                                hint="Brands" persistent-hint></v-autocomplete>
 
                         </v-card>
                         <v-btn color="primary" v-show="IsCreate" @click="save">
@@ -422,24 +474,61 @@
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" flat class="v-btn-menu-width"><v-icon>more_vert</v-icon></v-btn>
         </template>
-        <v-list class="v-list-height">
+        <v-list light two-line class="v-list-height">
           <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title @click="dialog = true">Add Site Plant</v-list-tile-title>
-              <v-list-tile-title @click="dialog2 = true">Show/ Hide Column</v-list-tile-title>
+            <v-list-tile-content >
+              <v-list-tile-title class="menu-tile" @click="dialog = true">Add Site Plant</v-list-tile-title>
+              <v-list-tile-title class="menu-tile" @click.stop="show_Certificate_Form=true">Add Certificates</v-list-tile-title>
+              <v-list-tile-title class="menu-tile" @click="dialog2 = true">Show/ Hide Column</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
+
+
+
       </v-menu>
 
       </v-card-title>
+
+
+            <v-dialog
+        v-model="dialog3"
+        max-width="290"
+      >
+        <v-card>
+          <v-card-title class="headline">DELETE</v-card-title>
+
+          <v-card-text>
+            Do you want to delete this plant ?
+          </v-card-text>
+
+          <v-card-actions style="padding-right: 50px;padding-left: 50px;">
+            <div class="flex-grow-1"></div>
+
+            <v-btn
+              color="primary"
+              text
+              @click="DeletePlant()"
+            >
+              Yes
+            </v-btn>
+
+            <v-btn
+              text
+              @click="dialog3 = false"
+            >
+              No
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
       <!-- show/hide column dialog box -->
       <v-dialog
           v-model="dialog2"
           min-width="500"
         >
-        
+
           <v-card>
             <v-card-title
                 class="headline"
@@ -533,6 +622,10 @@
                 v-model="productListing"
                 label="Product listing (size, pressure, etc..)"
                 ></v-checkbox>
+                <v-checkbox
+                v-model="certificates"
+                label="Certificates"
+                ></v-checkbox>
             </v-card-text>
 
             <v-divider></v-divider>
@@ -552,16 +645,32 @@
       <v-data-table
         :headers="headers"
         :items="plantInformationList"
-        :search="search"
         v-if="plantInformationList"
+        :search="search"
       >
-
         <template v-slot:items="plant" style="text-align:center">
-
+          <td v-bind:class="{Actions:Actions}">
+                  <v-speed-dial :top="top" :bottom="bottom"
+                      :right="right" :left="left" :direction="direction"
+                      :open-on-hover="hover" :transition="transition" style="bottom:0">
+                      <template v-slot:activator>
+                       <v-btn style="width:50px;height:50px"  color="blue darken-2" dark fab>
+                          <v-icon>fas fa-ellipsis-v</v-icon>
+                        </v-btn>
+                      </template>
+                        <v-btn title="EDIT" fab dark small color="green">
+                            <v-icon @click="getPlantInfo(plant)">edit</v-icon>
+                        </v-btn>
+                        <v-btn title="DELETE" fab dark small color="red">
+                            <v-icon @click="GetIdToDelete(plant.item.plantInfoId)">delete</v-icon>
+                            <!-- <v-icon @click="DeletePlant(plant.item.plantInfoId.plantInfoId)">delete</v-icon> -->
+                        </v-btn>
+                  </v-speed-dial>
+                </td>
           <td v-bind:class="{location:location}">{{plant.item.plantLocationSet[0].plantLocCity}}</td>
           <td v-bind:class="{legalEntityName:legalEntityName}" style="text-alignment:center">{{plant.item.plantInfoName}}</td>
           <td v-bind:class="{physicalAddress:physicalAddress}">{{plant.item.plantLocationSet[0].plantLocAddress  +" "+ plant.item.plantLocationSet[0].plantLocCity +", "+  plant.item.plantLocationSet[0].plantLocCounty  +", "+ plant.item.plantLocationSet[0].plantLocState  +", "+ plant.item.plantLocationSet[0].plantLocCountry.countryCode   + ", " + plant.item.plantLocationSet[0].plantLocZipcode}}</td>
-          
+
           <td v-bind:class="{siteLeader:siteLeader}">{{plant.item.plantInfoSiteLeader.plantContLname + ", " + plant.item.plantInfoSiteLeader.plantContFname}}
           </td>
 
@@ -584,10 +693,13 @@
           <td v-bind:class="{visual:visual}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncVisual ? "Yes" : "No"}}</td>
           <td v-bind:class="{currentCapacity:currentCapacity}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncCapacityPer}}</td>
           <td v-bind:class="{productListing:productListing}" style="text-align:center">{{plant.item.plantFunctionsSet[0].plantFuncProductListing}}</td>
-          <td class="table-width pa-0">
+          <!-- <td class="table-width pa-0">
             <v-icon title="Edit" class="mr-2" color="warning" @click="getPlantInfo(plant)">edit</v-icon>
             <v-icon title="Delete" color="error" @click="DeletePlant(plant.item.plantInfoId)">delete
             </v-icon>
+          </td> -->
+          <td v-bind:class="{certificates:certificates}" style="text-align:center">
+           <span v-for="item in plant.item.plantCertificatesSet"><a target="_blank" v-bind:href="item.certificateId.certsInfoLink">{{item.certificateId.certsInfoTitle}}</a><br></span>
           </td>
 
         </template>
@@ -597,9 +709,11 @@
         </template>
       </v-data-table>
     </v-card>
+       <!-- <v-btn color="accent" large @click.stop="show_Certificate_Form=true">TEST</v-btn> -->
+       <CertificateForm :visible="show_Certificate_Form" @close="show_Certificate_Form = false" />
   </div>
-</template>
 
+</template>
 <script>
   // @ is an alias to /src
   import gql from "graphql-tag";
@@ -617,713 +731,33 @@
 
   import { validationMixin } from 'vuelidate'
   import { required, minLength, email, url, numeric, decimal} from 'vuelidate/lib/validators'
-
-  const CountriesQuery = gql `
-  query{
-    countries{
-      countryId
-      countryName
-    }
-  }
-`;
-const StatesQuery = gql `
-    query stateprovinces{
-      stateprovinces{
-        stateId
-        stateName
-        stateCode
-      }
-    }
-`;
-
-  const StateQuery = gql `
-    query stateprovince($stateCountry:Int){
-      stateprovince(stateCountry:$stateCountry){
-        stateId
-        stateName
-      }
-    }
-`;
-
-  const CountiesQuery = gql `
-  query counties{
-      counties{
-        countyId
-        countyName
-      }
-    }
-`;
-
-  const CountyQuery = gql `
-  query county($countyState:Int){
-      county(countyState:$countyState){
-        countyId
-        countyName
-      }
-    }
-`;
-
-
-  const CitiesQuery = gql `
-  query{
-    cities{
-      cityId
-      cityName
-      cityCounty{
-          countyId
-        }
-    }
-  }
-`;
-
-  const PlantInformationQuery = gql `
-  query plantinformations{
-    plantinformations{
-        plantInfoId
-        plantInfoName
-        plantInfoStatus
-        plantInfoPhoneNo
-        plantInfoAddInfo
-        plantInfoWebsite
-        plantInfoSquareFt
-        plantInfoHeadCount
-        plantInfoEngTech
-        plantInfoProduction
-        plantInfoNumShifts
-        plantInfoContactForm
-        plantInfoHrsOperation
-        plantInfoPhoneNoSales
-        plantInfoEmailAddress
-        plantInfoRequestQoute
-        plantInfoPhoneNoSupport
-        plantInfoCertifications
-        plantInfoOnlineSellerSite
-        plantInfoPhoneAfterOfficeHrs
-        plantLocationSet{
-          plantLocId
-          plantInfoId{
-            plantInfoId
-          }
-          plantLocMap
-          plantLocCity
-          plantLocState
-          plantLocCounty
-          plantLocCountry{
-            countryId
-            countryName
-            countryCode
-          }
-          plantLocZipcode
-          plantLocAddress
-          plantLocStatus
-          plantLocLatitude
-          plantLocLongitude
-        }
-      plantInfoSiteLeader{
-          plantContId
-          plantContFname
-          plantContLname
-          plantContMname
-      }
-      plantInfoQa{
-          plantContId
-          plantContFname
-          plantContLname
-          plantContMname
-      }
-      plantFunctionsSet{
-       plantFuncId
-        plantFuncHydro
-        plantFuncVisual
-        plantFuncWelding
-        plantFuncPainting
-        plantFuncMachining
-        plantFuncHeatTreat
-        plantFuncPenetrant
-        plantFuncRadiograph
-        plantFuncUltrasonic
-        plantFuncMagParticle
-        plantFuncCapacityPer
-        plantFuncProductListing
-        plantFuncFunctionalTesting      
-      }
-      
-    }
-
-  }
-
-`;
-
-const PlantContactsQuery = gql `
-query plantcontacts{
-  plantcontacts{
-    plantContId
-    plantContFname
-    plantContLname
-    plantContMname
-    plantContType
-    plantContStatus
-  } 
-}
-`
-
-  const CreatePlant = gql `
-  mutation createPlant(
-    $plantInfoName: String
-    $plantInfoPhoneNo: Int
-    $plantInfoAddInfo: String
-    $plantInfoWebsite: String
-    $plantInfoSquareFt: Int
-    $plantInfoHeadCount: Int
-    $plantInfoProduction:Int,
-    $plantInfoEngTech:Int,
-    $plantInfoNumShifts: Int
-    $plantInfoContactForm: String
-    $plantInfoHrsOperation: Int
-    $plantInfoPhoneNoSales: Int
-    $plantInfoEmailAddress: String
-    $plantInfoRequestQoute: String
-    $plantInfoPhoneNoSupport: Int
-    $plantInfoCertifications: String
-    $plantInfoOnlineSellerSite: String
-    $plantInfoPhoneAfterOfficeHrs: Int
-    $plantInfoSiteLeader:Int
-    $plantInfoQa:Int
-  ) {
-    createPlant(
-      plantInfoName:$plantInfoName
-      plantInfoPhoneNo:$plantInfoPhoneNo
-      plantInfoAddInfo:$plantInfoAddInfo
-      plantInfoWebsite:$plantInfoWebsite
-      plantInfoSquareFt:$plantInfoSquareFt
-      plantInfoHeadCount:$plantInfoHeadCount
-      plantInfoProduction:$plantInfoProduction
-      plantInfoEngTech:$plantInfoEngTech
-      plantInfoNumShifts:$plantInfoNumShifts
-      plantInfoContactForm:$plantInfoContactForm
-      plantInfoHrsOperation:$plantInfoHrsOperation
-      plantInfoPhoneNoSales:$plantInfoPhoneNoSales
-      plantInfoEmailAddress:$plantInfoEmailAddress
-      plantInfoRequestQoute:$plantInfoRequestQoute
-      plantInfoPhoneNoSupport:$plantInfoPhoneNoSupport
-      plantInfoCertifications:$plantInfoCertifications
-      plantInfoOnlineSellerSite:$plantInfoOnlineSellerSite
-      plantInfoPhoneAfterOfficeHrs:$plantInfoPhoneAfterOfficeHrs
-      plantInfoSiteLeader:$plantInfoSiteLeader
-      plantInfoQa:$plantInfoQa
-    ) {
-      plant{
-        plantInfoId  
-        plantInfoStatus 
-        plantInfoName
-        plantInfoPhoneNo
-        plantInfoAddInfo
-        plantInfoWebsite
-        plantInfoSquareFt
-        plantInfoHeadCount
-        plantInfoProduction
-        plantInfoEngTech
-        plantInfoNumShifts
-        plantInfoContactForm
-        plantInfoHrsOperation
-        plantInfoPhoneNoSales
-        plantInfoEmailAddress
-        plantInfoRequestQoute
-        plantInfoPhoneNoSupport
-        plantInfoCertifications
-        plantInfoOnlineSellerSite
-        plantInfoPhoneAfterOfficeHrs
-        plantLocationSet{
-          plantLocId
-          plantLocMap
-          plantLocCity
-          plantLocState
-          plantLocCounty
-          plantLocCountry{
-            countryName
-            countryCode
-          }
-          plantLocZipcode
-          plantLocAddress
-          plantLocStatus
-          plantLocLatitude
-          plantLocLongitude
-        }
-        plantInfoSiteLeader{
-          plantContFname
-          plantContLname
-          plantContMname
-        }
-        plantInfoQa{
-          plantContFname
-          plantContLname
-          plantContMname
-        }
-        plantFunctionsSet{
-        plantFuncId
-        plantFuncHydro
-        plantFuncVisual
-        plantFuncWelding
-        plantFuncPainting
-        plantFuncMachining
-        plantFuncHeatTreat
-        plantFuncPenetrant
-        plantFuncRadiograph
-        plantFuncUltrasonic
-        plantFuncMagParticle
-        plantFuncCapacityPer
-        plantFuncProductListing
-        plantFuncFunctionalTesting
-      
-      }
-      }
-    }
-  }
-`;
-
-  const CreatePlantLoc = gql `
-  mutation createPlantLoc(
-    $plantInfoId:Int,
-    $plantLocMap:String,
-    $plantLocCity:String,
-    $plantLocState:String,
-    $plantLocCounty:String,
-    $plantLocCountry:Int,
-    $plantLocZipcode:Int,
-    $plantLocAddress:String,
-    $plantLocLatitude:Float,
-    $plantLocLongitude:Float
-    ){
-      createPlantLoc(
-        plantInfoId:$plantInfoId
-        plantLocMap:$plantLocMap
-        plantLocCity:$plantLocCity
-        plantLocState:$plantLocState
-        plantLocCounty:$plantLocCounty
-        plantLocCountry:$plantLocCountry
-        plantLocZipcode:$plantLocZipcode
-        plantLocAddress:$plantLocAddress
-        plantLocLatitude:$plantLocLatitude
-        plantLocLongitude:$plantLocLongitude
-        ) {
-         plantLoc{
-              plantInfoId{
-                plantInfoName
-              }
-              plantLocCity
-              plantLocState
-              plantLocCounty
-              plantLocCountry{
-                countryId
-                countryName
-                countryCode
-              }
-              plantLocZipcode
-              plantLocAddress
-              plantLocLatitude
-              plantLocLongitude
-            }
-          }
-        }
-  `;
-  const CreatePlantContact = gql `
-      mutation createPlantContact(
-        $plantContFname:String,
-        $plantContMname:String,
-        $plantContLname:String,
-        $plantContType:String,
-        $plantContStatus:Boolean){
-      createPlantContact(
-          plantContFname:$plantContFname,
-          plantContMname:$plantContMname,
-          plantContLname:$plantContLname,
-          plantContType:$plantContType,
-          plantContStatus:$plantContStatus,){
-        plantContact{
-          plantContId
-          plantContFname
-          plantContLname
-          plantContMname
-          plantContType
-          plantContStatus
-        }   	
-      }
-    }
-  
-  `
-const CreatePlantFunction = gql`
-mutation createPlantFunction(
-        $plantInfoId:Int,
-        $plantFuncHydro:Boolean,
-        $plantFuncVisual:Boolean,
-        $plantFuncWelding:Boolean,
-        $plantFuncPainting:Boolean,
-        $plantFuncMachining:Boolean,
-        $plantFuncHeatTreat:Boolean,
-        $plantFuncPenetrant:Boolean,
-        $plantFuncRadiograph:Boolean,
-        $plantFuncUltrasonic:Boolean,
-        $plantFuncMagParticle:Boolean,
-        $plantFuncCapacityPer:Int,
-        $plantFuncProductListing:String,
-        $plantFuncFunctionalTesting:Boolean,){
-  createPlantFunction( 
-    		plantInfoId:$plantInfoId,
-        plantFuncHydro:$plantFuncHydro,
-        plantFuncVisual:$plantFuncVisual,
-        plantFuncWelding:$plantFuncWelding,
-        plantFuncPainting:$plantFuncPainting,
-        plantFuncMachining:$plantFuncMachining,
-        plantFuncHeatTreat:$plantFuncHeatTreat,
-        plantFuncPenetrant:$plantFuncPenetrant,
-        plantFuncRadiograph:$plantFuncRadiograph,
-        plantFuncUltrasonic:$plantFuncUltrasonic,
-        plantFuncMagParticle:$plantFuncMagParticle,
-        plantFuncCapacityPer:$plantFuncCapacityPer,
-        plantFuncProductListing:$plantFuncProductListing,
-        plantFuncFunctionalTesting:$plantFuncFunctionalTesting,){
-    plantFunction{
-        plantFuncId
-        plantFuncHydro
-        plantFuncVisual
-        plantFuncWelding
-        plantFuncPainting
-        plantFuncMachining
-        plantFuncHeatTreat
-        plantFuncPenetrant
-        plantFuncRadiograph
-        plantFuncUltrasonic
-        plantFuncMagParticle
-        plantFuncCapacityPer
-        plantFuncProductListing
-        plantFuncFunctionalTesting
-    }
-    
-  }
-}
-
-`;
-
-const UpdatePlant = gql `
-  mutation updatePlant(
-    $plantInfoId: Int
-    $plantInfoName: String
-    $plantInfoPhoneNo: Int
-    $plantInfoAddInfo: String
-    $plantInfoWebsite: String
-    $plantInfoSquareFt: Int
-    $plantInfoHeadCount: Int
-    $plantInfoProduction:Int
-    $plantInfoEngTech:Int
-    $plantInfoNumShifts: Int
-    $plantInfoContactForm: String
-    $plantInfoHrsOperation: Int
-    $plantInfoPhoneNoSales: Int
-    $plantInfoEmailAddress: String
-    $plantInfoRequestQoute: String
-    $plantInfoPhoneNoSupport: Int
-    $plantInfoCertifications: String
-    $plantInfoOnlineSellerSite: String
-    $plantInfoPhoneAfterOfficeHrs: Int
-    $plantInfoSiteLeader:Int
-    $plantInfoQa:Int
-  ) {
-    updatePlant(
-      plantInfoId:$plantInfoId
-      plantInfoName:$plantInfoName
-      plantInfoPhoneNo:$plantInfoPhoneNo
-      plantInfoAddInfo:$plantInfoAddInfo
-      plantInfoWebsite:$plantInfoWebsite
-      plantInfoSquareFt:$plantInfoSquareFt
-      plantInfoHeadCount:$plantInfoHeadCount
-      plantInfoProduction:$plantInfoProduction
-      plantInfoEngTech:$plantInfoEngTech
-      plantInfoNumShifts:$plantInfoNumShifts
-      plantInfoContactForm:$plantInfoContactForm
-      plantInfoHrsOperation:$plantInfoHrsOperation
-      plantInfoPhoneNoSales:$plantInfoPhoneNoSales
-      plantInfoEmailAddress:$plantInfoEmailAddress
-      plantInfoRequestQoute:$plantInfoRequestQoute
-      plantInfoPhoneNoSupport:$plantInfoPhoneNoSupport
-      plantInfoCertifications:$plantInfoCertifications
-      plantInfoOnlineSellerSite:$plantInfoOnlineSellerSite
-      plantInfoPhoneAfterOfficeHrs:$plantInfoPhoneAfterOfficeHrs
-      plantInfoSiteLeader:$plantInfoSiteLeader
-      plantInfoQa:$plantInfoQa
-    ) {
-      plant{
-        plantInfoId  
-        plantInfoStatus 
-        plantInfoName
-        plantInfoPhoneNo
-        plantInfoAddInfo
-        plantInfoWebsite
-        plantInfoSquareFt
-        plantInfoHeadCount
-        plantInfoProduction
-        plantInfoEngTech
-        plantInfoNumShifts
-        plantInfoContactForm
-        plantInfoHrsOperation
-        plantInfoPhoneNoSales
-        plantInfoEmailAddress
-        plantInfoRequestQoute
-        plantInfoPhoneNoSupport
-        plantInfoCertifications
-        plantInfoOnlineSellerSite
-        plantInfoPhoneAfterOfficeHrs
-        plantLocationSet{
-          plantLocId
-          plantLocMap
-          plantLocCity
-          plantLocState
-          plantLocCounty
-          plantLocCountry{
-            countryName
-            countryCode
-          }
-          plantLocZipcode
-          plantLocAddress
-          plantLocStatus
-          plantLocLatitude
-          plantLocLongitude
-        }
-        plantInfoSiteLeader{
-          plantContFname
-          plantContLname
-          plantContMname
-        }
-        plantInfoQa{
-          plantContFname
-          plantContLname
-          plantContMname
-        }
-        plantFunctionsSet{
-        plantFuncId
-        plantFuncHydro
-        plantFuncVisual
-        plantFuncWelding
-        plantFuncPainting
-        plantFuncMachining
-        plantFuncHeatTreat
-        plantFuncPenetrant
-        plantFuncRadiograph
-        plantFuncUltrasonic
-        plantFuncMagParticle
-        plantFuncCapacityPer
-        plantFuncProductListing
-        plantFuncFunctionalTesting      
-      }
-      }
-    }
-  }
-`;
-
-const UpdatePlantLoc = gql `
-  mutation updatePlantLoc(
-    $plantLocId:Int,
-    $plantLocMap:String,
-    $plantLocCity:String,
-    $plantLocState:String,
-    $plantLocCounty:String,
-    $plantLocCountry:Int,
-    $plantLocZipcode:Int,
-    $plantLocAddress:String,
-    $plantLocLatitude:Float,
-    $plantLocLongitude:Float
-    ){
-      updatePlantLoc(
-        plantLocId:$plantLocId
-        plantLocMap:$plantLocMap
-        plantLocCity:$plantLocCity
-        plantLocState:$plantLocState
-        plantLocCounty:$plantLocCounty
-        plantLocCountry:$plantLocCountry
-        plantLocZipcode:$plantLocZipcode
-        plantLocAddress:$plantLocAddress
-        plantLocLatitude:$plantLocLatitude
-        plantLocLongitude:$plantLocLongitude
-        ) {
-         plantLoc{
-              plantInfoId{
-                plantInfoName
-              }
-              plantLocCity
-              plantLocState
-              plantLocCounty
-              plantLocCountry{
-                countryId
-                countryName
-                countryCode
-              }
-              plantLocZipcode
-              plantLocAddress
-              plantLocLatitude
-              plantLocLongitude
-            }
-          }
-        }
-  `;
-
-  const UpdatePlantContact = gql `
-      mutation updatePlantContact(
-        $plantContId:Int,
-        $plantContFname:String,
-        $plantContMname:String,
-        $plantContLname:String,){
-      updatePlantContact(
-          plantContId :$plantContId,
-          plantContFname:$plantContFname,
-          plantContMname:$plantContMname,
-          plantContLname:$plantContLname){
-        plantContact{
-          plantContId
-          plantContFname
-          plantContLname
-          plantContMname
-          plantContType
-          plantContStatus
-        }   	
-      }
-    }
-  
-  `
-  const UpdatePlantFunction = gql`
-mutation updatePlantFunction(
-        $plantFuncId:Int,
-        $plantFuncHydro:Boolean,
-        $plantFuncVisual:Boolean,
-        $plantFuncWelding:Boolean,
-        $plantFuncPainting:Boolean,
-        $plantFuncMachining:Boolean,
-        $plantFuncHeatTreat:Boolean,
-        $plantFuncPenetrant:Boolean,
-        $plantFuncRadiograph:Boolean,
-        $plantFuncUltrasonic:Boolean,
-        $plantFuncMagParticle:Boolean,
-        $plantFuncCapacityPer:Int,
-        $plantFuncProductListing:String,
-        $plantFuncFunctionalTesting:Boolean,){
-  updatePlantFunction( 
-    		plantFuncId:$plantFuncId,
-        plantFuncHydro:$plantFuncHydro,
-        plantFuncVisual:$plantFuncVisual,
-        plantFuncWelding:$plantFuncWelding,
-        plantFuncPainting:$plantFuncPainting,
-        plantFuncMachining:$plantFuncMachining,
-        plantFuncHeatTreat:$plantFuncHeatTreat,
-        plantFuncPenetrant:$plantFuncPenetrant,
-        plantFuncRadiograph:$plantFuncRadiograph,
-        plantFuncUltrasonic:$plantFuncUltrasonic,
-        plantFuncMagParticle:$plantFuncMagParticle,
-        plantFuncCapacityPer:$plantFuncCapacityPer,
-        plantFuncProductListing:$plantFuncProductListing,
-        plantFuncFunctionalTesting:$plantFuncFunctionalTesting,){
-    plantFunction{
-        plantFuncId
-        plantFuncHydro
-        plantFuncVisual
-        plantFuncWelding
-        plantFuncPainting
-        plantFuncMachining
-        plantFuncHeatTreat
-        plantFuncPenetrant
-        plantFuncRadiograph
-        plantFuncUltrasonic
-        plantFuncMagParticle
-        plantFuncCapacityPer
-        plantFuncProductListing
-        plantFuncFunctionalTesting
-    }
-    
-  }
-}
-
-`;
-
-  const DeletePlant = gql`
-  mutation deletePlant($plantInfoId:Int){
-  deletePlant(plantInfoId:$plantInfoId){
-      plant{
-        plantInfoId
-        plantInfoName
-        plantInfoStatus
-        plantInfoPhoneNo
-        plantInfoAddInfo
-        plantInfoWebsite
-        plantInfoSquareFt
-        plantInfoHeadCount
-        plantInfoEngTech
-        plantInfoProduction
-        plantInfoNumShifts
-        plantInfoContactForm
-        plantInfoHrsOperation
-        plantInfoPhoneNoSales
-        plantInfoEmailAddress
-        plantInfoRequestQoute
-        plantInfoPhoneNoSupport
-        plantInfoCertifications
-        plantInfoOnlineSellerSite
-        plantInfoPhoneAfterOfficeHrs
-        plantLocationSet{
-          plantLocMap
-          plantLocCity
-          plantLocState
-          plantLocCounty
-          plantLocCountry{
-            countryName
-            countryCode
-          }
-          plantLocZipcode
-          plantLocAddress
-          plantLocStatus
-          plantLocLatitude
-          plantLocLongitude
-        }
-      plantInfoSiteLeader{
-          plantContFname
-          plantContLname
-          plantContMname
-      }
-      plantInfoQa{
-          plantContFname
-          plantContLname
-          plantContMname
-      }
-      plantContactTypeSet{
-        CWSalesDistribution
-            CWServiceSupport
-            CWTrainingCenters
-            CWPlants
-            CWInnovationCenters
-            CTHelix
-            CTPlant
-            CTEmerson
-            CTRetailer
-            CTSalesRep
-            CTContractor
-            CTSalesOffice
-            CTTechSupport
-            CTOnlineSeller
-            CTServiceCenter
-            CTTrainingCenter
-            CTLocalBusPartner
-            CTCustomerService
-            CTDistriWholesaler
-            CTGlobalHeadquarters
-            CTCountryHeadquarters
-            shownOnContactUs
-            shownOnWhereToBuy
-            plantContactTypeStatus
-      }
-    }
-  }
-}
-  `
+  import * as Get_Plant_Contacts from '../graphql/Get_Plant_Contacts.gql';
+  import * as Get_Plant_Informations from '../graphql/Get_Plant_Informations.gql';
+  import * as Get_Brand_by_Category from '../graphql/Get_Brand_by_Category.gql';
+  import * as Get_Countries from '../graphql/Get_Countries.gql';
+  import * as Get_Product_Categories from '../graphql/Get_Product_Categories.gql';
+  import * as Get_All_Brands from '../graphql/Get_All_Brands.gql';
+  import * as Get_All_Certificates from '../graphql/Get_All_Certificates.gql';
+  import * as Get_Plant_Certificates from '../graphql/Get_Plant_Certificates.gql';
+  import * as Create_Plant from '../graphql/Create_Plant.gql';
+  import * as Create_Plant_Location from '../graphql/Create_Plant_Location.gql';
+  import * as Create_Plant_Functions from '../graphql/Create_Plant_Functions.gql';
+  import * as Create_Plant_Contacts from '../graphql/Create_Plant_Contacts.gql';
+  import * as Create_Plant_Brands from '../graphql/Create_Plant_Brands.gql';
+  import * as Create_Plant_Certificates from '../graphql/Create_Plant_Certificates.gql';
+  import * as Update_Plant_Certificates from '../graphql/Update_Plant_Certificates.gql';
+  import * as Update_Plant_Information from '../graphql/Update_Plant_Information.gql';
+  import * as Update_Plant_Location from '../graphql/Update_Plant_Location.gql';
+  import * as Update_Plant_Contacts from '../graphql/Update_Plant_Contacts.gql';
+  import * as Update_Plant_Functions from '../graphql/Update_Plant_Functions.gql';
+  import * as Update_Plant_Brands from '../graphql/Update_Plant_Brands.gql';
+  import * as Delete_Plant from '../graphql/Delete_Plant.gql';
+  import {bus} from  '../main.js';
+  import CertificateForm from './CertificateForm';
 
   export default {
     mixins: [validationMixin],
-    
+
     validations: {
       //Plant Information
       plantInfoName: { required, minLength: minLength(3) },
@@ -1344,7 +778,7 @@ mutation updatePlantFunction(
       plantInfoOnlineSellerSite: { url },
       plantInfoPhoneAfterOfficeHrs: { },
       plantInfoAddInfo: { required, minLength: minLength(3) },
-      
+
       //Plant Address
       plantLocMap: { required, minLength: minLength(3) },
       plantLocAddress: { required, minLength: minLength(3)  },
@@ -1360,7 +794,7 @@ mutation updatePlantFunction(
       // plantSLFname: { minLength: minLength(3) },
       // plantSLLname: { minLength: minLength(3) },
       // plantSLMname: { },
-      
+
       // plantQAFname: { minLength: minLength(3) },
       // plantQALname: { minLength: minLength(3) },
       // plantQAMname: { },
@@ -1387,6 +821,7 @@ mutation updatePlantFunction(
         //stateprovince: [],
         search: '',
         dialog: false,
+        dialog3:false,
         e1: 0,
         countryId: "",
         countryName: "",
@@ -1465,10 +900,28 @@ mutation updatePlantFunction(
         plantFuncFunctionalTesting:"",
         IsUpdate:false,
         IsCreate:true,
+        Title: "",
+        Type: "",
+        Category: "",
+        Status: true,
+        direction: 'right',
+        fab: false,
+        fling: false,
+        hover: true,
+        tabs: null,
+        top: false,
+        right: true,
+        bottom: true,
+        left: false,
+        transition: 'slide-y-reverse-transition',
+        brands : [],
+        businessUnits : [],
+        IdToDelete:"",
+        search_Location : "",
 
         //table headers
         dialog2: false,
-
+        Actions:true,
         location: false,
         legalEntityName: false,
         physicalAddress: false,
@@ -1490,22 +943,40 @@ mutation updatePlantFunction(
         visual: true,
         currentCapacity: true,
         productListing: true,
+        certificates:true,
+        show_Certificate_Form : false
+
       };
     },
     apollo: {
-      plantinformations: PlantInformationQuery,
-      countries: CountriesQuery,
-      plantcontacts: PlantContactsQuery,
-      //stateprovinces:StatesQuery,
-      //stateprovince:StateQuery
-      //counties:CountiesQuery
-      // plantinformations:PlantQuery
+      countries : Get_Countries,
+      BusinessUnits : Get_Product_Categories,
+      BrandAll : Get_All_Brands,
+      Allplantcontacts : Get_Plant_Contacts,
+      Certificates:Get_All_Certificates,
     },
+    components: {
+    CertificateForm
+        },
     computed: {
-      
+
+      filteredList(){
+        return this.plantInformationList.filter(post => {
+          //console.log(Object.values(post.plantInfoId))
+          for (var i = 0; i < Object.values(post.plantInfoId).length ; i++ ){
+             console.log(Object.values(post.plantInfoId)[i])
+              // if (Object.values(post.plantInfoId)[i].includes(this.search)){
+              //   return Object.values(post.plantInfoId)[i]
+              // }
+          }
+          //return post.plantInfoId.plantInfoSiteLeader.plantContFname.includes(this.search)
+          
+        })
+      },
+
       //individual column toggle
       headers () {
-      let headers = []
+      let headers = [{ text: 'Actions', value: 'Actions', sortable: false },]
         if (!this.location) {
           headers.push({ text: 'Location', value: 'plantLocCity', sortable: true })
         }
@@ -1569,8 +1040,8 @@ mutation updatePlantFunction(
         if (!this.productListing) {
           headers.push({ text: 'Product listing (size, pressure, etc..)', value: 'productListing', sortable: true })
         }
-        
-        headers.push({ text: '', value: 'actions', sortable: false, })
+
+        headers.push({ text: 'Certificates', value: 'Certificates', sortable: true })
         return headers
       },
 
@@ -1755,908 +1226,1006 @@ mutation updatePlantFunction(
       // }
     },
     methods: {
-      async save() {   
-
-        setTimeout(() => {
-          this.save_plant_QA()
-        }, 1000)
-         setTimeout(() => {
-           this.save_plant_SL()
-        }, 2000)     
-        setTimeout(() => {
-          this.create_plant()
-        },5000)
-        // setTimeout(() => {
-        //   this.create_plant_loc()
-        // },10000)
-        // setTimeout(() => {
-        //   this.create_plant_function()
-        // },10000)            
-        this.dialog = false
-        //this.clear()
+      async openMyDialog () {
+        bus.$emit('dialog_cert', true) // emit the event to the bus
       },
-      async update() {   
-          this.update_plant()    
-          this.update_plant_QA()
-          this.update_plant_SL()         
-          this.update_plant_loc()    
-          this.update_plant_function()   
-          this.dialog = false
-          //this.clear()
-      },
-      // async getState() {
-      //   this.statesList = [];
-      //   return this.$apollo.query({
-      //     query: StateQuery,
-      //     variables: {
-      //       stateCountry: this.Country
-      //     }
-      //   }).then((data) => {
-      //     this.stateprovinces = data.data.stateprovince
-      //   })
-      // },
-
-      // async getCounty() {
-      //   this.countyList = [];
-      //   return this.$apollo.query({
-      //     query: CountyQuery,
-      //     variables: {
-      //       countyState: this.State
-      //     }
-      //   }).then((data) => {
-      //     this.counties = data.data.county
-      //   })
-      // },
-      async getPlantInformation() {
-        //alert("test")
-        this.plantInformationList = [];
-        this.$apollo.query({
-          query: PlantInformationQuery
-        }).then((data) => {
-          for(var i = 0 ; i < data.data.plantinformations.length; i++){
-            if(data.data.plantinformations[i].plantInfoStatus == true ){             
-               this.plantInformationList.push(data.data.plantinformations[i])   
-            }        
-          }          
-        })   
-      },
-      async create_plant() {
-        const {
-          plantInfoName,
-          plantInfoPhoneNo,
-          plantInfoAddInfo,
-          plantInfoWebsite,
-          plantInfoSquareFt,
-          plantInfoHeadCount,
-          plantInfoProduction,
-          plantInfoEngTech,
-          plantInfoNumShifts,
-          plantInfoContactForm,
-          plantInfoHrsOperation,
-          plantInfoPhoneNoSales,
-          plantInfoEmailAddress,
-          plantInfoRequestQoute,
-          plantInfoPhoneNoSupport,
-          plantInfoCertifications,
-          plantInfoOnlineSellerSite,
-          plantInfoPhoneAfterOfficeHrs,
-          plantInfoSiteLeader,
-          plantInfoQa
-        } = {
-          plantInfoName: this.plantInfoName,
-          plantInfoPhoneNo: parseInt(this.plantInfoPhoneNo),
-          plantInfoAddInfo: this.plantInfoAddInfo,
-          plantInfoWebsite: this.plantInfoWebsite,
-          plantInfoSquareFt: parseInt(this.plantInfoSquareFt),
-          plantInfoHeadCount: parseInt(this.plantInfoHeadCount),
-          plantInfoProduction: parseInt(this.plantInfoProduction),
-          plantInfoEngTech: parseInt(this.plantInfoEngTech),
-          plantInfoNumShifts: parseInt(this.plantInfoNumShifts),
-          plantInfoContactForm: this.plantInfoContactForm,
-          plantInfoHrsOperation: parseInt(this.plantInfoHrsOperation),
-          plantInfoPhoneNoSales: parseInt(this.plantInfoPhoneNoSales),
-          plantInfoEmailAddress: this.plantInfoEmailAddress,
-          plantInfoRequestQoute: this.plantInfoRequestQoute,
-          plantInfoPhoneNoSupport: parseInt(this.plantInfoPhoneNoSupport),
-          plantInfoCertifications: this.plantInfoCertifications,
-          plantInfoOnlineSellerSite: this.plantInfoOnlineSellerSite,
-          plantInfoPhoneAfterOfficeHrs: parseInt(this.plantInfoPhoneAfterOfficeHrs),
-          plantInfoSiteLeader: parseInt(this.plantContactSiteLeader),
-          plantInfoQa: parseInt(this.plantContactQALeader)
-        };
-        // call the graphql mutation
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: CreatePlant,
-          // parameters
-          variables: {
-            plantInfoName: plantInfoName,
-            plantInfoPhoneNo: plantInfoPhoneNo,
-            plantInfoAddInfo: plantInfoAddInfo,
-            plantInfoWebsite: plantInfoWebsite,
-            plantInfoSquareFt: plantInfoSquareFt,
-            plantInfoHeadCount: plantInfoHeadCount,
-            plantInfoProduction: plantInfoProduction,
-            plantInfoEngTech: plantInfoEngTech,
-            plantInfoNumShifts: plantInfoNumShifts,
-            plantInfoContactForm: plantInfoContactForm,
-            plantInfoHrsOperation: plantInfoHrsOperation,
-            plantInfoPhoneNoSales: plantInfoPhoneNoSales,
-            plantInfoEmailAddress: plantInfoEmailAddress,
-            plantInfoRequestQoute: plantInfoRequestQoute,
-            plantInfoPhoneNoSupport: plantInfoPhoneNoSupport,
-            plantInfoCertifications: plantInfoCertifications,
-            plantInfoOnlineSellerSite: plantInfoOnlineSellerSite,
-            plantInfoPhoneAfterOfficeHrs: plantInfoPhoneAfterOfficeHrs,
-            plantInfoSiteLeader: plantInfoSiteLeader,
-            plantInfoQa: plantInfoQa
-          },
-          update: (store, {
-            data: {
-              createPlant
-            }
-          }) => {
-            // add to all tasks list
-            const data = store.readQuery({
-              query: PlantInformationQuery
-            });      
-            data.plantinformations.push(createPlant.plant);
+      async columnValueList(val) {
+      return this.plantInformationList.map(d => d[val])
+    },
+      async save() {
             setTimeout(() => {
-              this.create_plant_loc(createPlant.plant.plantInfoId)
-              this.create_plant_function(createPlant.plant.plantInfoId)     
-            }, 1000);      
-            console.log(createPlant.plant.plantInfoId)
-            store.writeQuery({
-              query: PlantInformationQuery,
-              data
-            });
+              this.save_plant_QA()
+            }, 1000)
+            setTimeout(() => {
+              this.save_plant_SL()
+            }, 2000)
+            setTimeout(() => {
+              this.create_plant()
+            },3000)
+            this.dialog = false
+            //this.clear()
           },
-        });
-        const t = data.data.createPlant.plant;
-        this.plantInfoName = "";
-        this.plantInfoPhoneNo = "";
-        this.plantInfoAddInfo = "";
-        this.plantInfoWebsite = "";
-        this.plantInfoSquareFt = "";
-        this.plantInfoHeadCount = "";
-        this.plantInfoProduction = "";
-        this.plantInfoEngTech = "";
-        this.plantInfoNumShifts = "";
-        this.plantInfoContactForm = "";
-        this.plantInfoHrsOperation = "";
-        this.plantInfoPhoneNoSales = "";
-        this.plantInfoEmailAddress = "";
-        this.plantInfoRequestQoute = "";
-        this.plantInfoPhoneNoSupport = "";
-        this.plantInfoCertifications = "";
-        this.plantInfoOnlineSellerSite = "";
-        this.plantInfoPhoneAfterOfficeHrs = "";
-      },
-      async create_plant_loc(infoId) {
-        //this.e1 = 3
-        // this.CountPlant = this.plantinformations[parseInt(this.plantinformations.length) - 1]
-        //   .plantInfoId
-        const {
-          plantInfoId,
-          plantLocMap,
-          plantLocCity,
-          plantLocState,
-          plantLocCounty,
-          plantLocCountry,
-          plantLocZipcode,
-          plantLocAddress,
-          plantLocLatitude,
-          plantLocLongitude,
-        } = {
-          plantInfoId: infoId,
-          plantLocMap: this.plantLocMap,
-          plantLocCity: this.City,
-          plantLocState: this.State,
-          plantLocCounty: this.County,
-          plantLocCountry: parseInt(this.Country),
-          plantLocZipcode: parseInt(this.Zipcode),
-          plantLocAddress: this.plantLocAddress,
-          plantLocLatitude: parseInt(this.plantLocLatitude),
-          plantLocLongitude: parseInt(this.plantLocLongitude),
-        };
-        // call the graphql mutation
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: CreatePlantLoc,
-          // parameters
-          variables: {
-            plantInfoId: plantInfoId,
-            plantLocMap: plantLocMap,
-            plantLocCity: plantLocCity,
-            plantLocState: plantLocState,
-            plantLocCounty: plantLocCounty,
-            plantLocCountry: plantLocCountry,
-            plantLocZipcode: plantLocZipcode,
-            plantLocAddress: plantLocAddress,
-            plantLocLatitude: plantLocLatitude,
-            plantLocLongitude: plantLocLongitude
-          }
-        });
-        //const t = data.data.createPlantLoc.plantLoc;
-        // console.log('Added:', t);
-        this.plantInfoId = "";
-        this.plantLocMap = "";
-        this.City = "";
-        this.State = "";
-        this.County = "";
-        this.Country = "";
-        this.Zipcode = "";
-        this.plantLocAddress = "";
-        this.plantLocLatitude = "";
-        this.plantLocLongitude = "";
-        
-      },
-       async create_plant_function(infoId) {
-        const {
-        plantInfoId,
-        plantFuncHydro,
-        plantFuncVisual,
-        plantFuncWelding,
-        plantFuncPainting,
-        plantFuncMachining,
-        plantFuncHeatTreat,
-        plantFuncPenetrant,
-        plantFuncRadiograph,
-        plantFuncUltrasonic,
-        plantFuncMagParticle,
-        plantFuncCapacityPer,
-        plantFuncProductListing,
-        plantFuncFunctionalTesting
-        } = {
-          plantInfoId:infoId,
-          plantFuncHydro:this.plantFuncHydro,
-          plantFuncVisual:this.plantFuncVisual,
-          plantFuncWelding:this.plantFuncWelding,
-          plantFuncPainting:this.plantFuncPainting,
-          plantFuncMachining:this.plantFuncMachining,
-          plantFuncHeatTreat:this.plantFuncHeatTreat,
-          plantFuncPenetrant:this.plantFuncPenetrant,
-          plantFuncRadiograph:this.plantFuncRadiograph,
-          plantFuncUltrasonic:this.plantFuncUltrasonic,
-          plantFuncMagParticle:this.plantFuncMagParticle,
-          plantFuncCapacityPer:this.plantFuncCapacityPer,
-          plantFuncProductListing:this.plantFuncProductListing,
-          plantFuncFunctionalTesting:this.plantFuncFunctionalTesting
-        };
-        // call the graphql mutation
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: CreatePlantFunction,
-          // parameters
-          variables: {
-           plantInfoId:plantInfoId,
-           plantFuncHydro:plantFuncHydro,
-           plantFuncVisual:plantFuncVisual,
-           plantFuncWelding:plantFuncWelding,
-           plantFuncPainting:plantFuncPainting,
-           plantFuncMachining:plantFuncMachining,
-           plantFuncHeatTreat:plantFuncHeatTreat,
-           plantFuncPenetrant:plantFuncPenetrant,
-           plantFuncRadiograph:plantFuncRadiograph,
-           plantFuncUltrasonic:plantFuncUltrasonic,
-           plantFuncMagParticle:plantFuncMagParticle,
-           plantFuncCapacityPer:plantFuncCapacityPer,
-           plantFuncProductListing:plantFuncProductListing,
-           plantFuncFunctionalTesting:plantFuncFunctionalTesting,
-           
-          }
-        });
-        const t = data.data.createPlantFunction.plantFunction;
-        // console.log('Added:', t);
-         this.plantFuncHydro="",
-         this.plantFuncVisual="",
-         this.plantFuncWelding="",
-         this.plantFuncPainting="",
-         this.plantFuncMachining="",
-         this.plantFuncHeatTreat="",
-         this.plantFuncPenetrant="",
-         this.plantFuncRadiograph="",
-         this.plantFuncUltrasonic="",
-         this.lantFuncMagParticle="",
-         this.plantFuncCapacityPer="",
-         this.plantFuncProductListing="",
-         this.plantFuncFunctionalTesting=""
-         this.getPlantInformation()
-      },
-      async save_plant_SL() {
-        const {
-          plantSLFname,
-          plantSLMname,
-          plantSLLname,
-          plantContType,
-          plantContStatus,
-        } = {
-          plantSLFname: this.plantSLFname,
-          plantSLMname: this.plantSLMname,
-          plantSLLname: this.plantSLLname,
-          plantContType:"SL",
-          plantContStatus: true,
-        };
-        // call the graphql mutation
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: CreatePlantContact,
-          // parameters
-          variables: {
-            plantContFname: plantSLFname,
-            plantContLname: plantSLLname,
-            plantContMname: plantSLMname,
-            plantContType: plantContType,
-            plantContStatus: plantContStatus,
+          async update() {
+              this.update_plant_brand(this.plantInfoId)
+              this.update_plant_certificates(this.plantInfoId)
+              setTimeout(() => {
+                this.update_plant()
+                this.update_plant_QA()
+                this.update_plant_SL()
+                this.update_plant_loc()
+                this.update_plant_function()
+              },2000);
+              this.dialog = false
+              //this.clear()
           },
-          update: (store, {
-            data: {
-              createPlantContact
-            }
-          }) => {
-            // add to all tasks list
-            const data = store.readQuery({
-              query: PlantContactsQuery
-            });
-            data.plantcontacts.push(createPlantContact.plantContact);
-            store.writeQuery({
-              query: PlantContactsQuery,
-              data
-            });
-          },
-        });
-        const t = data.data.createPlantContact.plantContact;
-        // console.log('Added:', t);
-        this.plantSLFname = "";
-        this.plantSLLname = "";
-        this.plantSLMname = "";
-        this.plantContStatus = "";
-        this.plantContactSiteLeader = this.plantcontacts[this.plantcontacts.length - 1].plantContId
-      },
-      async save_plant_QA() {
-        const {
-          plantQAFname,
-          plantQAMname,
-          plantQALname,
-          plantContType,
-          plantContStatus,
-        } = {
-          plantQAFname: this.plantQAFname,
-          plantQAMname: this.plantQAMname,
-          plantQALname: this.plantQALname,
-          plantContType:"QA",
-          plantContStatus: true,
-        };
-        // call the graphql mutation
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: CreatePlantContact,
-          // parameters
-          variables: {
-            plantContFname: plantQAFname,
-            plantContMname: plantQAMname,
-            plantContLname: plantQALname,
-            plantContType: plantContType,
-            plantContStatus: plantContStatus,
-          },
-          update: (store, {
-            data: {
-              createPlantContact
-            }
-          }) => {
-            // add to all tasks list
-            const data = store.readQuery({
-              query: PlantContactsQuery
-            });
-            data.plantcontacts.push(createPlantContact.plantContact);
-            store.writeQuery({
-              query: PlantContactsQuery,
-              data
-            });
-          },
-        });
-        const t = data.data.createPlantContact.plantContact;
-        // console.log('Added:', t);
-        //this.getPlantInformation()
-        this.plantQAFname = "";
-        this.plantQAMname = "";
-        this.plantQALname = "";
-        this.plantContStatus = "";
-        this.plantContactQALeader = this.plantcontacts[this.plantcontacts.length - 1].plantContId
-      },
-      async getPlantInfo(plant){
-        {
-          this.plantInfoId = plant.item.plantInfoId,
-          this.plantInfoName = plant.item.plantInfoName,
-          this.plantInfoPhoneNo = plant.item.plantInfoPhoneNo,
-          this.plantInfoAddInfo = plant.item.plantInfoAddInfo,
-          this.plantInfoWebsite = plant.item.plantInfoWebsite,
-          this.plantInfoSquareFt = plant.item.plantInfoSquareFt,
-          this.plantInfoHeadCount = plant.item.plantInfoHeadCount,
-          this.plantInfoProduction = plant.item.plantInfoProduction,
-          this.plantInfoEngTech = plant.item.plantInfoEngTech,
-          this.plantInfoNumShifts = plant.item.plantInfoNumShifts,
-          this.plantInfoContactForm = plant.item.plantInfoContactForm,
-          this.plantInfoHrsOperation = plant.item.plantInfoHrsOperation,
-          this.plantInfoPhoneNoSales = plant.item.plantInfoPhoneNoSales,
-          this.plantInfoEmailAddress = plant.item.plantInfoEmailAddress,
-          this.plantInfoRequestQoute = plant.item.plantInfoRequestQoute,
-          this.plantInfoPhoneNoSupport = plant.item.plantInfoPhoneNoSupport,
-          this.plantInfoCertifications = plant.item.plantInfoCertifications,
-          this.plantInfoOnlineSellerSite = plant.item.plantInfoOnlineSellerSite,
-          this.plantInfoPhoneAfterOfficeHrs = plant.item.plantInfoPhoneAfterOfficeHrs,
-          this.plantContactSiteLeader = plant.item.plantInfoSiteLeader.plantContId,
-          this.plantContactQALeader = plant.item.plantInfoQa.plantContId,
-          this.plantInfoId = plant.item.plantLocationSet[0].plantInfoId.plantInfoId,
-          this.plantLocId = plant.item.plantLocationSet[0].plantLocId
-          this.plantLocMap =plant.item.plantLocationSet[0].plantLocMap,
-          this.City = plant.item.plantLocationSet[0].plantLocCity,
-          this.Country = plant.item.plantLocationSet[0].plantLocCountry.countryId,
-          this.State = plant.item.plantLocationSet[0].plantLocState.stateId,
-          this.County = plant.item.plantLocationSet[0].plantLocCounty,
-          this.Zipcode = plant.item.plantLocationSet[0].plantLocZipcode,
-          this.plantLocAddress =plant.item.plantLocationSet[0].plantLocAddress ,
-          this.plantLocLatitude =plant.item.plantLocationSet[0].plantLocLatitude ,
-          this.plantLocLongitude =plant.item.plantLocationSet[0].plantLocLongitude ,
-          this.plantFuncId=plant.item.plantFunctionsSet[0].plantFuncId,
-          this.plantFuncHydro=plant.item.plantFunctionsSet[0].plantFuncHydro,
-          this.plantFuncVisual=plant.item.plantFunctionsSet[0].plantFuncVisual,
-          this.plantFuncWelding=plant.item.plantFunctionsSet[0].plantFuncWelding,
-          this.plantFuncPainting=plant.item.plantFunctionsSet[0].plantFuncPainting,
-          this.plantFuncMachining=plant.item.plantFunctionsSet[0].plantFuncMachining,
-          this.plantFuncHeatTreat=plant.item.plantFunctionsSet[0].plantFuncHeatTreat,
-          this.plantFuncPenetrant=plant.item.plantFunctionsSet[0].plantFuncPenetrant,
-          this.plantFuncRadiograph=plant.item.plantFunctionsSet[0].plantFuncRadiograph,
-          this.plantFuncUltrasonic=plant.item.plantFunctionsSet[0].plantFuncUltrasonic,
-          this.plantFuncMagParticle=plant.item.plantFunctionsSet[0].plantFuncMagParticle,
-          this.plantFuncCapacityPer=plant.item.plantFunctionsSet[0].plantFuncCapacityPer,
-          this.plantFuncProductListing=plant.item.plantFunctionsSet[0].plantFuncProductListing,
-          this.plantFuncFunctionalTesting=plant.item.plantFunctionsSet[0].plantFuncFunctionalTesting,
-          this.plantQAId =  plant.item.plantInfoQa.plantContId,
-          this.plantQAFname=plant.item.plantInfoQa.plantContFname,
-          this.plantQAMname=plant.item.plantInfoQa.plantContMname,
-          this.plantQALname=plant.item.plantInfoQa.plantContLname,
-          this.plantSLId = plant.item.plantInfoSiteLeader.plantContId,
-          this.plantSLFname=plant.item.plantInfoSiteLeader.plantContFname,
-          this.plantSLMname=plant.item.plantInfoSiteLeader.plantContMname,
-          this.plantSLLname=plant.item.plantInfoSiteLeader.plantContLname
-          this.dialog = true
-          this.IsUpdate = true
-          this.IsCreate = false
-        }
-      }
-      ,
-      async update_plant() {
-        const {
-          plantInfoId,
-          plantInfoName,
-          plantInfoPhoneNo,
-          plantInfoAddInfo,
-          plantInfoWebsite,
-          plantInfoSquareFt,
-          plantInfoHeadCount,
-          plantInfoProduction,
-          plantInfoEngTech,
-          plantInfoNumShifts,
-          plantInfoContactForm,
-          plantInfoHrsOperation,
-          plantInfoPhoneNoSales,
-          plantInfoEmailAddress,
-          plantInfoRequestQoute,
-          plantInfoPhoneNoSupport,
-          plantInfoCertifications,
-          plantInfoOnlineSellerSite,
-          plantInfoPhoneAfterOfficeHrs,
-          plantInfoSiteLeader,
-          plantInfoQa
-        } = {
-          plantInfoId:this.plantInfoId,
-          plantInfoName: this.plantInfoName,
-          plantInfoPhoneNo: parseInt(this.plantInfoPhoneNo),
-          plantInfoAddInfo: this.plantInfoAddInfo,
-          plantInfoWebsite: this.plantInfoWebsite,
-          plantInfoSquareFt: parseInt(this.plantInfoSquareFt),
-          plantInfoHeadCount: parseInt(this.plantInfoHeadCount),
-          plantInfoProduction: parseInt(this.plantInfoProduction),
-          plantInfoEngTech: parseInt(this.plantInfoEngTech),
-          plantInfoNumShifts: parseInt(this.plantInfoNumShifts),
-          plantInfoContactForm: this.plantInfoContactForm,
-          plantInfoHrsOperation: parseInt(this.plantInfoHrsOperation),
-          plantInfoPhoneNoSales: parseInt(this.plantInfoPhoneNoSales),
-          plantInfoEmailAddress: this.plantInfoEmailAddress,
-          plantInfoRequestQoute: this.plantInfoRequestQoute,
-          plantInfoPhoneNoSupport: parseInt(this.plantInfoPhoneNoSupport),
-          plantInfoCertifications: this.plantInfoCertifications,
-          plantInfoOnlineSellerSite: this.plantInfoOnlineSellerSite,
-          plantInfoPhoneAfterOfficeHrs: parseInt(this.plantInfoPhoneAfterOfficeHrs),
-          plantInfoSiteLeader: parseInt(this.plantContactSiteLeader),
-          plantInfoQa: parseInt(this.plantContactQALeader)
-        };
-        // call the graphql mutation
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: UpdatePlant,
-          // parameters
-          variables: {
-            plantInfoId:plantInfoId,
-            plantInfoName: plantInfoName,
-            plantInfoPhoneNo: plantInfoPhoneNo,
-            plantInfoAddInfo: plantInfoAddInfo,
-            plantInfoWebsite: plantInfoWebsite,
-            plantInfoSquareFt: plantInfoSquareFt,
-            plantInfoHeadCount: plantInfoHeadCount,
-            plantInfoProduction: plantInfoProduction,
-            plantInfoEngTech: plantInfoEngTech,
-            plantInfoNumShifts: plantInfoNumShifts,
-            plantInfoContactForm: plantInfoContactForm,
-            plantInfoHrsOperation: plantInfoHrsOperation,
-            plantInfoPhoneNoSales: plantInfoPhoneNoSales,
-            plantInfoEmailAddress: plantInfoEmailAddress,
-            plantInfoRequestQoute: plantInfoRequestQoute,
-            plantInfoPhoneNoSupport: plantInfoPhoneNoSupport,
-            plantInfoCertifications: plantInfoCertifications,
-            plantInfoOnlineSellerSite: plantInfoOnlineSellerSite,
-            plantInfoPhoneAfterOfficeHrs: plantInfoPhoneAfterOfficeHrs,
-            plantInfoSiteLeader: plantInfoSiteLeader,
-            plantInfoQa: plantInfoQa
-            },
-            update: (store, {
-              data: {
-                updatePlant
+          async getPlantInformation() {
+            //alert("test")
+            this.plantInformationList = [];
+            this.$apollo.query({
+              query: Get_Plant_Informations
+            }).then((data) => {
+              for(var i = 0 ; i < data.data.plantfunctions.length; i++){
+                if(data.data.plantfunctions[i].plantInfoId.plantInfoStatus == true ){
+                  this.plantInformationList.push(data.data.plantfunctions[i].plantInfoId)
+                }
               }
-            }) => {
-              // add to all tasks list
-              const data = store.readQuery({
-                query: PlantInformationQuery
-              });
-              //data.plantinformations = []
-              data.plantinformations.push(updatePlant.plant)
-              store.writeQuery({
-                query: PlantInformationQuery,
-                data
-              });
+            })
+          },
+        async getbrands() {
+            this.BrandAll = []
+            return this.$apollo.query({
+                        query: Get_Brand_by_Category,
+                        variables: {
+                          prodCategoryIds: this.businessUnits
+                        }
+                      }).then((data) => {
+                        for(var i = 0 ; i < data.data.BrandProdCategory.length ; i++){
+                            this.BrandAll.push(data.data.BrandProdCategory[i].brandId)
+                        }
+                      })
+          },
+          async create_plant() {
+            const {
+              plantInfoName,
+              plantInfoPhoneNo,
+              plantInfoAddInfo,
+              plantInfoWebsite,
+              plantInfoSquareFt,
+              plantInfoHeadCount,
+              plantInfoProduction,
+              plantInfoEngTech,
+              plantInfoNumShifts,
+              plantInfoContactForm,
+              plantInfoHrsOperation,
+              plantInfoPhoneNoSales,
+              plantInfoEmailAddress,
+              plantInfoRequestQoute,
+              plantInfoPhoneNoSupport,
+              plantInfoCertifications,
+              plantInfoOnlineSellerSite,
+              plantInfoPhoneAfterOfficeHrs,
+              plantInfoSiteLeader,
+              plantInfoQa
+            } = {
+              plantInfoName: this.plantInfoName,
+              plantInfoPhoneNo: parseInt(this.plantInfoPhoneNo),
+              plantInfoAddInfo: this.plantInfoAddInfo,
+              plantInfoWebsite: this.plantInfoWebsite,
+              plantInfoSquareFt: parseInt(this.plantInfoSquareFt),
+              plantInfoHeadCount: parseInt(this.plantInfoHeadCount),
+              plantInfoProduction: parseInt(this.plantInfoProduction),
+              plantInfoEngTech: parseInt(this.plantInfoEngTech),
+              plantInfoNumShifts: parseInt(this.plantInfoNumShifts),
+              plantInfoContactForm: this.plantInfoContactForm,
+              plantInfoHrsOperation: parseInt(this.plantInfoHrsOperation),
+              plantInfoPhoneNoSales: parseInt(this.plantInfoPhoneNoSales),
+              plantInfoEmailAddress: this.plantInfoEmailAddress,
+              plantInfoRequestQoute: this.plantInfoRequestQoute,
+              plantInfoPhoneNoSupport: parseInt(this.plantInfoPhoneNoSupport),
+              plantInfoCertifications: this.plantInfoCertifications,
+              plantInfoOnlineSellerSite: this.plantInfoOnlineSellerSite,
+              plantInfoPhoneAfterOfficeHrs: parseInt(this.plantInfoPhoneAfterOfficeHrs),
+              // plantInfoSiteLeader: 158,
+              // plantInfoQa:159
+              plantInfoSiteLeader: parseInt(this.plantContactSiteLeader),
+              plantInfoQa: parseInt(this.plantContactQALeader)
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Create_Plant,
+              // parameters
+              variables: {
+                plantInfoName: plantInfoName,
+                plantInfoPhoneNo: plantInfoPhoneNo,
+                plantInfoAddInfo: plantInfoAddInfo,
+                plantInfoWebsite: plantInfoWebsite,
+                plantInfoSquareFt: plantInfoSquareFt,
+                plantInfoHeadCount: plantInfoHeadCount,
+                plantInfoProduction: plantInfoProduction,
+                plantInfoEngTech: plantInfoEngTech,
+                plantInfoNumShifts: plantInfoNumShifts,
+                plantInfoContactForm: plantInfoContactForm,
+                plantInfoHrsOperation: plantInfoHrsOperation,
+                plantInfoPhoneNoSales: plantInfoPhoneNoSales,
+                plantInfoEmailAddress: plantInfoEmailAddress,
+                plantInfoRequestQoute: plantInfoRequestQoute,
+                plantInfoPhoneNoSupport: plantInfoPhoneNoSupport,
+                plantInfoCertifications: plantInfoCertifications,
+                plantInfoOnlineSellerSite: plantInfoOnlineSellerSite,
+                plantInfoPhoneAfterOfficeHrs: plantInfoPhoneAfterOfficeHrs,
+                plantInfoSiteLeader: plantInfoSiteLeader,
+                plantInfoQa: plantInfoQa
+              },
+              update: (store, {
+                data: {
+                  createPlant
+                }
+              }) => {
+                  this.create_plant_brand(createPlant.plant.plantInfoId)
+                  this.create_plant_loc(createPlant.plant.plantInfoId)
+                  this.create_plant_certificates(createPlant.plant.plantInfoId)
+                  this.create_plant_function(createPlant.plant.plantInfoId)
+              }
+            });
+            const t = data.data.createPlant.plant;
+            this.plantInfoName = "";
+            this.plantInfoPhoneNo = "";
+            this.plantInfoAddInfo = "";
+            this.plantInfoWebsite = "";
+            this.plantInfoSquareFt = "";
+            this.plantInfoHeadCount = "";
+            this.plantInfoProduction = "";
+            this.plantInfoEngTech = "";
+            this.plantInfoNumShifts = "";
+            this.plantInfoContactForm = "";
+            this.plantInfoHrsOperation = "";
+            this.plantInfoPhoneNoSales = "";
+            this.plantInfoEmailAddress = "";
+            this.plantInfoRequestQoute = "";
+            this.plantInfoPhoneNoSupport = "";
+            this.plantInfoCertifications = "";
+            this.plantInfoOnlineSellerSite = "";
+            this.plantInfoPhoneAfterOfficeHrs = "";
+          },
+          async create_plant_loc(infoId) {
+            const {
+              plantInfoId,
+              plantLocMap,
+              plantLocCity,
+              plantLocState,
+              plantLocCounty,
+              plantLocCountry,
+              plantLocZipcode,
+              plantLocAddress,
+              plantLocLatitude,
+              plantLocLongitude,
+            } = {
+              plantInfoId: infoId,
+              plantLocMap: this.plantLocMap,
+              plantLocCity: this.City,
+              plantLocState: this.State,
+              plantLocCounty: this.County,
+              plantLocCountry: parseInt(this.Country),
+              plantLocZipcode: parseInt(this.Zipcode),
+              plantLocAddress: this.plantLocAddress,
+              plantLocLatitude: parseInt(this.plantLocLatitude),
+              plantLocLongitude: parseInt(this.plantLocLongitude),
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Create_Plant_Location,
+              // parameters
+              variables: {
+                plantInfoId: plantInfoId,
+                plantLocMap: plantLocMap,
+                plantLocCity: plantLocCity,
+                plantLocState: plantLocState,
+                plantLocCounty: plantLocCounty,
+                plantLocCountry: plantLocCountry,
+                plantLocZipcode: plantLocZipcode,
+                plantLocAddress: plantLocAddress,
+                plantLocLatitude: plantLocLatitude,
+                plantLocLongitude: plantLocLongitude
+              }
+            });
+            this.plantInfoId = "";
+            this.plantLocMap = "";
+            this.City = "";
+            this.State = "";
+            this.County = "";
+            this.Country = "";
+            this.Zipcode = "";
+            this.plantLocAddress = "";
+            this.plantLocLatitude = "";
+            this.plantLocLongitude = "";
+
+          },async create_plant_function(infoId) {
+            const {
+            plantInfoId,
+            plantFuncHydro,
+            plantFuncVisual,
+            plantFuncWelding,
+            plantFuncPainting,
+            plantFuncMachining,
+            plantFuncHeatTreat,
+            plantFuncPenetrant,
+            plantFuncRadiograph,
+            plantFuncUltrasonic,
+            plantFuncMagParticle,
+            plantFuncCapacityPer,
+            plantFuncProductListing,
+            plantFuncFunctionalTesting
+            } = {
+              plantInfoId:infoId,
+              plantFuncHydro:this.plantFuncHydro,
+              plantFuncVisual:this.plantFuncVisual,
+              plantFuncWelding:this.plantFuncWelding,
+              plantFuncPainting:this.plantFuncPainting,
+              plantFuncMachining:this.plantFuncMachining,
+              plantFuncHeatTreat:this.plantFuncHeatTreat,
+              plantFuncPenetrant:this.plantFuncPenetrant,
+              plantFuncRadiograph:this.plantFuncRadiograph,
+              plantFuncUltrasonic:this.plantFuncUltrasonic,
+              plantFuncMagParticle:this.plantFuncMagParticle,
+              plantFuncCapacityPer:this.plantFuncCapacityPer,
+              plantFuncProductListing:this.plantFuncProductListing,
+              plantFuncFunctionalTesting:this.plantFuncFunctionalTesting
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Create_Plant_Functions,
+              // parameters
+              variables: {
+              plantInfoId:plantInfoId,
+              plantFuncHydro:plantFuncHydro,
+              plantFuncVisual:plantFuncVisual,
+              plantFuncWelding:plantFuncWelding,
+              plantFuncPainting:plantFuncPainting,
+              plantFuncMachining:plantFuncMachining,
+              plantFuncHeatTreat:plantFuncHeatTreat,
+              plantFuncPenetrant:plantFuncPenetrant,
+              plantFuncRadiograph:plantFuncRadiograph,
+              plantFuncUltrasonic:plantFuncUltrasonic,
+              plantFuncMagParticle:plantFuncMagParticle,
+              plantFuncCapacityPer:plantFuncCapacityPer,
+              plantFuncProductListing:plantFuncProductListing,
+              plantFuncFunctionalTesting:plantFuncFunctionalTesting,
+
+              },update: (store, {
+                data: {
+                  createPlantFunction
+                }
+              }) => {
+                // add to all tasks list
+                const data = store.readQuery({
+                  query: Get_Plant_Informations
+                });
+                data.plantfunctions.push(createPlantFunction.plantFunction);
+                store.writeQuery({
+                  query: Get_Plant_Informations,
+                  data
+                });
+              },
+            });
+            const t = data.data.createPlantFunction.plantFunction;
+            // console.log('Added:', t);
+            this.plantFuncHydro="",
+            this.plantFuncVisual="",
+            this.plantFuncWelding="",
+            this.plantFuncPainting="",
+            this.plantFuncMachining="",
+            this.plantFuncHeatTreat="",
+            this.plantFuncPenetrant="",
+            this.plantFuncRadiograph="",
+            this.plantFuncUltrasonic="",
+            this.lantFuncMagParticle="",
+            this.plantFuncCapacityPer="",
+            this.plantFuncProductListing="",
+            this.plantFuncFunctionalTesting=""
+            this.getPlantInformation()
+          },
+          async save_plant_SL() {
+            const {
+              plantSLFname,
+              plantSLMname,
+              plantSLLname,
+              plantContType,
+              plantContStatus,
+            } = {
+              plantSLFname: this.plantSLFname,
+              plantSLMname: this.plantSLMname,
+              plantSLLname: this.plantSLLname,
+              plantContType:"SL",
+              plantContStatus: true,
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Create_Plant_Contacts,
+              // parameters
+              variables: {
+                plantContFname: plantSLFname,
+                plantContLname: plantSLLname,
+                plantContMname: plantSLMname,
+                plantContType: plantContType,
+                plantContStatus: plantContStatus,
+              },
+              update: (store, {
+                data: {
+                  createPlantContact
+                }
+              }) => {
+                // add to all tasks list
+                const data = store.readQuery({
+                  query:Get_Plant_Contacts
+                });
+                data.Allplantcontacts.push(createPlantContact.plantContact);
+                this.plantContactSiteLeader = data.Allplantcontacts[data.Allplantcontacts.length - 1].plantContId
+                store.writeQuery({
+                  query: Get_Plant_Contacts,
+                  data
+                });
+              },
+            });
+            const t = data.data.createPlantContact.plantContact;
+            // console.log('Added:', t);
+            this.plantSLFname = "";
+            this.plantSLLname = "";
+            this.plantSLMname = "";
+            this.plantContStatus = "";
+          },
+          async save_plant_QA() {
+            const {
+              plantQAFname,
+              plantQAMname,
+              plantQALname,
+              plantContType,
+              plantContStatus,
+            } = {
+              plantQAFname: this.plantQAFname,
+              plantQAMname: this.plantQAMname,
+              plantQALname: this.plantQALname,
+              plantContType:"QA",
+              plantContStatus: true,
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Create_Plant_Contacts,
+              // parameters
+              variables: {
+                plantContFname: plantQAFname,
+                plantContMname: plantQAMname,
+                plantContLname: plantQALname,
+                plantContType: plantContType,
+                plantContStatus: plantContStatus,
+              },
+              update: (store, {
+                data: {
+                  createPlantContact
+                }
+              }) => {
+                // add to all tasks list
+                const data = store.readQuery({
+                  query: Get_Plant_Contacts
+                });
+                data.Allplantcontacts.push(createPlantContact.plantContact);
+                this.plantContactQALeader = data.Allplantcontacts[data.Allplantcontacts.length - 1].plantContId
+                store.writeQuery({
+                  query: Get_Plant_Contacts,
+                  data
+                });
+              },
+            });
+            const t = data.data.createPlantContact.plantContact;
+            // console.log('Added:', t);
+            //this.getPlantInformation()
+            this.plantQAFname = "";
+            this.plantQAMname = "";
+            this.plantQALname = "";
+            this.plantContStatus = "";
+          },
+          async create_plant_brand(plantID) {
+            {
+            const {
+              plantId,
+              brandId
+            } = {
+              plantId: plantID,
+              brandId: this.brands,
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Create_Plant_Brands,
+              // parameters
+              variables: {
+                plantId: plantId,
+                brandId: brandId,
+              }
+            });
             }
-        });
-        const t = data.data.updatePlant.plant;
-        this.plantInfoId="",
-        this.plantInfoName = "";
-        this.plantInfoPhoneNo = "";
-        this.plantInfoAddInfo = "";
-        this.plantInfoWebsite = "";
-        this.plantInfoSquareFt = "";
-        this.plantInfoHeadCount = "";
-        this.plantInfoProduction = "";
-        this.plantInfoEngTech = "";
-        this.plantInfoNumShifts = "";
-        this.plantInfoContactForm = "";
-        this.plantInfoHrsOperation = "";
-        this.plantInfoPhoneNoSales = "";
-        this.plantInfoEmailAddress = "";
-        this.plantInfoRequestQoute = "";
-        this.plantInfoPhoneNoSupport = "";
-        this.plantInfoCertifications = "";
-        this.plantInfoOnlineSellerSite = "";
-        this.plantInfoPhoneAfterOfficeHrs = "";
-        this.plantContactSiteLeader = "",
-        this.plantContactQALeader = "",
-        this.dialog = false
-        this.getPlantInformation()
-      },
-      async update_plant_loc() {
-        //this.e1 = 3
-        const {
-          plantLocId,
-          plantLocMap,
-          plantLocCity,
-          plantLocState,
-          plantLocCounty,
-          plantLocCountry,
-          plantLocZipcode,
-          plantLocAddress,
-          plantLocLatitude,
-          plantLocLongitude,
-        } = {
-          plantLocId: parseInt(this.plantLocId),
-          plantLocMap: this.plantLocMap,
-          plantLocCity: this.City,
-          plantLocState: this.State,
-          plantLocCounty: this.County,
-          plantLocCountry: parseInt(this.Country),
-          plantLocZipcode: parseInt(this.Zipcode),
-          plantLocAddress: this.plantLocAddress,
-          plantLocLatitude: parseInt(this.plantLocLatitude),
-          plantLocLongitude: parseInt(this.plantLocLongitude),
-        };
-        // call the graphql mutation
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: UpdatePlantLoc,
-          // parameters
-          variables: {
-            plantLocId: plantLocId,
-            plantLocMap: plantLocMap,
-            plantLocCity: plantLocCity,
-            plantLocState: plantLocState,
-            plantLocCounty: plantLocCounty,
-            plantLocCountry: plantLocCountry,
-            plantLocZipcode: plantLocZipcode,
-            plantLocAddress: plantLocAddress,
-            plantLocLatitude: plantLocLatitude,
-            plantLocLongitude: plantLocLongitude
+          },
+          async create_plant_certificates(plantID) {
+            {
+            const {
+              plantId,
+              certificateIds
+            } = {
+              plantId: plantID,
+              certificateIds: this.plantInfoCertifications,
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Create_Plant_Certificates,
+              // parameters
+              variables: {
+                plantId: plantId,
+                certificateIds: certificateIds,
+              }
+            });
+            }
+          },
+          async getPlantInfo(plant){
+            {
+              this.brands = [],
+              this.businessUnits = [],
+              this.plantInfoId = plant.item.plantInfoId,
+              this.plantInfoName = plant.item.plantInfoName,
+              this.plantInfoPhoneNo = plant.item.plantInfoPhoneNo,
+              this.plantInfoAddInfo = plant.item.plantInfoAddInfo,
+              this.plantInfoWebsite = plant.item.plantInfoWebsite,
+              this.plantInfoSquareFt = plant.item.plantInfoSquareFt,
+              this.plantInfoHeadCount = plant.item.plantInfoHeadCount,
+              this.plantInfoProduction = plant.item.plantInfoProduction,
+              this.plantInfoEngTech = plant.item.plantInfoEngTech,
+              this.plantInfoNumShifts = plant.item.plantInfoNumShifts,
+              this.plantInfoContactForm = plant.item.plantInfoContactForm,
+              this.plantInfoHrsOperation = plant.item.plantInfoHrsOperation,
+              this.plantInfoPhoneNoSales = plant.item.plantInfoPhoneNoSales,
+              this.plantInfoEmailAddress = plant.item.plantInfoEmailAddress,
+              this.plantInfoRequestQoute = plant.item.plantInfoRequestQoute,
+              this.plantInfoPhoneNoSupport = plant.item.plantInfoPhoneNoSupport,
+              this.plantInfoCertifications = plant.item.plantInfoCertifications,
+              this.plantInfoOnlineSellerSite = plant.item.plantInfoOnlineSellerSite,
+              this.plantInfoPhoneAfterOfficeHrs = plant.item.plantInfoPhoneAfterOfficeHrs,
+              this.plantContactSiteLeader = plant.item.plantInfoSiteLeader.plantContId,
+              this.plantContactQALeader = plant.item.plantInfoQa.plantContId,
+              this.plantInfoId = plant.item.plantLocationSet[0].plantInfoId.plantInfoId,
+              this.plantLocId = plant.item.plantLocationSet[0].plantLocId
+              this.plantLocMap =plant.item.plantLocationSet[0].plantLocMap,
+              this.City = plant.item.plantLocationSet[0].plantLocCity,
+              this.Country = plant.item.plantLocationSet[0].plantLocCountry.countryId,
+              this.State = plant.item.plantLocationSet[0].plantLocState,
+              this.County = plant.item.plantLocationSet[0].plantLocCounty,
+              this.Zipcode = plant.item.plantLocationSet[0].plantLocZipcode,
+              this.plantLocAddress =plant.item.plantLocationSet[0].plantLocAddress ,
+              this.plantLocLatitude =plant.item.plantLocationSet[0].plantLocLatitude ,
+              this.plantLocLongitude =plant.item.plantLocationSet[0].plantLocLongitude ,
+              this.plantFuncId=plant.item.plantFunctionsSet[0].plantFuncId,
+              this.plantFuncHydro=plant.item.plantFunctionsSet[0].plantFuncHydro,
+              this.plantFuncVisual=plant.item.plantFunctionsSet[0].plantFuncVisual,
+              this.plantFuncWelding=plant.item.plantFunctionsSet[0].plantFuncWelding,
+              this.plantFuncPainting=plant.item.plantFunctionsSet[0].plantFuncPainting,
+              this.plantFuncMachining=plant.item.plantFunctionsSet[0].plantFuncMachining,
+              this.plantFuncHeatTreat=plant.item.plantFunctionsSet[0].plantFuncHeatTreat,
+              this.plantFuncPenetrant=plant.item.plantFunctionsSet[0].plantFuncPenetrant,
+              this.plantFuncRadiograph=plant.item.plantFunctionsSet[0].plantFuncRadiograph,
+              this.plantFuncUltrasonic=plant.item.plantFunctionsSet[0].plantFuncUltrasonic,
+              this.plantFuncMagParticle=plant.item.plantFunctionsSet[0].plantFuncMagParticle,
+              this.plantFuncCapacityPer=plant.item.plantFunctionsSet[0].plantFuncCapacityPer,
+              this.plantFuncProductListing=plant.item.plantFunctionsSet[0].plantFuncProductListing,
+              this.plantFuncFunctionalTesting=plant.item.plantFunctionsSet[0].plantFuncFunctionalTesting,
+              this.plantQAId =  plant.item.plantInfoQa.plantContId,
+              this.plantQAFname=plant.item.plantInfoQa.plantContFname,
+              this.plantQAMname=plant.item.plantInfoQa.plantContMname,
+              this.plantQALname=plant.item.plantInfoQa.plantContLname,
+              this.plantSLId = plant.item.plantInfoSiteLeader.plantContId,
+              this.plantSLFname=plant.item.plantInfoSiteLeader.plantContFname,
+              this.plantSLMname=plant.item.plantInfoSiteLeader.plantContMname,
+              this.plantSLLname=plant.item.plantInfoSiteLeader.plantContLname
+              var brandsId = []
+              for(var i = 0 ; i<plant.item.plantBrandsSet.length; i++){
+                brandsId.push(plant.item.plantBrandsSet[i].brandId.brandsId)
+              }
+                brandsId.filter((item, index)=>{
+                //console.log(item,index,brandsId.indexOf(item),brandsId.indexOf(item)===index)
+                if(brandsId.indexOf(item)===index){
+                  this.brands.push(item)
+                }
+              })
+
+              var categoriesId = []
+              for(var i = 0 ; i<plant.item.plantBrandsSet.length; i++){
+                categoriesId.push(plant.item.plantBrandsSet[i].brandId.brandProdCatSet[0].prodCategoryId.busUnitId)
+              }
+              categoriesId.filter((item, index)=>{
+                //console.log(item,index,brandsId.indexOf(item),brandsId.indexOf(item)===index)
+                if(categoriesId.indexOf(item)===index){
+                  this.businessUnits.push(item)
+                }
+              })
+              this.plantInfoCertifications=[]
+              for(var i = 0 ; i<plant.item.plantCertificatesSet.length; i++){
+                          this.plantInfoCertifications.push(plant.item.plantCertificatesSet[i].certificateId.certsInfoId)
+                        }
+
+              this.dialog = true
+              this.IsUpdate = true
+              this.IsCreate = false
           }
-        });
-        //const t = data.data.updatePlant.plantLoc;
-        // console.log('Added:', t);
-        this.plantLocId = "";
-        this.plantLocMap = "";
-        this.City = "";
-        this.State = "";
-        this.County = "";
-        this.Country = "";
-        this.Zipcode = "";
-        this.plantLocAddress = "";
-        this.plantLocLatitude = "";
-        this.plantLocLongitude = "";
-        
-      },
-      async update_plant_SL() {
-        const {
-          plantContId,
-          plantSLFname,
-          plantSLMname,
-          plantSLLname,
-        } = {
-          plantContId:this.plantSLId,
-          plantSLFname: this.plantSLFname,
-          plantSLMname: this.plantSLMname,
-          plantSLLname: this.plantSLLname,
-        };
-        // call the graphql mutation
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: UpdatePlantContact,
-          // parameters
-          variables: {
-            plantContId:plantContId,
-            plantContFname: plantSLFname,
-            plantContLname: plantSLLname,
-            plantContMname: plantSLMname,
           },
-          update: (store, {
-            data: {
-              updatePlantContact
+          async update_plant() {
+            const {
+              plantInfoId,
+              plantInfoName,
+              plantInfoPhoneNo,
+              plantInfoAddInfo,
+              plantInfoWebsite,
+              plantInfoSquareFt,
+              plantInfoHeadCount,
+              plantInfoProduction,
+              plantInfoEngTech,
+              plantInfoNumShifts,
+              plantInfoContactForm,
+              plantInfoHrsOperation,
+              plantInfoPhoneNoSales,
+              plantInfoEmailAddress,
+              plantInfoRequestQoute,
+              plantInfoPhoneNoSupport,
+              plantInfoCertifications,
+              plantInfoOnlineSellerSite,
+              plantInfoPhoneAfterOfficeHrs,
+              plantInfoSiteLeader,
+              plantInfoQa
+            } = {
+              plantInfoId:this.plantInfoId,
+              plantInfoName: this.plantInfoName,
+              plantInfoPhoneNo: parseInt(this.plantInfoPhoneNo),
+              plantInfoAddInfo: this.plantInfoAddInfo,
+              plantInfoWebsite: this.plantInfoWebsite,
+              plantInfoSquareFt: parseInt(this.plantInfoSquareFt),
+              plantInfoHeadCount: parseInt(this.plantInfoHeadCount),
+              plantInfoProduction: parseInt(this.plantInfoProduction),
+              plantInfoEngTech: parseInt(this.plantInfoEngTech),
+              plantInfoNumShifts: parseInt(this.plantInfoNumShifts),
+              plantInfoContactForm: this.plantInfoContactForm,
+              plantInfoHrsOperation: parseInt(this.plantInfoHrsOperation),
+              plantInfoPhoneNoSales: parseInt(this.plantInfoPhoneNoSales),
+              plantInfoEmailAddress: this.plantInfoEmailAddress,
+              plantInfoRequestQoute: this.plantInfoRequestQoute,
+              plantInfoPhoneNoSupport: parseInt(this.plantInfoPhoneNoSupport),
+              plantInfoCertifications: this.plantInfoCertifications,
+              plantInfoOnlineSellerSite: this.plantInfoOnlineSellerSite,
+              plantInfoPhoneAfterOfficeHrs: parseInt(this.plantInfoPhoneAfterOfficeHrs),
+              plantInfoSiteLeader: parseInt(this.plantContactSiteLeader),
+              plantInfoQa: parseInt(this.plantContactQALeader)
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Update_Plant_Information,
+              // parameters
+              variables: {
+                plantInfoId:plantInfoId,
+                plantInfoName: plantInfoName,
+                plantInfoPhoneNo: plantInfoPhoneNo,
+                plantInfoAddInfo: plantInfoAddInfo,
+                plantInfoWebsite: plantInfoWebsite,
+                plantInfoSquareFt: plantInfoSquareFt,
+                plantInfoHeadCount: plantInfoHeadCount,
+                plantInfoProduction: plantInfoProduction,
+                plantInfoEngTech: plantInfoEngTech,
+                plantInfoNumShifts: plantInfoNumShifts,
+                plantInfoContactForm: plantInfoContactForm,
+                plantInfoHrsOperation: plantInfoHrsOperation,
+                plantInfoPhoneNoSales: plantInfoPhoneNoSales,
+                plantInfoEmailAddress: plantInfoEmailAddress,
+                plantInfoRequestQoute: plantInfoRequestQoute,
+                plantInfoPhoneNoSupport: plantInfoPhoneNoSupport,
+                plantInfoCertifications: plantInfoCertifications,
+                plantInfoOnlineSellerSite: plantInfoOnlineSellerSite,
+                plantInfoPhoneAfterOfficeHrs: plantInfoPhoneAfterOfficeHrs,
+                plantInfoSiteLeader: plantInfoSiteLeader,
+                plantInfoQa: plantInfoQa
+                },
+                update: (store, {
+                  data: {
+                    updatePlant
+                  }
+                }) => {
+                  // add to all tasks list
+                  const data = store.readQuery({
+                    query: Get_Plant_Informations
+                  });
+                  //data.plantinformations = []
+                  //data.plantinformations.push(updatePlant.plant)
+                  //this.create_plant_brand(this.plantInfoId)
+                  store.writeQuery({
+                    query: Get_Plant_Informations,
+                    data
+                  });
+                }
+            });
+            const t = data.data.updatePlant.plant;
+            this.plantInfoId="",
+            this.plantInfoName = "";
+            this.plantInfoPhoneNo = "";
+            this.plantInfoAddInfo = "";
+            this.plantInfoWebsite = "";
+            this.plantInfoSquareFt = "";
+            this.plantInfoHeadCount = "";
+            this.plantInfoProduction = "";
+            this.plantInfoEngTech = "";
+            this.plantInfoNumShifts = "";
+            this.plantInfoContactForm = "";
+            this.plantInfoHrsOperation = "";
+            this.plantInfoPhoneNoSales = "";
+            this.plantInfoEmailAddress = "";
+            this.plantInfoRequestQoute = "";
+            this.plantInfoPhoneNoSupport = "";
+            this.plantInfoCertifications = "";
+            this.plantInfoOnlineSellerSite = "";
+            this.plantInfoPhoneAfterOfficeHrs = "";
+            this.plantContactSiteLeader = "",
+            this.plantContactQALeader = "",
+            this.dialog = false
+          },
+          async update_plant_loc() {
+            //this.e1 = 3
+            const {
+              plantLocId,
+              plantLocMap,
+              plantLocCity,
+              plantLocState,
+              plantLocCounty,
+              plantLocCountry,
+              plantLocZipcode,
+              plantLocAddress,
+              plantLocLatitude,
+              plantLocLongitude,
+            } = {
+              plantLocId: parseInt(this.plantLocId),
+              plantLocMap: this.plantLocMap,
+              plantLocCity: this.City,
+              plantLocState: this.State,
+              plantLocCounty: this.County,
+              plantLocCountry: parseInt(this.Country),
+              plantLocZipcode: parseInt(this.Zipcode),
+              plantLocAddress: this.plantLocAddress,
+              plantLocLatitude: parseInt(this.plantLocLatitude),
+              plantLocLongitude: parseInt(this.plantLocLongitude),
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Update_Plant_Location,
+              // parameters
+              variables: {
+                plantLocId: plantLocId,
+                plantLocMap: plantLocMap,
+                plantLocCity: plantLocCity,
+                plantLocState: plantLocState,
+                plantLocCounty: plantLocCounty,
+                plantLocCountry: plantLocCountry,
+                plantLocZipcode: plantLocZipcode,
+                plantLocAddress: plantLocAddress,
+                plantLocLatitude: plantLocLatitude,
+                plantLocLongitude: plantLocLongitude
+              }
+            });
+            //const t = data.data.updatePlant.plantLoc;
+            // console.log('Added:', t);
+            this.plantLocId = "";
+            this.plantLocMap = "";
+            this.City = "";
+            this.State = "";
+            this.County = "";
+            this.Country = "";
+            this.Zipcode = "";
+            this.plantLocAddress = "";
+            this.plantLocLatitude = "";
+            this.plantLocLongitude = "";
+          },
+          async update_plant_SL() {
+            const {
+              plantContId,
+              plantSLFname,
+              plantSLMname,
+              plantSLLname,
+            } = {
+              plantContId:this.plantSLId,
+              plantSLFname: this.plantSLFname,
+              plantSLMname: this.plantSLMname,
+              plantSLLname: this.plantSLLname,
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Update_Plant_Contacts,
+              // parameters
+              variables: {
+                plantContId:plantContId,
+                plantContFname: plantSLFname,
+                plantContLname: plantSLLname,
+                plantContMname: plantSLMname,
+              },
+            });
+            // console.log('Added:', t);
+            this.plantSLFname = "";
+            this.plantSLLname = "";
+            this.plantSLMname = "";
+          },
+          async update_plant_QA() {
+            const {
+              plantContId,
+              plantQAFname,
+              plantQAMname,
+              plantQALname,
+            } = {
+              plantContId: this.plantQAId,
+              plantQAFname: this.plantQAFname,
+              plantQAMname: this.plantQAMname,
+              plantQALname: this.plantQALname,
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Update_Plant_Contacts,
+              // parameters
+              variables: {
+                plantContId:plantContId,
+                plantContFname: plantQAFname,
+                plantContMname: plantQAMname,
+                plantContLname: plantQALname,
+              }
+            });
+            // console.log('Added:', t);
+            //this.getPlantInformation()
+            this.plantQAId = "";
+            this.plantQAFname = "";
+            this.plantQAMname = "";
+            this.plantQALname = "";
+          },
+          async update_plant_function() {
+            const {
+            plantFuncId,
+            plantFuncHydro,
+            plantFuncVisual,
+            plantFuncWelding,
+            plantFuncPainting,
+            plantFuncMachining,
+            plantFuncHeatTreat,
+            plantFuncPenetrant,
+            plantFuncRadiograph,
+            plantFuncUltrasonic,
+            plantFuncMagParticle,
+            plantFuncCapacityPer,
+            plantFuncProductListing,
+            plantFuncFunctionalTesting
+            } = {
+              plantFuncId:this.plantFuncId,
+              plantFuncHydro:this.plantFuncHydro,
+              plantFuncVisual:this.plantFuncVisual,
+              plantFuncWelding:this.plantFuncWelding,
+              plantFuncPainting:this.plantFuncPainting,
+              plantFuncMachining:this.plantFuncMachining,
+              plantFuncHeatTreat:this.plantFuncHeatTreat,
+              plantFuncPenetrant:this.plantFuncPenetrant,
+              plantFuncRadiograph:this.plantFuncRadiograph,
+              plantFuncUltrasonic:this.plantFuncUltrasonic,
+              plantFuncMagParticle:this.plantFuncMagParticle,
+              plantFuncCapacityPer:this.plantFuncCapacityPer,
+              plantFuncProductListing:this.plantFuncProductListing,
+              plantFuncFunctionalTesting:this.plantFuncFunctionalTesting
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Update_Plant_Functions,
+              // parameters
+              variables: {
+              plantFuncId:plantFuncId,
+              plantFuncHydro:plantFuncHydro,
+              plantFuncVisual:plantFuncVisual,
+              plantFuncWelding:plantFuncWelding,
+              plantFuncPainting:plantFuncPainting,
+              plantFuncMachining:plantFuncMachining,
+              plantFuncHeatTreat:plantFuncHeatTreat,
+              plantFuncPenetrant:plantFuncPenetrant,
+              plantFuncRadiograph:plantFuncRadiograph,
+              plantFuncUltrasonic:plantFuncUltrasonic,
+              plantFuncMagParticle:plantFuncMagParticle,
+              plantFuncCapacityPer:plantFuncCapacityPer,
+              plantFuncProductListing:plantFuncProductListing,
+              plantFuncFunctionalTesting:plantFuncFunctionalTesting,
+              },update: (store, {
+                data: {
+                  updatePlantFunction
+                }
+              }) => {
+                // add to all tasks list
+                const data = store.readQuery({
+                  query: Get_Plant_Informations
+                });
+                var plantToUpdate = data.plantfunctions.findIndex(x=>x.plantInfoId.plantInfoId == updatePlantFunction.plantFunction.plantInfoId.plantInfoId)
+                data.plantfunctions[plantToUpdate] = updatePlantFunction.plantFunction;
+                store.writeQuery({
+                  query: Get_Plant_Informations,
+                  data
+                });
+              },
+          });
+            //const t = data.data.updatePlantFunction.plantFunction;
+            // console.log('Added:', t);
+            this.plantFuncId="",
+            this.plantFuncHydro="",
+            this.plantFuncVisual="",
+            this.plantFuncWelding="",
+            this.plantFuncPainting="",
+            this.plantFuncMachining="",
+            this.plantFuncHeatTreat="",
+            this.plantFuncPenetrant="",
+            this.plantFuncRadiograph="",
+            this.plantFuncUltrasonic="",
+            this.lantFuncMagParticle="",
+            this.plantFuncCapacityPer="",
+            this.plantFuncProductListing="",
+            this.plantFuncFunctionalTesting="",
+            this.getPlantInformation()
+          },
+          async update_plant_brand(plantID) {
+            {
+            const {
+              plantInfoId,
+              plantId,
+              brandId
+            } = {
+              plantInfoId:parseInt(plantID),
+              plantId: parseInt(plantID),
+              brandId: this.brands,
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Update_Plant_Brands,
+              // parameters
+              variables: {
+                plantInfoId:plantInfoId,
+                plantId: plantId,
+                brandId: brandId,
+              }
+            });
             }
-          }) => {
-            // add to all tasks list
-            const data = store.readQuery({
-              query: PlantContactsQuery
-            });
-            data.plantcontacts.push(updatePlantContact.plantContact);
-            store.writeQuery({
-              query: PlantContactsQuery,
-              data
-            });
           },
-        });
-        const t = data.data.updatePlantContact.plantContact;
-        // console.log('Added:', t);
-        this.plantSLFname = "";
-        this.plantSLLname = "";
-        this.plantSLMname = "";
-      },
-      async update_plant_QA() {
-        const {
-          plantContId,
-          plantQAFname,
-          plantQAMname,
-          plantQALname,
-        } = {
-          plantContId: this.plantQAId,
-          plantQAFname: this.plantQAFname,
-          plantQAMname: this.plantQAMname,
-          plantQALname: this.plantQALname,
-        };
-        // call the graphql mutation
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: UpdatePlantContact,
-          // parameters
-          variables: {
-            plantContId:plantContId,
-            plantContFname: plantQAFname,
-            plantContMname: plantQAMname,
-            plantContLname: plantQALname,
-          },
-          update: (store, {
-            data: {
-              updatePlantContact
+          async update_plant_certificates(plantID) {
+            {
+            const {
+              plantId,
+              certificateIds
+            } = {
+              plantId: plantID,
+              certificateIds: this.plantInfoCertifications,
+            };
+            // call the graphql mutation
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Update_Plant_Certificates,
+              // parameters
+              variables: {
+                plantId: plantId,
+                certificateIds: certificateIds,
+              }
+            });
             }
-          }) => {
-            // add to all tasks list
-            const data = store.readQuery({
-              query: PlantContactsQuery
-            });
-            data.plantcontacts.push(updatePlantContact.plantContact);
-            store.writeQuery({
-              query: PlantContactsQuery,
-              data
-            });
           },
-        });
-        const t = data.data.updatePlantContact.plantContact;
-        // console.log('Added:', t);
-        //this.getPlantInformation()
-        this.plantQAId = "";
-        this.plantQAFname = "";
-        this.plantQAMname = "";
-        this.plantQALname = "";
-      },
-      async update_plant_function() {
-        const {
-        plantFuncId,
-        plantFuncHydro,
-        plantFuncVisual,
-        plantFuncWelding,
-        plantFuncPainting,
-        plantFuncMachining,
-        plantFuncHeatTreat,
-        plantFuncPenetrant,
-        plantFuncRadiograph,
-        plantFuncUltrasonic,
-        plantFuncMagParticle,
-        plantFuncCapacityPer,
-        plantFuncProductListing,
-        plantFuncFunctionalTesting
-        } = {
-          plantFuncId:this.plantFuncId,
-          plantFuncHydro:this.plantFuncHydro,
-          plantFuncVisual:this.plantFuncVisual,
-          plantFuncWelding:this.plantFuncWelding,
-          plantFuncPainting:this.plantFuncPainting,
-          plantFuncMachining:this.plantFuncMachining,
-          plantFuncHeatTreat:this.plantFuncHeatTreat,
-          plantFuncPenetrant:this.plantFuncPenetrant,
-          plantFuncRadiograph:this.plantFuncRadiograph,
-          plantFuncUltrasonic:this.plantFuncUltrasonic,
-          plantFuncMagParticle:this.plantFuncMagParticle,
-          plantFuncCapacityPer:this.plantFuncCapacityPer,
-          plantFuncProductListing:this.plantFuncProductListing,
-          plantFuncFunctionalTesting:this.plantFuncFunctionalTesting
-        };
-        // call the graphql mutation
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: UpdatePlantFunction,
-          // parameters
-          variables: {
-           plantFuncId:plantFuncId,
-           plantFuncHydro:plantFuncHydro,
-           plantFuncVisual:plantFuncVisual,
-           plantFuncWelding:plantFuncWelding,
-           plantFuncPainting:plantFuncPainting,
-           plantFuncMachining:plantFuncMachining,
-           plantFuncHeatTreat:plantFuncHeatTreat,
-           plantFuncPenetrant:plantFuncPenetrant,
-           plantFuncRadiograph:plantFuncRadiograph,
-           plantFuncUltrasonic:plantFuncUltrasonic,
-           plantFuncMagParticle:plantFuncMagParticle,
-           plantFuncCapacityPer:plantFuncCapacityPer,
-           plantFuncProductListing:plantFuncProductListing,
-           plantFuncFunctionalTesting:plantFuncFunctionalTesting,
-          },
-       });
-        const t = data.data.updatePlantFunction.plantFunction;
-        // console.log('Added:', t);
-         this.plantFuncId="",
-         this.plantFuncHydro="",
-         this.plantFuncVisual="",
-         this.plantFuncWelding="",
-         this.plantFuncPainting="",
-         this.plantFuncMachining="",
-         this.plantFuncHeatTreat="",
-         this.plantFuncPenetrant="",
-         this.plantFuncRadiograph="",
-         this.plantFuncUltrasonic="",
-         this.lantFuncMagParticle="",
-         this.plantFuncCapacityPer="",
-         this.plantFuncProductListing="",
-         this.plantFuncFunctionalTesting=""
-         this.getPlantInformation()
-      },
-      async DeletePlant(plantId){        
-        const{
-          plantInfoId
-        }={
-          plantInfoId: plantId
-        };
-        let data = await this.$apollo.mutate({
-          // query
-          mutation: DeletePlant,
-          // parameters
-          variables: {
-            plantInfoId: plantInfoId
-          },
-          update: (store, {
-            data: {
-              deletePlant
+          async GetIdToDelete(plantId){
+            this.dialog3 = true
+            this.IdToDelete = plantId
+          }
+          ,async DeletePlant(){
+            const{
+              plantInfoId
+            }={
+              plantInfoId: this.IdToDelete
+            };
+            let data = await this.$apollo.mutate({
+              // query
+              mutation: Delete_Plant,
+              // parameters
+              variables: {
+                plantInfoId: plantInfoId
+              },
+              update: (store, {
+                data: {
+                  deletePlant
+                }
+              }) => {
+                //add to all tasks list
+                const data = store.readQuery({
+                  query: Get_Plant_Informations
+                });
+                //console.log(data.plantinformations.findIndex(v => v.plantInfoName === deletePlant.plant.plantInfoName))
+                data.plantfunctions.splice(data.plantfunctions.findIndex(v => v.plantInfoId.plantInfoName === deletePlant.plant.plantInfoName), 1);
+                store.writeQuery({
+                  query: Get_Plant_Informations,
+                  data
+                });
+              },
+            })
+            this.getPlantInformation()
+            this.dialog3 = false
+          },async clear(){
+            {
+              this.plantInfoId = "",
+              this.plantInfoName = "",
+              this.plantInfoPhoneNo = "",
+              this.plantInfoAddInfo = "",
+              this.plantInfoWebsite = "",
+              this.plantInfoSquareFt = "",
+              this.plantInfoHeadCount = "",
+              this.plantInfoProduction = "",
+              this.plantInfoEngTech = "",
+              this.plantInfoNumShifts = "",
+              this.plantInfoContactForm = "",
+              this.plantInfoHrsOperation = "",
+              this.plantInfoPhoneNoSales = "",
+              this.plantInfoEmailAddress = "",
+              this.plantInfoRequestQoute = "",
+              this.plantInfoPhoneNoSupport = "",
+              this.plantInfoCertifications = "",
+              this.plantInfoOnlineSellerSite = "",
+              this.plantInfoPhoneAfterOfficeHrs = "",
+              this.plantContactSiteLeader = "",
+              this.plantContactQALeader = "",
+              this.plantInfoId = "",
+              this.plantLocId = "",
+              this.plantLocMap = "",
+              this.City = "",
+              this.Country = "",
+              this.State = "",
+              this.County = "",
+              this.Zipcode = "",
+              this.plantLocAddress ="" ,
+              this.plantLocLatitude ="" ,
+              this.plantLocLongitude ="",
+              this.plantFuncId="",
+              this.plantFuncHydro="",
+              this.plantFuncVisual="",
+              this.plantFuncWelding="",
+              this.plantFuncPainting="",
+              this.plantFuncMachining="",
+              this.plantFuncHeatTreat="",
+              this.plantFuncPenetrant="",
+              this.plantFuncRadiograph="",
+              this.plantFuncUltrasonic="",
+              this.lantFuncMagParticle="",
+              this.plantFuncCapacityPer="",
+              this.plantFuncProductListing="",
+              this.plantFuncFunctionalTesting="",
+              this.plantQAId = "",
+              this.plantQAFname="",
+              this.plantQAMname="",
+              this.plantQALname="",
+              this.plantSLId = "",
+              this.plantSLFname="",
+              this.plantSLMname="",
+              this.plantSLLname=""
+              this.dialog = false
+              this.IsUpdate = false
+              this.IsCreate = true
+              this.brands=[]
+              this.businessUnits=[]
             }
-          }) => {
-            //add to all tasks list
-            const data = store.readQuery({
-              query: PlantInformationQuery
-            });
-            //console.log(data.plantinformations.findIndex(v => v.plantInfoName === deletePlant.plant.plantInfoName))
-            data.plantinformations.splice(data.plantinformations.findIndex(v => v.plantInfoName === deletePlant.plant.plantInfoName), 1);        
-            store.writeQuery({
-              query: PlantInformationQuery,
-              data
-            });
           },
-        })
-        this.getPlantInformation()
-      },
-      async clear(){
-        {
-          this.plantInfoId = "",
-          this.plantInfoName = "",
-          this.plantInfoPhoneNo = "",
-          this.plantInfoAddInfo = "",
-          this.plantInfoWebsite = "",
-          this.plantInfoSquareFt = "",
-          this.plantInfoHeadCount = "",
-          this.plantInfoProduction = "",
-          this.plantInfoEngTech = "",
-          this.plantInfoNumShifts = "",
-          this.plantInfoContactForm = "",
-          this.plantInfoHrsOperation = "",
-          this.plantInfoPhoneNoSales = "",
-          this.plantInfoEmailAddress = "",
-          this.plantInfoRequestQoute = "",
-          this.plantInfoPhoneNoSupport = "",
-          this.plantInfoCertifications = "",
-          this.plantInfoOnlineSellerSite = "",
-          this.plantInfoPhoneAfterOfficeHrs = "",
-          this.plantContactSiteLeader = "",
-          this.plantContactQALeader = "",
-          this.plantInfoId = "",
-          this.plantLocId = "",
-          this.plantLocMap = "",
-          this.City = "",
-          this.Country = "",
-          this.State = "",
-          this.County = "",
-          this.Zipcode = "",
-          this.plantLocAddress ="" ,
-          this.plantLocLatitude ="" ,
-          this.plantLocLongitude ="",
-          this.plantFuncId="",
-          this.plantFuncHydro="",
-          this.plantFuncVisual="",
-          this.plantFuncWelding="",
-          this.plantFuncPainting="",
-          this.plantFuncMachining="",
-          this.plantFuncHeatTreat="",
-          this.plantFuncPenetrant="",
-          this.plantFuncRadiograph="",
-          this.plantFuncUltrasonic="",
-          this.lantFuncMagParticle="",
-          this.plantFuncCapacityPer="",
-          this.plantFuncProductListing="",
-          this.plantFuncFunctionalTesting="",
-          this.plantQAId = "",
-          this.plantQAFname="",
-          this.plantQAMname="",
-          this.plantQALname="",
-          this.plantSLId = "",
-          this.plantSLFname="",
-          this.plantSLMname="",
-          this.plantSLLname=""
-          this.dialog = false
-          this.IsUpdate = false
-          this.IsCreate = true
+          async remove(item) {
+          const index = this.plantInfoCertifications.indexOf(item.certsInfoId)
+          if (index >= 0) this.plantInfoCertifications.splice(index, 1)
         }
-      }
-      ,
     }
     ,
     beforeMount() {
@@ -2666,12 +2235,28 @@ mutation updatePlantFunction(
 </script>
 
 <style>
-  .v-list__tile__title {
+  .menu-tile {
     cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border-radius:5px 
   }
-  .v-btn-menu-width.v-btn {
-    min-width: 10px;
-    padding: 0 10px;
+  .menu-tile:hover {
+    background-color:#42b883;
+    color: white;
+    font-weight: bold;
+  }
+  .v-list--two-line .v-list__tile 
+  {
+    height:auto!important;
+    padding: 0!important;
+  }
+  .v-list__tile__title {
+    height: auto!important;
+    line-height: 24px!important;
+    position: relative!important;
+    text-align: left!important;
   }
   .location,
   .legalEntityName,

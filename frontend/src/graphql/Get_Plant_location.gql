@@ -1,0 +1,17 @@
+query plantlocation($plantInfoId:Int){
+  plantlocation(plantInfoId:$plantInfoId){
+    plantLocId
+        plantInfoId {
+          plantInfoId
+        }
+        plantLocMap
+        plantLocCity
+        plantLocState
+        plantLocCounty
+        plantLocCountry {
+          countryId
+          countryName
+          countryCode
+        }
+  }
+}

@@ -9,7 +9,7 @@ class PlantContactsType(DjangoObjectType):
       model = Plant_Contacts
 
 class Query(graphene.ObjectType):
-   plantcontacts = graphene.List(PlantContactsType)
+   Allplantcontacts = graphene.List(PlantContactsType)
    plantcontact = graphene.Field(PlantContactsType, plant_cont_id=graphene.Int())
 
    def resolve_plantcontact(self,info,**kwargs):
@@ -21,7 +21,7 @@ class Query(graphene.ObjectType):
       else:
          return None
 
-   def resolve_plantcontacts(self,info):
+   def resolve_Allplantcontacts(self,info):
       return Plant_Contacts.objects.all()
 
 class CreatePlantContact(graphene.Mutation):

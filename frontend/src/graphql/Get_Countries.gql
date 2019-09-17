@@ -1,0 +1,6 @@
+query countries{
+    countries{
+      countryId
+      countryName
+    }
+  }

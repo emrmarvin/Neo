@@ -1,0 +1,7 @@
+mutation updatePlantCertificate($plantId:Int,$certificateIds:[Int]){
+  updatePlantCertificate(plantId:$plantId,certificateIds:$certificateIds){
+    plantCertificate{
+      plantCertId
+    }
+  }
+}
