@@ -94,7 +94,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': False,
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -118,8 +118,8 @@ DATABASES = {
         'NAME': 'contactdbstg',
         'HOST': 'neo-prod.postgres.database.azure.com',
         'USER': 'neomanager@neo-prod',
-        'PASSWORD': '@NeoManager'
-        'PORT': 5432
+        'PASSWORD': '@NeoManager',
+        'PORT': '5432'
     }
 }
 

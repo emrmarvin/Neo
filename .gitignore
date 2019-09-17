@@ -1,5 +1,6 @@
 .DS_Store
 .venv/
+.devcontainer
 
 # local env files
 .env.local
@@ -17,7 +18,7 @@ yarn-error.log*
 # Editor directories and files
 .idea
 .vscode/
-__pycache__
+__pycache__/
 *.suo
 *.ntvs*
 *.njsproj
