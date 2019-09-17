@@ -65,7 +65,7 @@ INSTALLED_APPS = [
 ]
 
 GRAPHENE = {
-    'SCHEMA': 'settings.schema.schema'
+    'SCHEMA': 'backend.schema.schema'
 }
 
 MIDDLEWARE = [
@@ -88,7 +88,7 @@ CORS_ORIGIN_WHITELIST = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-ROOT_URLCONF = 'settings.urls'
+ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
@@ -106,7 +106,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'settings.wsgi.application'
+WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 # Database
@@ -115,11 +115,11 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['POSTGRES_DB'],
-        'HOST': os.environ['POSTGRES_HOST'],
-        'USER': os.environ['POSTGRES_USER'],
-        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-        'PORT': os.environ['POSTGRES_PORT']
+        'NAME': 'contactdbstg',
+        'HOST': 'neo-prod.postgres.database.azure.com',
+        'USER': 'neomanager@neo-prod',
+        'PASSWORD': '@NeoManager'
+        'PORT': 5432
     }
 }
 
