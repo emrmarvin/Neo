@@ -14,8 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-STATIC_URL = os.path.join(BASE_DIR, "staticfiles")
-STATIC_ROOT = './static/'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -71,6 +70,7 @@ GRAPHENE = {
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -115,16 +115,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'contactdbstg',
-        # 'HOST': 'neo-prod.postgres.database.azure.com',
-        # 'USER': 'neomanager@neo-prod',
-        # 'PASSWORD': '@NeoManager'
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DB_Neo_Matrix',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'Rfanimi14' 
+        'NAME': 'contactdbstg',
+        'HOST': 'neo-prod.postgres.database.azure.com',
+        'USER': 'neomanager@neo-prod',
+        'PASSWORD': '@NeoManager'
+
+        # 'NAME': 'DB_Neo_Matrix',
+        # 'HOST': 'localhost',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'Rfanimi14' 
     }
 }
 
@@ -165,4 +165,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATIC_URL = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = './static/'
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

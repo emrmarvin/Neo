@@ -1,4 +1,4 @@
-#!d:\onedrive - emerson\playground\python\djangovuegql\myproject\venv\scripts\python.exe
+#!d:\onedrive - emerson\final control\project neo\code\neo - copy\venv\scripts\python.exe
 from django.core import management
 
 if __name__ == "__main__":
