@@ -51,7 +51,17 @@ INSTALLED_APPS = [
     'Apps.Plants.plant_functions',
     'Apps.Plants.plant_information',
     'Apps.Plants.plant_location',
+    'Apps.Plants.Plant_Certificates',
+    'Apps.business_group',
+    'Apps.business_platform',
+    'Apps.business_unit',
+    'Apps.brands',
+    'Apps.products',
+    'Apps.products_item', 
+    'Apps.Certificates',    
     'Apps.Plants',
+    'Apps.brand_product_category',
+    'Apps.Plants.plant_brands'
 ]
 
 GRAPHENE = {
@@ -104,11 +114,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'contactdbstg',
+        # 'HOST': 'neo-prod.postgres.database.azure.com',
+        # 'USER': 'neomanager@neo-prod',
+        # 'PASSWORD': '@NeoManager'
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'contactdbstg',
-        'HOST': 'neo-prod.postgres.database.azure.com',
-        'USER': 'neomanager@neo-prod',
-        'PASSWORD': '@NeoManager'
+        'NAME': 'DB_Neo_Matrix',
+        'HOST': 'localhost',
+        'USER': 'postgres',
+        'PASSWORD': 'Rfanimi14' 
     }
 }
 

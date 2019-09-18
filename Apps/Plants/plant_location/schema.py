@@ -62,13 +62,13 @@ class UpdatePlantLocations(graphene.Mutation):
 
 class Query(graphene.ObjectType):
    plantlocations = graphene.List(PlantLocationType)
-   plantlocation = graphene.Field(PlantLocationType, plant_loc_id=graphene.Int())
+   plantlocation = graphene.List(PlantLocationType, plant_info_id=graphene.Int())
 
    def resolve_plantlocation(self,info,**kwargs):
-      plant_loc_id = kwargs.get('plant_loc_id')
+      plant_info_id = kwargs.get('plant_info_id')
 
-      if plant_loc_id is not None:
-         return Plant_Location.objects.get(pk=plant_loc_id)
+      if plant_info_id is not None:
+         return Plant_Location.objects.filter(plant_info_id_id=plant_info_id)
 
       else:
          return None

@@ -1,0 +1,123 @@
+ mutation createPlantFunction(
+   $plantInfoId: Int,
+   $plantFuncHydro: Boolean,
+   $plantFuncVisual: Boolean,
+   $plantFuncWelding: Boolean,
+   $plantFuncPainting: Boolean,
+   $plantFuncMachining: Boolean,
+   $plantFuncHeatTreat: Boolean,
+   $plantFuncPenetrant: Boolean,
+   $plantFuncRadiograph: Boolean,
+   $plantFuncUltrasonic: Boolean,
+   $plantFuncMagParticle: Boolean,
+   $plantFuncCapacityPer: Int,
+   $plantFuncProductListing: String,
+   $plantFuncFunctionalTesting: Boolean) {
+   createPlantFunction(plantInfoId: $plantInfoId,
+     plantFuncHydro: $plantFuncHydro,
+     plantFuncVisual: $plantFuncVisual,
+     plantFuncWelding: $plantFuncWelding,
+     plantFuncPainting: $plantFuncPainting,
+     plantFuncMachining: $plantFuncMachining,
+     plantFuncHeatTreat: $plantFuncHeatTreat,
+     plantFuncPenetrant: $plantFuncPenetrant,
+     plantFuncRadiograph: $plantFuncRadiograph,
+     plantFuncUltrasonic: $plantFuncUltrasonic,
+     plantFuncMagParticle: $plantFuncMagParticle,
+     plantFuncCapacityPer: $plantFuncCapacityPer,
+     plantFuncProductListing: $plantFuncProductListing,
+     plantFuncFunctionalTesting: $plantFuncFunctionalTesting) {
+     plantFunction {
+       plantInfoId {
+         plantInfoId
+         plantInfoName
+         plantInfoStatus
+         plantInfoPhoneNo
+         plantInfoAddInfo
+         plantInfoWebsite
+         plantInfoSquareFt
+         plantInfoHeadCount
+         plantInfoEngTech
+         plantInfoProduction
+         plantInfoNumShifts
+         plantInfoContactForm
+         plantInfoHrsOperation
+         plantInfoPhoneNoSales
+         plantInfoEmailAddress
+         plantInfoRequestQoute
+         plantInfoPhoneNoSupport
+         plantInfoCertifications
+         plantInfoOnlineSellerSite
+         plantInfoPhoneAfterOfficeHrs
+         plantLocationSet {
+           plantLocId
+           plantInfoId {
+             plantInfoId
+           }
+           plantLocMap
+           plantLocCity
+           plantLocState
+           plantLocCounty
+           plantLocCountry {
+             countryId
+             countryName
+             countryCode
+           }
+           plantLocZipcode
+           plantLocAddress
+           plantLocStatus
+           plantLocLatitude
+           plantLocLongitude
+         }
+         plantInfoSiteLeader {
+           plantContId
+           plantContFname
+           plantContLname
+           plantContMname
+         }
+         plantInfoQa {
+           plantContId
+           plantContFname
+           plantContLname
+           plantContMname
+         }
+         plantFunctionsSet {
+           plantFuncId
+           plantFuncHydro
+           plantFuncVisual
+           plantFuncWelding
+           plantFuncPainting
+           plantFuncMachining
+           plantFuncHeatTreat
+           plantFuncPenetrant
+           plantFuncRadiograph
+           plantFuncUltrasonic
+           plantFuncMagParticle
+           plantFuncCapacityPer
+           plantFuncProductListing
+           plantFuncFunctionalTesting
+         }
+         plantBrandsSet {
+           brandId {
+             brandsId
+             brandsName
+             brandProdCatSet {
+               prodCategoryId {
+                 busUnitId
+                 busUnitName
+               }
+             }
+           }
+         }
+         plantCertificatesSet {
+           certificateId {
+             certsInfoId
+             certsInfoTitle
+             certsInfoLink
+           }
+         }
+       }
+     }
+
+   }
+ }

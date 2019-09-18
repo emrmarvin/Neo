@@ -19,3 +19,5 @@ new Vue({
   apolloProvider,
   render: h => h(App),
 }).$mount('#app');
+
+export const bus = new Vue()
