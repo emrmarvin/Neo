@@ -9,10 +9,10 @@ module.exports = {
   devServer: {
     publicPath: 'http://localhost:8080/',
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'http://localhost:8000/sockjs-node/',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
       'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Accept-Encoding, Accept-Language, Access-Control-Request-Headers, Access-Control-Request-Method',
-      // "Access-Control-Allow-Credentials": "true"
+      "Access-Control-Allow-Credentials": "true"
     },
   },
 

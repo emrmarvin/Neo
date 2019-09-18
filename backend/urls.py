@@ -28,7 +28,6 @@ from django.views.decorators.csrf import csrf_exempt
 urlpatterns = [
     path('favicon.ico', favicon_view),
     path('', TemplateView.as_view(template_name='index.html')),
-    path('about/', TemplateView.as_view(template_name='index.html')),
     path('manage/', admin.site.urls),
     url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     url(r'^static/(?P<path>.*)$', serve,
