@@ -82,8 +82,6 @@ const router = new Router({
       component: () => import('./views/About.vue'),
     },
     {
-<<<<<<< HEAD
-=======
       path: '/projects/',
       name: 'projects',
       // route level code-splitting
@@ -92,7 +90,6 @@ const router = new Router({
       component: () => import( './views/Projects.vue'),
     },
     {
->>>>>>> davao
       path: '/country/',
       name: 'country',
       component: () => import('./views/Country.vue'),
@@ -109,11 +106,6 @@ const router = new Router({
       // }
     },
     {
-<<<<<<< HEAD
-      path: '/Certificate_Form/',
-      name: 'Certificate Form',
-      component: () => import(/* webpackChunkName: "about" */ './views/Certificate_Form.vue'),
-=======
       path: '/settings/',
       name: 'Settings',
       component: () => import('./views/Settings.vue'),
@@ -133,7 +125,6 @@ const router = new Router({
       path: '/feedback/',
       name: 'Feedback',
       component: () => import('./views/Feedback.vue'),
->>>>>>> davao
       // meta: {
       //   requiresAuth: true
       // }

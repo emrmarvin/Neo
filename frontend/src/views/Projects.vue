@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import db from '@/fb'
 export default {
   data() {
     return {

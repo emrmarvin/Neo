@@ -14,13 +14,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-<<<<<<< HEAD
-STATIC_URL = os.path.join(BASE_DIR, "staticfiles")
-STATIC_ROOT = './static/'
-=======
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
->>>>>>> davao
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -88,14 +83,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-<<<<<<< HEAD
-    "http://localhost:8080",
-    "http://127.0.0.1:8000",
-=======
     "http://locahost:8080",
     "http://127.0.0.1:8000",
     "http://localhost:8000"
->>>>>>> davao
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -130,17 +120,12 @@ DATABASES = {
         'NAME': 'contactdbstg',
         'HOST': 'neo-prod.postgres.database.azure.com',
         'USER': 'neomanager@neo-prod',
-<<<<<<< HEAD
-        'PASSWORD': '@NeoManager',
-        'PORT': '5432'
-=======
         'PASSWORD': '@NeoManager'
 
         # 'NAME': 'DB_Neo_Matrix',
         # 'HOST': 'localhost',
         # 'USER': 'postgres',
         # 'PASSWORD': 'Rfanimi14' 
->>>>>>> davao
     }
 }
 
@@ -181,9 +166,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 
-<<<<<<< HEAD
-=======
 STATIC_URL = '/static/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
->>>>>>> davao

@@ -312,7 +312,6 @@
                       </v-stepper-content>
 
                       <v-stepper-content step="4">
-
                         <v-card class="mb-12" height="auto">
                           <v-checkbox v-model="plantFuncHydro" label="Hydro"></v-checkbox>
                           <v-checkbox v-model="plantFuncVisual" label="Visual (VT)"></v-checkbox>
@@ -339,7 +338,8 @@
                             @input="$v.plantFuncCapacityPer.$touch()"
                             @blur="$v.plantFuncCapacityPer.$touch()"
                           ></v-text-field>
-
+                        </v-card>
+                      </v-stepper-content>
                       <v-stepper-content step="5">
 
                         <v-card class="mb-12" height="auto">
@@ -2159,12 +2159,12 @@
           const index = this.plantInfoCertifications.indexOf(item.certsInfoId)
           if (index >= 0) this.plantInfoCertifications.splice(index, 1)
         }
-    }
-    },
+      },
     beforeMount() {
       this.getPlantInformation()
     }
 }
+    
 </script>
 
 <style>
