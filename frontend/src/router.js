@@ -39,7 +39,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/FlowControls.vue'),
+      component: () => import('./views/FlowControls.vue'),
     },
     {
       path: '/isv/',
@@ -47,7 +47,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/IsolationValves.vue'),
+      component: () => import('./views/IsolationValves.vue'),
     },
     {
       path: '/pm/',
@@ -55,7 +55,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/PressureManagement.vue'),
+      component: () => import('./views/PressureManagement.vue'),
     },
     {
       path: '/act/',
@@ -63,7 +63,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/ActuationTechs.vue'),
+      component: () => import('./views/ActuationTechs.vue'),
     },
     {
       path: '/lcs/',
@@ -71,7 +71,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/LifecycleServices.vue'),
+      component: () => import('./views/LifecycleServices.vue'),
     },
     {
       path: '/about/',
@@ -79,12 +79,23 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
+      component: () => import('./views/About.vue'),
     },
     {
+<<<<<<< HEAD
+=======
+      path: '/projects/',
+      name: 'projects',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import( './views/Projects.vue'),
+    },
+    {
+>>>>>>> davao
       path: '/country/',
       name: 'country',
-      component: () => import(/* webpackChunkName: "about" */ './views/Country.vue'),
+      component: () => import('./views/Country.vue'),
       // meta: {
       //   requiresAuth: true
       // }
@@ -92,19 +103,50 @@ const router = new Router({
     {
       path: '/dashboard/',
       name: 'Dashboard',
-      component: () => import(/* webpackChunkName: "about" */ './views/Dashboard.vue'),
+      component: () => import( './views/Dashboard.vue'),
       // meta: {
       //   requiresAuth: true
       // }
     },
     {
+<<<<<<< HEAD
       path: '/Certificate_Form/',
       name: 'Certificate Form',
       component: () => import(/* webpackChunkName: "about" */ './views/Certificate_Form.vue'),
+=======
+      path: '/settings/',
+      name: 'Settings',
+      component: () => import('./views/Settings.vue'),
       // meta: {
       //   requiresAuth: true
       // }
     },
+    {
+      path: '/help/',
+      name: 'Help',
+      component: () => import('./views/Help.vue'),
+      // meta: {
+      //   requiresAuth: true
+      // }
+    },
+    {
+      path: '/feedback/',
+      name: 'Feedback',
+      component: () => import('./views/Feedback.vue'),
+>>>>>>> davao
+      // meta: {
+      //   requiresAuth: true
+      // }
+    },
+    ,
+    {
+      path: '/CertificateForm/',
+      name: 'CertificateForm',
+      component: () => import('./views/CertificateForm.vue'),
+      // meta: {
+      //   requiresAuth: true
+      // }
+    }
     // {
     //   path: '/implicit/callback', component: Auth.handleCallback()
     // }

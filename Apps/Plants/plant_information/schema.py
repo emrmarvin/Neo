@@ -132,7 +132,8 @@ class Query(graphene.ObjectType):
 
    def resolve_plantinformations(self,info):
          return Plant_Information.objects.filter(plant_info_status=True)
-
+         #return Plant_Information.objects.annotate(plant_info_c=Count(1)).order_by('plant_info_id')
+         
 class Mutations(graphene.ObjectType):
    create_plant = CreatePlant.Field()
    update_plant = UpdatePlant.Field()

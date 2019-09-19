@@ -9,17 +9,17 @@
   },
   "dependencies": {
     "@okta/okta-vue": "^1.1.0",
-    "apollo-cache-inmemory": "^1.6.0",
-    "apollo-client": "^2.6.0",
-    "apollo-link": "^1.2.11",
-    "apollo-link-http": "^1.5.14",
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
+    "apollo-link": "^1.2.13",
+    "apollo-link-http": "^1.5.16",
     "core-js": "^2.6.5",
-    "graphql": "^14.3.1",
+    "graphql": "^14.5.6",
     "graphql-tag": "^2.10.1",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
     "vue": "^2.6.10",
-    "vue-apollo": "^3.0.0-beta.30",
+    "vue-apollo": "^3.0.0-rc.5",
     "vue-good-table": "^2.18.0",
     "vue-router": "^3.0.3",
     "vue-stepper": "^1.4.2",
@@ -37,8 +37,13 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "material-design-icons-iconfont": "^5.0.1",
+<<<<<<< HEAD
     "vue-template-compiler": "^2.6.10",
     "vue-cli-plugin-apollo": "^0.20.0"
+=======
+    "vue-cli-plugin-apollo": "^0.20.0",
+    "vue-template-compiler": "^2.6.10"
+>>>>>>> davao
   },
   "eslintConfig": {
     "root": true,

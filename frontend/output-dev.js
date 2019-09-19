@@ -1,6 +1,6 @@
 {
   mode: 'development',
-  context: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend',
+  context: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend',
   devtool: 'cheap-module-eval-source-map',
   node: {
     setImmediate: false,
@@ -11,7 +11,7 @@
     child_process: 'empty'
   },
   output: {
-    path: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\static',
+    path: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\static',
     filename: 'js/[name].js',
     publicPath: '/',
     globalObject: '(typeof self !== \'undefined\' ? self : this)',
@@ -19,7 +19,7 @@
   },
   resolve: {
     alias: {
-      '@': 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\src',
+      '@': 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\src',
       vue$: 'vue/dist/vue.runtime.esm.js'
     },
     extensions: [
@@ -32,17 +32,17 @@
     ],
     modules: [
       'node_modules',
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules',
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\@vue\\cli-service\\node_modules'
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules',
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\@vue\\cli-service\\node_modules'
     ]
   },
   resolveLoader: {
     modules: [
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\@vue\\cli-plugin-eslint\\node_modules',
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\@vue\\cli-plugin-babel\\node_modules',
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\@vue\\cli-plugin-eslint\\node_modules',
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\@vue\\cli-plugin-babel\\node_modules',
       'node_modules',
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules',
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\@vue\\cli-service\\node_modules'
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules',
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\@vue\\cli-service\\node_modules'
     ]
   },
   module: {
@@ -55,8 +55,8 @@
           {
             loader: 'cache-loader',
             options: {
-              cacheDirectory: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '2d6e8bc9'
+              cacheDirectory: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\.cache\\vue-loader',
+              cacheIdentifier: '351d11c2'
             }
           },
           {
@@ -65,8 +65,13 @@
               compilerOptions: {
                 preserveWhitespace: false
               },
-              cacheDirectory: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '2d6e8bc9'
+              cacheDirectory: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\.cache\\vue-loader',
+              cacheIdentifier: '351d11c2',
+              transpileOptions: {
+                transforms: {
+                  dangerousTaggedTemplateString: true
+                }
+              }
             }
           }
         ]
@@ -955,8 +960,8 @@
           {
             loader: 'cache-loader',
             options: {
-              cacheDirectory: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\.cache\\babel-loader',
-              cacheIdentifier: '52614a9d'
+              cacheDirectory: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\.cache\\babel-loader',
+              cacheIdentifier: '6e69c5f7'
             }
           },
           {
@@ -967,10 +972,10 @@
       /* config.module.rule('eslint') */
       {
         enforce: 'pre',
-        test: /\.(vue|(j|t)sx?)$/,
+        test: /\.(vue|(j|t)sx?|gql|graphql)$/,
         exclude: [
           /node_modules/,
-          'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\@vue\\cli-service\\lib'
+          'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\@vue\\cli-service\\lib'
         ],
         use: [
           {
@@ -979,16 +984,45 @@
               extensions: [
                 '.js',
                 '.jsx',
-                '.vue'
+                '.vue',
+                '.gql',
+                '.graphql'
               ],
               cache: true,
-              cacheIdentifier: 'd57380fe',
+              cacheIdentifier: '384a83a2undefined',
               emitWarning: true,
               emitError: false,
-              eslintPath: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\eslint\\lib\\api.js',
+              eslintPath: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\eslint\\lib\\api.js',
               formatter: function () { /* omitted long function */ }
             }
           }
+        ]
+      },
+      /* config.module.rule('gql') */
+      {
+        test: /\.(gql|graphql)$/,
+        include: [
+          'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\src',
+          'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\tests'
+        ],
+        use: [
+          {
+            loader: 'cache-loader',
+            options: {
+              cacheDirectory: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\.cache\\cache-loader'
+            }
+          },
+          {
+            loader: 'graphql-tag/loader'
+          }
+        ]
+      },
+      /* config.module.rule('mjs') */
+      {
+        test: /\.mjs$/,
+        type: 'javascript/auto',
+        include: [
+          /node_modules/
         ]
       }
     ]
@@ -1045,7 +1079,7 @@
     new HtmlWebpackPlugin(
       {
         templateParameters: function () { /* omitted long function */ },
-        template: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\public\\index.html'
+        template: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\public\\index.html'
       }
     ),
     /* config.plugin('preload') */
@@ -1070,8 +1104,8 @@
     new CopyWebpackPlugin(
       [
         {
-          from: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\public',
-          to: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\static',
+          from: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\public',
+          to: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\static',
           toType: 'dir',
           ignore: [
             '.DS_Store'

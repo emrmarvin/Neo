@@ -14,6 +14,14 @@ MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 INSTALLED_APPS.append('debug_toolbar')
 INTERNAL_IPS = ('127.0.0.1', 'localhost')
 
+CORS_ORIGIN_WHITELIST = [
+    "http://locahost:8080",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000"
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': '',
@@ -24,6 +32,7 @@ WEBPACK_LOADER = {
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "staticfiles"),
 ]
+
 MEDIA_URL = '/dmedia/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 

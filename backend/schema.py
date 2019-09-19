@@ -10,7 +10,10 @@ import Apps.Plants.plant_information.schema
 import Apps.Plants.plant_functions.schema
 import Apps.Plants.plant_contacts.schema
 import Apps.Plants.plant_contact_type.schema
+<<<<<<< HEAD
 import Apps.Plants.plant_functions.schema
+=======
+>>>>>>> davao
 import Apps.business_group.schema
 import Apps.business_platform.schema
 import Apps.business_unit.schema

@@ -2,6 +2,7 @@ import graphene
 from graphene_django.types import DjangoObjectType
 from graphql_relay.node.node import from_global_id
 from Apps.Plants.plant_functions.models import Plant_Functions
+from django.db.models import Count
 import datetime
 
 class PlantFunctionsType(DjangoObjectType):
