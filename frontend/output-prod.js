@@ -1,7 +1,7 @@
 {
-  mode: 'development',
-  context: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend',
-  devtool: 'cheap-module-eval-source-map',
+  mode: 'production',
+  context: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend',
+  devtool: 'source-map',
   node: {
     setImmediate: false,
     dgram: 'empty',
@@ -11,15 +11,14 @@
     child_process: 'empty'
   },
   output: {
-    path: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\static',
+    path: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\dist',
     filename: 'js/[name].js',
     publicPath: '/',
-    globalObject: '(typeof self !== \'undefined\' ? self : this)',
     chunkFilename: 'js/[name].js'
   },
   resolve: {
     alias: {
-      '@': 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\src',
+      '@': 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\src',
       vue$: 'vue/dist/vue.runtime.esm.js'
     },
     extensions: [
@@ -32,17 +31,17 @@
     ],
     modules: [
       'node_modules',
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules',
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\@vue\\cli-service\\node_modules'
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules',
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\@vue\\cli-service\\node_modules'
     ]
   },
   resolveLoader: {
     modules: [
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\@vue\\cli-plugin-eslint\\node_modules',
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\@vue\\cli-plugin-babel\\node_modules',
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\@vue\\cli-plugin-eslint\\node_modules',
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\@vue\\cli-plugin-babel\\node_modules',
       'node_modules',
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules',
-      'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\@vue\\cli-service\\node_modules'
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules',
+      'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\@vue\\cli-service\\node_modules'
     ]
   },
   module: {
@@ -55,8 +54,8 @@
           {
             loader: 'cache-loader',
             options: {
-              cacheDirectory: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '2d6e8bc9'
+              cacheDirectory: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\.cache\\vue-loader',
+              cacheIdentifier: '6234c0ed'
             }
           },
           {
@@ -65,8 +64,13 @@
               compilerOptions: {
                 preserveWhitespace: false
               },
-              cacheDirectory: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '2d6e8bc9'
+              cacheDirectory: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\.cache\\vue-loader',
+              cacheIdentifier: '6234c0ed',
+              transpileOptions: {
+                transforms: {
+                  dangerousTaggedTemplateString: true
+                }
+              }
             }
           }
         ]
@@ -172,10 +176,10 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -200,10 +204,10 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -226,10 +230,10 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -253,10 +257,10 @@
           {
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -285,10 +289,10 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -313,10 +317,10 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -339,10 +343,10 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -366,10 +370,10 @@
           {
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -398,10 +402,10 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -432,10 +436,10 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -464,10 +468,10 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -497,10 +501,10 @@
           {
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -535,10 +539,10 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -570,10 +574,10 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -603,10 +607,10 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -637,10 +641,10 @@
           {
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -676,10 +680,10 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -710,10 +714,10 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -742,10 +746,10 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -775,10 +779,10 @@
           {
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -813,10 +817,10 @@
             resourceQuery: /module/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -848,10 +852,10 @@
             resourceQuery: /\?vue/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -881,10 +885,10 @@
             test: /\.module\.\w+$/,
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -915,10 +919,10 @@
           {
             use: [
               {
-                loader: 'vue-style-loader',
+                loader: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\mini-css-extract-plugin\\dist\\loader.js',
                 options: {
-                  sourceMap: false,
-                  shadowMode: false
+                  hmr: false,
+                  publicPath: '../'
                 }
               },
               {
@@ -955,9 +959,12 @@
           {
             loader: 'cache-loader',
             options: {
-              cacheDirectory: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\.cache\\babel-loader',
-              cacheIdentifier: '52614a9d'
+              cacheDirectory: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\.cache\\babel-loader',
+              cacheIdentifier: '658d211e'
             }
+          },
+          {
+            loader: 'thread-loader'
           },
           {
             loader: 'babel-loader'
@@ -967,10 +974,10 @@
       /* config.module.rule('eslint') */
       {
         enforce: 'pre',
-        test: /\.(vue|(j|t)sx?)$/,
+        test: /\.(vue|(j|t)sx?|gql|graphql)$/,
         exclude: [
           /node_modules/,
-          'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\@vue\\cli-service\\lib'
+          'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\@vue\\cli-service\\lib'
         ],
         use: [
           {
@@ -979,21 +986,103 @@
               extensions: [
                 '.js',
                 '.jsx',
-                '.vue'
+                '.vue',
+                '.gql',
+                '.graphql'
               ],
               cache: true,
-              cacheIdentifier: 'd57380fe',
+              cacheIdentifier: 'f3ee9192undefined',
               emitWarning: true,
               emitError: false,
-              eslintPath: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\node_modules\\eslint\\lib\\api.js',
+              eslintPath: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\eslint\\lib\\api.js',
               formatter: function () { /* omitted long function */ }
             }
           }
+        ]
+      },
+      /* config.module.rule('gql') */
+      {
+        test: /\.(gql|graphql)$/,
+        include: [
+          'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\src',
+          'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\tests'
+        ],
+        use: [
+          {
+            loader: 'cache-loader',
+            options: {
+              cacheDirectory: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\node_modules\\.cache\\cache-loader'
+            }
+          },
+          {
+            loader: 'thread-loader'
+          },
+          {
+            loader: 'graphql-tag/loader'
+          }
+        ]
+      },
+      /* config.module.rule('mjs') */
+      {
+        test: /\.mjs$/,
+        type: 'javascript/auto',
+        include: [
+          /node_modules/
         ]
       }
     ]
   },
   optimization: {
+    minimizer: [
+      {
+        options: {
+          test: /\.m?js(\?.*)?$/i,
+          chunkFilter: () => true,
+          warningsFilter: () => true,
+          extractComments: false,
+          sourceMap: true,
+          cache: true,
+          cacheKeys: defaultCacheKeys => defaultCacheKeys,
+          parallel: true,
+          include: undefined,
+          exclude: undefined,
+          minify: undefined,
+          terserOptions: {
+            output: {
+              comments: /^\**!|@preserve|@license|@cc_on/i
+            },
+            compress: {
+              arrows: false,
+              collapse_vars: false,
+              comparisons: false,
+              computed_props: false,
+              hoist_funs: false,
+              hoist_props: false,
+              hoist_vars: false,
+              inline: false,
+              loops: false,
+              negate_iife: false,
+              properties: false,
+              reduce_funcs: false,
+              reduce_vars: false,
+              switches: false,
+              toplevel: false,
+              typeofs: false,
+              booleans: true,
+              if_return: true,
+              sequences: true,
+              unused: true,
+              conditionals: true,
+              dead_code: true,
+              evaluate: true
+            },
+            mangle: {
+              safari10: true
+            }
+          }
+        }
+      }
+    ],
     splitChunks: {
       cacheGroups: {
         vendors: {
@@ -1019,7 +1108,7 @@
     new DefinePlugin(
       {
         'process.env': {
-          NODE_ENV: '"development"',
+          NODE_ENV: '"production"',
           BASE_URL: '"/"'
         }
       }
@@ -1037,15 +1126,50 @@
         ]
       }
     ),
-    /* config.plugin('hmr') */
-    new HotModuleReplacementPlugin(),
-    /* config.plugin('progress') */
-    new ProgressPlugin(),
+    /* config.plugin('extract-css') */
+    new MiniCssExtractPlugin(
+      {
+        filename: 'css/[name].[contenthash:8].css',
+        chunkFilename: 'css/[name].[contenthash:8].css'
+      }
+    ),
+    /* config.plugin('optimize-css') */
+    new OptimizeCssnanoPlugin(
+      {
+        sourceMap: false,
+        cssnanoOptions: {
+          preset: [
+            'default',
+            {
+              mergeLonghand: false,
+              cssDeclarationSorter: false
+            }
+          ]
+        }
+      }
+    ),
+    /* config.plugin('hash-module-ids') */
+    new HashedModuleIdsPlugin(
+      {
+        hashDigest: 'hex'
+      }
+    ),
+    /* config.plugin('named-chunks') */
+    new NamedChunksPlugin(
+      function () { /* omitted long function */ }
+    ),
     /* config.plugin('html') */
     new HtmlWebpackPlugin(
       {
         templateParameters: function () { /* omitted long function */ },
-        template: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\public\\index.html'
+        minify: {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true,
+          collapseBooleanAttributes: true,
+          removeScriptTypeAttributes: true
+        },
+        template: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\public\\index.html'
       }
     ),
     /* config.plugin('preload') */
@@ -1070,8 +1194,8 @@
     new CopyWebpackPlugin(
       [
         {
-          from: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\public',
-          to: 'D:\\OneDrive - Emerson\\Playground\\python\\DjangoVueGql\\myproject\\frontend\\static',
+          from: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\public',
+          to: 'D:\\OneDrive - Emerson\\Final Control\\Project Neo\\code\\Neo - Copy\\frontend\\dist',
           toType: 'dir',
           ignore: [
             '.DS_Store'
@@ -1085,8 +1209,8 @@
     {
       contents: {},
       options: {
-        filename: 'webpack-stats.json',
-        publicPath: 'http://localhost:8080/',
+        filename: 'webpack-stats-prod.json',
+        publicPath: '/',
         logTime: false
       }
     }

@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import { ApolloClient } from 'apollo-client';
-import { HttpLink } from 'apollo-link-http';
+import { createHttpLink  } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import VueApollo from 'vue-apollo';
 
-const httpLink = new HttpLink({
+const httpLink = new createHttpLink ({
   // You should use an absolute URL here
-  uri: 'http://127.0.0.1:8000/graphql',
+  uri: '/graphql'
 });
 
 // Create the apollo client
