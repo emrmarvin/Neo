@@ -37,13 +37,8 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "material-design-icons-iconfont": "^5.0.1",
-<<<<<<< HEAD
-    "vue-template-compiler": "^2.6.10",
-    "vue-cli-plugin-apollo": "^0.20.0"
-=======
     "vue-cli-plugin-apollo": "^0.20.0",
     "vue-template-compiler": "^2.6.10"
->>>>>>> davao
   },
   "eslintConfig": {
     "root": true,

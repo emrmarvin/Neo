@@ -1,9 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div class="projects">
-    <h1 class="subheading grey--text">Help</h1>
-    <img src="/emerson.png">
-=======
   <div class="home">
     <v-card>
       <v-card-title>
@@ -602,21 +597,10 @@
         </template>
       </v-data-table>
     </v-card>
->>>>>>> davao
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-import db from '@/fb'
-export default {
-  data() {
-    return {
-
-    }
-  }
-}
-=======
   // @ is an alias to /src
   import gql from "graphql-tag";
   import {
@@ -2679,7 +2663,6 @@ mutation updatePlantFunction(
       this.getPlantInformation()
     }
   };
->>>>>>> davao
 </script>
 
 <style>
