@@ -1,10 +1,18 @@
 FROM python:3.7
-LABEL Maintainer="Marvin Villanueva"
-ENV PYTHONUNBUFFERED 1
-COPY . /usr/src
-COPY ./gunicorn.conf /etc/init/
-WORKDIR /usr/src
-RUN pip install -r requirements.txt
-EXPOSE 8000
 
-CMD ["pyhon", "manage.py", "runserver", "--settings=backend.settings.prod"]
+# Set environment varibles
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+WORKDIR '/usr/src/app'
+
+COPY ./requirements.txt .
+
+RUN pip install -r requirements.txt
+
+# EXPOSE port to be used
+COPY . .
+RUN python manage.py collectstatic --noinput
+
+# Set command to run as soon as container is up
+CMD gunicorn --bind 0.0.0.0:8080 backend.wsgi:application

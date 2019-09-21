@@ -1,37 +1,46 @@
 version: '3.3'
 
-volumes: 
-  pgdata:
-
+volumes:
+    postgres_data: {}
 services:
-  neoweb:
-    image: projectneo.azurecr.io/neo
+  postgres:
+    image: 'postgres'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: docker
+    restart: on-failure
+  backend:
     build:
+      dockerfile: Dockerfile.dev
       context: .
     volumes:
-      - .:/usr/src
+      - .:/usr/src/app
     ports: 
       - 8000:8000
-    command: gunicorn -b 0.0.0.0:8000 backend.wsgi:application
-    env_file: 
-      - ./.env
-  postgres:
-    image: postgres
-    env_file: 
-      - ./.env
-    volumes: 
-      - pgdata:/var/lib/postgresql/data
-    ports: 
-      - 5432:5432
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    ports:
-      - "80:8000"
-    volumes:
-      - ./backend/media/:/usr/src/media/
-      - ./backend/staticfiles/:/usr/src/staticfiles/
-      - ./nginx/prod.conf:/etc/nginx/sites-enabled/
+    depends_on:
+      - postgres    
+    restart: on-failure
+    env_file: .env
+  # nginx:
+  #   restart: always
+  #   build:
+  #     dockerfile: Dockerfile.dev
+  #     context: ./nginx
+  #   ports:
+  #     - "8000:80"
+  #   depends_on:
+  #     - backend
+  #   volumes:
+  #     - ./staticfiles/:/staticfiles/
+  #     - ./nginx/default.conf:/etc/nginx/default.conf:ro
+  # frontend:
+  #   build:
+  #     dockerfile: Dockerfile.dev
+  #     context: ./frontend
+  #   volumes:
+  #     - ./frontend:/app/
+  #     - ./app/frontend/node_modules    
+  #   restart: on-failure
 
   
