@@ -1,5 +1,5 @@
 aniso8601==7.0.0
-Django==2.2.5
+Django==2.2.13
 django-cors-headers==3.0.2
 django-debug-toolbar==1.11
 django-filter==1.1.0
